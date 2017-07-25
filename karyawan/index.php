@@ -33,8 +33,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 <div class="sidebar_top">
 		 	<h1><?php 
 
-			 	echo $_SESSION['nama'];
-
+			 	echo "". $_SESSION['nama']. '<br />';
+			 	echo "(".$_SESSION['npp']. ")";
 			?></h1>
 			 <img src="images/avt.png" alt=""/>
 		 </div>
@@ -47,6 +47,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					$data = mysqli_fetch_array($sql);
 
 					$bakti = $data['mulai_bakti'];	
+					$tanggalbakti=date_create($bakti);
 	
 					  //tanggal bakti
 					  $bakti = new DateTime($bakti);
@@ -59,23 +60,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					  //hari
 					  $d = $today->diff($bakti)->d;
 
-					  echo "Tanggal Bakti:<br /> ". date('d M Y', strtotime($bakti)) .'<br />';
+					  echo "Tanggal Bakti:<br /> ". date_format($tanggalbakti,'d-M-Y') .'<br />';
 					  echo "Masa Bakti:<br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 				?>
 			 </p>	 
-			 <h3>EMAIL</h3>
-			 <p><a href="mailto@example.com">mail@example.com</a></p>
+			 <h3>Kategori Tanggungan</h3>
+			 <p><?php 
+			 	$npp=$_SESSION['npp']; 
+				$sql = mysqli_query($DBcon, "select * from pegawai where npp='$npp'");
+				$data = mysqli_fetch_array($sql);
+
+				echo $data['kategori_tanggungan'];
+			 ?></p>
 			 <address>
-			 <h3>ADDRESS</h3>
-			 <span>Lorem ipsum,</span>
-			 <span>Sed dolor sit,</span>
-			 <span>Praesent porta.</span>
+			 <h3>Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</h3>
+			 <p>
+			 	Plaza Tol Taman Mini Indonesia Indah Jakarta, 13550 Indonesia Telp. : +6221 841 3630, +6221 841 3526. Fax.
+			 </p>
 			 </address>
 			 
 		</div>
 		<div class="clearfix"></div>
 </div>
 <!---->
+<?php 
+	if(isset($_GET['status'])){
+
+
+
+?>
 <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
 	<!---//pop-up-box---->			
@@ -170,6 +183,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 Vivamus malesuada, sem laoreet dictum pulvinar, orci lectus rhoncus sapien, ut consectetur augue nibh in neque. In tincidunt sed enim et tincidunt.</p>
 			 </div>
 		 </div>
+		 <?php }?>
 		 <div class="copywrite">
 			 <p>© 2015 Curriculum Vitae All Rights Reseverd | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
 		 </div>
