@@ -92,7 +92,7 @@ if(!isset($_SESSION["npp"])){
 			 <address>
 			 <h3>Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</h3>
 			 <p>
-			 	Plaza Tol Taman Mini Indonesia Indah Jakarta, 13550 Indonesia Telp. : +6221 841 3630, +6221 841 3526. Fax.
+			 	Plaza Tol Taman Mini Indonesia Indah Jakarta, 13550 Indonesia Telp. : +6221 841 3630, +6221 841 3526
 			 </p>
 			 </address>
 			 
