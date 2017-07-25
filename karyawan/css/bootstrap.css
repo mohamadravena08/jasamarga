@@ -1704,6 +1704,7 @@ output {
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  margin: auto;
 }
 .form-control:focus {
   border-color: #66afe9;
@@ -2081,7 +2082,7 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-primary {
   color: #fff;
-  background-color: #1B242F;
+  background-color: #2F76CC;
   border-color: #357ebd;
 }
 .btn-primary:hover,

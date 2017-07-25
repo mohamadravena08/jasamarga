@@ -2,6 +2,10 @@
 error_reporting(0);
 session_start();
 include("../library/koneksi.php");
+if(!isset($_SESSION["npp"])){
+	echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
+	header("Location:../index.php");
+}
 ?>
 
 <!DOCTYPE HTML>
@@ -19,24 +23,37 @@ include("../library/koneksi.php");
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Curriculum Vitae Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 <!-- start menu -->
+<style>
+#parent {
+   display: table;
+   width: 100%;
+}
+#form_status {
+   display: table-cell;
+   text-align: center;
+   vertical-align: middle;
+}
+
+</style>
   
 </head>
+
 <body>
 <!-- header -->
 <div class="col-sm-3 col-md-2 sidebar">
 		 <div class="sidebar_top">
-		 	<h1><?php 
+		 	<h1 style="text-align:center"><?php 
 
 			 	echo "". $_SESSION['nama']. '<br />';
 			 	echo "(".$_SESSION['npp']. ")";
 			?></h1>
-			 <img src="images/avt.png" alt=""/>
+		 </div>
+		 <div class="details">
+		 	<a class="btn btn-primary" href="logout.php" role="button" style="margin-right: 25%;margin-left: 25%;background-color: #c01616;border-color: #a00;">Logout</a>
 		 </div>
 		<div class="details">
 			 <h3>Masa Bakti Kerja</h3>
@@ -60,18 +77,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					  //hari
 					  $d = $today->diff($bakti)->d;
 
-					  echo "Tanggal Bakti:<br /> ". date_format($tanggalbakti,'d-M-Y') .'<br />';
-					  echo "Masa Bakti:<br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+					  echo "<b>Tanggal Bakti:</b><br /> ". date_format($tanggalbakti,'d-M-Y') .'<br />';
+					  echo "<b>Masa Bakti:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 				?>
 			 </p>	 
 			 <h3>Kategori Tanggungan</h3>
-			 <p><?php 
+			 <p><b><?php 
 			 	$npp=$_SESSION['npp']; 
 				$sql = mysqli_query($DBcon, "select * from pegawai where npp='$npp'");
 				$data = mysqli_fetch_array($sql);
 
 				echo $data['kategori_tanggungan'];
-			 ?></p>
+			 ?></b></p>
 			 <address>
 			 <h3>Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</h3>
 			 <p>
@@ -82,45 +99,71 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 		<div class="clearfix"></div>
 </div>
-<!---->
-<?php 
-	if(isset($_GET['status'])){
-
-
-
-?>
 <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
-	<!---//pop-up-box---->			
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	 <div class="content">
-		 <div class="details_header">
-			 <ul>
-				 <li><a href="index.html"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>Resume</a></li>
-				 <li><a href="#"><span class="glyphicon glyphicon-print" aria-hidden="true"></span>Print CV</a></li>
-				 <li><a href="contact.html"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>Email me</a></li>
-				 <li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span>View photo</a></li>
-				 <div id="small-dialog" class="mfp-hide">
-					 <img src="images/g4.jpg" alt=""/>
-				 </div>
-				 <script>
-						$(document).ready(function() {
-						$('.popup-with-zoom-anim').magnificPopup({
-							type: 'inline',
-							fixedContentPos: false,
-							fixedBgPos: true,
-							overflowY: 'auto',
-							closeBtnInside: true,
-							preloader: false,
-							midClick: true,
-							removalDelay: 300,
-							mainClass: 'my-mfp-zoom-in'
-						});
-																						
-						});
-				</script>
-			 </ul>
-		 </div>
+<!---->
+		
+		<h1 style="text-align:center">Silahkan Pilih Status Pensiun Anda</h1>
+		<div>
+			<form method="get" action="" style="text-align: center"> 
+			 <div class="form-group" >
+			  <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
+			  <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1">
+			    <option selected disabled>Pilih Disini...</option>
+			    <option value="1">Mengundurkan Diri</option>
+			    <option value="2">Meninggal Dunia</option>
+			    <option value="3">Cacat</option>
+			    <option value="4">Ke Anak Perusahaan (KAP)</option>
+			  </select>
+			</div>
+			 <button type="submit" class="btn btn-primary">Simulasi Sekarang</button>
+			</form>
+		</div> 
+
+	<?php 
+	if(isset($_GET['status'])) {
+		if($_GET['status']==1){
+			$manfaat_pasti = TRUE;
+			$jht = TRUE;
+			$purna_karya =TRUE;
+			$pesangon = FALSE;
+			$penghargaan_masa_kerja = FALSE;
+			$uang_penggantian_hak = FALSE;
+
+		} else if($_GET['status']==2){
+			$manfaat_pasti = TRUE;
+			$jht = TRUE;
+			$purna_karya =TRUE;
+			$pesangon = TRUE;
+			$penghargaan_masa_kerja = TRUE;
+			$uang_penggantian_hak = FALSE;
+
+		} else if($_GET['status']==3){
+			$manfaat_pasti = TRUE;
+			$jht = TRUE;
+			$purna_karya =TRUE;
+			$pesangon = TRUE;
+			$penghargaan_masa_kerja = TRUE;
+			$uang_penggantian_hak = FALSE;
+
+		} else if($_GET['status']==4){
+			$manfaat_pasti = TRUE;
+			$jht = TRUE;
+			$purna_karya =TRUE;
+			$pesangon = TRUE;
+			$penghargaan_masa_kerja = TRUE;
+			$uang_penggantian_hak = TRUE;
+		}
+	}
+	?>
+
+	<!---//pop-up-box---->			
+
+	<?php if($manfaat_pasti) {
+
+	?>
 		 <div class="company">
 			 <h3 class="clr1">Previous Employment</h3>
 			 <div class="company_details">
@@ -130,6 +173,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 Curabitur a quam eu mi convallis auctor nec id mauris. Nullam mattis turpis eu turpis tincidunt, et pellentesque leo imperdiet.
 				 Vivamus malesuada, sem laoreet dictum pulvinar, orci lectus rhoncus sapien, ut consectetur augue nibh in neque. In tincidunt sed enim et tincidunt.</p>
 			 </div>
+	<?php
+		}
+	?>
+
+	<?php if($manfaat_pasti) {
+
+	?>
 			 <div class="company_details">
 				 <h4>Company Name <span>NOVEMBER 2007 - MAY 2009</span></h4>
 				 <h6>WEB DESIGNER</h6>
@@ -138,6 +188,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 Vivamus malesuada, sem laoreet dictum pulvinar, orci lectus rhoncus sapien, ut consectetur augue nibh in neque. In tincidunt sed enim et tincidunt.</p>
 			 </div>
 		 </div>
+	<?php
+		}
+	?>
+
+	<?php if($manfaat_pasti) {
+
+	?>
 		 <div class="skills">
 			 <h3 class="clr2">Professional skills</h3>
 			 <div class="skill_info">
@@ -166,6 +223,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 <div class="clearfix"></div>
 			 </div>
 		 </div>
+	<?php
+		}
+	?>
+	<?php if($manfaat_pasti) {
+
+	?>
 		 <div class="education">
 			 <h3 class="clr3">Education</h3>
 			 <div class="education_details">
@@ -175,6 +238,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 Curabitur a quam eu mi convallis auctor nec id mauris. Nullam mattis turpis eu turpis tincidunt, et pellentesque leo imperdiet.
 				 Vivamus malesuada, sem laoreet dictum pulvinar, orci lectus rhoncus sapien, ut consectetur augue nibh in neque. In tincidunt sed enim et tincidunt.</p>
 			 </div>
+	<?php
+		}
+	?>
+
+	<?php if($manfaat_pasti) {
+
+	?>
 			 <div class="education_details">
 				 <h4>University of Techonology, Newyork <span>APRIL 2001 - SEPTEMBER 2003</span></h4>
 				 <h6>BACHELORS OF ARTS</h6>
@@ -183,10 +253,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 Vivamus malesuada, sem laoreet dictum pulvinar, orci lectus rhoncus sapien, ut consectetur augue nibh in neque. In tincidunt sed enim et tincidunt.</p>
 			 </div>
 		 </div>
-		 <?php }?>
+	<?php
+		}
+	?>
+		 <footer style="text-align:center">
 		 <div class="copywrite">
-			 <p>© 2015 Curriculum Vitae All Rights Reseverd | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+			 <p>© 2017 Tim Internship Jasa Marga IPB | Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</a> </p>
 		 </div>
+		</footer>
 	 </div>
 </div>
 <!---->

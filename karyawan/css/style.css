@@ -31,7 +31,7 @@ a:focus {
 }
 /*-- header_top --*/
 .sidebar{
-  background:#6ecadc;
+  background:#2e6e96;
   top: 0px;
   padding:2em 30px;
 }
@@ -187,7 +187,7 @@ h3.clr3{
 	background:#3eb991;
 }
 .copywrite{
-	padding-left:2em;
+	padding-left:0em;
 	margin-top:1em;
 }
 .copywrite p{

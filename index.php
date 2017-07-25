@@ -90,7 +90,7 @@ if(@$_POST["login"]){ //jika tombol Login diklik
         <!--//main-->
         <!--footer-->
         <div class="footer">
-            <p>&copy; 2017 Tim Internship Jasa Marga IPB | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+            <p>&copy; 2017 Tim Internship Jasa Marga IPB | Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</a></p>
         </div>
         <!--//footer-->
     </div>
