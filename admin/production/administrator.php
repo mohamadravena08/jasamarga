@@ -1,10 +1,14 @@
-<!DOCTYPE html>
 <?php
-  error_reporting(0);
-  session_start();
-  include_once("../library/koneksi.php");
+error_reporting(0);
+session_start();
+include("../../library/koneksi.php");
+if(!isset($_SESSION["npp"])){
+  echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
+  header("Location:../index.php");
+}
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Tabel Purna Karya Kepesertaan</title>
+    <title>Tabel Data Administrator</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -61,13 +65,13 @@
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <?php include_once("sidebar.php");?>
+              <?php include_once("sidebar.php"); ?>
             </div>
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <?php include_once("foooter.php");?>
+              <?php include_once("footer.php");?>
             </div>
             <!-- /menu footer buttons -->
           </div>
@@ -89,7 +93,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Tabel Purna Karya Kepesertaan<small>tabel Master</small></h2>
+                    <h2>Tabel Data Admin <small>tabel Master</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -101,51 +105,45 @@
                   </div>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                      Tabel ini berisi data Purna Karya Kepesertaan.
+                      Tabel ini berisi Nilai Sekaligus.
                     </p>
                     <table id="dataTables" class="table table-striped table-bordered">
                       <thead>
                         <tr>
                           <th>No</th>
-                          <th>Tahun Berakhir</th>
-                          <th>Faktor Tunai</th>
+                          <th>Nomor Pokok Pegawai</th>
+                          <th>Nama Administrator</th>
+                          <th>Aksi</th>
                         </tr>
                       </thead>
 
 
                       <tbody>
-                        <?php
-
-                            $DBhost = "localhost";
-                            $DBuser = "root";
-                            $DBpass = "student";
-                            $DBname = "simpensiun";
-                            
-                            $DBcon = new mysqli($DBhost,$DBuser,$DBpass,$DBname);
-                              
-                               if ($DBcon->connect_errno) {
-                                   die("ERROR : -> ".$DBcon->connect_error);
-                               }
-                            
-                            $no = 1;
-                            $res = mysqli_query($DBcon,"select * from purna_karya_kepesertaan");
+                        <?php                            
+                            $no = 0;
+                            $no++;
+                            $res = mysqli_query($DBcon,"select * from admin");
                             /*print_r($has=mysqli_fetch_assoc($res));*/
                             while($row = $res->fetch_assoc()){
-                              echo '
+                        ?>
                               <tr>
-                                <td>'.$no.'</td>
-                                <td>'.$row['tahun_berakhir'].'</td>
-                                <td>'.$row['faktor_tunai'].'</td>
+                                <td><?php echo $no;?></td>
+                                <td><?php echo $row['npp'];?></td>
+                                <td><?php echo $row['nama'];?></td>
+                                <td>
+                                  <button type="button" class="btn btn-primary" >Edit</button> 
+                                  <button type="button" class="btn btn-primary" >Hapus</button>  
+                                </td>
                               </tr>
-                              ';
-                              $no++;
-                            }
-                            ?>
                       </tbody>
+                      <?php } ?>
                     </table>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
 
         <!-- /page content -->
 

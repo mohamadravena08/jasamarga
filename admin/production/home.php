@@ -1,10 +1,14 @@
-<!DOCTYPE html>
 <?php
-  error_reporting(0);
-  session_start();
-  include_once("../library/koneksi.php");
+error_reporting(0);
+session_start();
+include("../../library/koneksi.php");
+if(!isset($_SESSION["npp"])){
+  echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
+  header("Location:../index.php");
+}
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Tabel Purna Karya Kepesertaan</title>
+    <title>Dashboard</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -61,13 +65,13 @@
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <?php include_once("sidebar.php");?>
+              <?php include_once("sidebar.php"); ?>
             </div>
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <?php include_once("foooter.php");?>
+              <?php include_once("footer.php");?>
             </div>
             <!-- /menu footer buttons -->
           </div>
@@ -80,72 +84,103 @@
         <!-- /top navigation -->
 
         <!-- page content -->
+        <!-- page content -->
+        
         <div class="right_col" role="main">
           <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Selamat Datang! <small>Admin Simpensiun</small></h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div class="clearfix"></div>
 
             <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="col-md-6 col-sm-8 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Tabel Purna Karya Kepesertaan<small>tabel Master</small></h2>
+                    <h2>Jumlah Karyawan Pria <small>Jasa Marga</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
                       <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
                     </ul>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                      Tabel ini berisi data Purna Karya Kepesertaan.
-                    </p>
-                    <table id="dataTables" class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Tahun Berakhir</th>
-                          <th>Faktor Tunai</th>
-                        </tr>
-                      </thead>
+                    <h1>
+                      <?php 
+                        $query = mysqli_query($DBcon, "select * from pegawai where jenis_kelamin = 'M'");
+                        $jumlah = mysqli_num_rows($query);
 
+                        echo $jumlah;
 
-                      <tbody>
-                        <?php
-
-                            $DBhost = "localhost";
-                            $DBuser = "root";
-                            $DBpass = "student";
-                            $DBname = "simpensiun";
-                            
-                            $DBcon = new mysqli($DBhost,$DBuser,$DBpass,$DBname);
-                              
-                               if ($DBcon->connect_errno) {
-                                   die("ERROR : -> ".$DBcon->connect_error);
-                               }
-                            
-                            $no = 1;
-                            $res = mysqli_query($DBcon,"select * from purna_karya_kepesertaan");
-                            /*print_r($has=mysqli_fetch_assoc($res));*/
-                            while($row = $res->fetch_assoc()){
-                              echo '
-                              <tr>
-                                <td>'.$no.'</td>
-                                <td>'.$row['tahun_berakhir'].'</td>
-                                <td>'.$row['faktor_tunai'].'</td>
-                              </tr>
-                              ';
-                              $no++;
-                            }
-                            ?>
-                      </tbody>
-                    </table>
+                      ?>
+                    </h1>
                   </div>
                 </div>
               </div>
+
+              <div class="col-md-6 col-sm-8 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Jumlah Karyawan Wanita <small>Jasa Marga</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <h1>
+                      <?php 
+                        $query = mysqli_query($DBcon, "select * from pegawai where jenis_kelamin = 'F'");
+                        $jumlah = mysqli_num_rows($query);
+
+                        echo $jumlah;
+
+                      ?>
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         </div> 
+        <!-- /page content -->
 
         <!-- /page content -->
 
