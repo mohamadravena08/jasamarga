@@ -32,14 +32,15 @@ if(@$_POST["login"]){ //jika tombol Login diklik
     $em = mysqli_query($DBcon, "select * from pegawai where password = '$password' AND npp = '$npp'");
     $data = mysqli_fetch_assoc($em);
 
-    if($data["npp"] == $npp && $data["password"] == $password){
+    if($data["npp"] == "$npp" && $data["password"] == $password){
       echo "<div class='alert alert-success alert-dismissable'>
                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
           Selamat anda telah masuk!
                   </div>";
       $_SESSION["npp"]=$data["npp"];
       $_SESSION["password"]=$data["password"];
-      header("Location:admin/production/pegawai.php");
+      $_SESSION["nama"]=$data["nama"];
+      header("Location:karyawan/index.php");
     }else{
       echo "<center><div class='alert alert-warning alert-dismissable'>
                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
