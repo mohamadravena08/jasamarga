@@ -6,7 +6,7 @@
   include '../../library/koneksi.php';
 
 	$Filepath=basename($_FILES['payroll']['name']);
-	// move_uploaded_file($Filepath, "./");
+	 move_uploaded_file($Filepath, "./");
 
 	// Excel reader from http://code.google.com/p/php-excel-reader/
 	require('php-excel-reader/excel_reader2.php');
@@ -40,8 +40,12 @@
 				$eff=date_format($effs,"Y-m-d G:i:s");
 				$val=$Row[9];
 					if($Key>1&&$Row[7]=="Gaji Pokok."){
-					mysqli_query($DBcon,"insert into payroll values('','$period','$Asgnum','$pgroup','$org','$pos','$bal','$rep','$eff','$val');");
+						if($Key==2){
+					$sql="insert into payroll values('','$period','$Asgnum','$pgroup','$org','$pos','$bal','$rep','$eff','$val');";}
+					else {
+						$sql.="insert into payroll values('','$period','$Asgnum','$pgroup','$org','$pos','$bal','$rep','$eff','$val');";
 						// print_r($Row)."<br>";
+					}
 				}
 				}
 			}
@@ -51,5 +55,13 @@
 	{
 		echo $E -> getMessage();
 	}
-	header('location:payroll.php');
+	if ($DBcon->multi_query($sql) === TRUE) {
+    echo "New records created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $DBcon->error;
+}
+
+$DBcon->close();
+echo $sql;
+	// header('location:payroll.php');
 ?>
