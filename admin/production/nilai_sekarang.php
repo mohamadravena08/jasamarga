@@ -119,18 +119,7 @@ if(!isset($_SESSION["npp"])){
 
                       <tbody>
                         <?php
-
-                            $DBhost = "localhost";
-                            $DBuser = "root";
-                            $DBpass = "student";
-                            $DBname = "simpensiun";
-                            
-                            $DBcon = new mysqli($DBhost,$DBuser,$DBpass,$DBname);
-                              
-                               if ($DBcon->connect_errno) {
-                                   die("ERROR : -> ".$DBcon->connect_error);
-                               }
-                            
+                        
                             $no = 1;
                             $res = mysqli_query($DBcon,"select * from nilai_sekarang");
                             /*print_r($has=mysqli_fetch_assoc($res));*/

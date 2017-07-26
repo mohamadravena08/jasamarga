@@ -51,7 +51,7 @@ include_once("../library/koneksi.php");
       $_SESSION["npp"]=$data["npp"];
       $_SESSION["password"]=$data["password"];
       $_SESSION["nama"]=$data["nama"];
-      header("Location:production/pegawai.php");
+      header("Location:production/home.php");
     }else{
       echo "<center><div class='alert alert-warning alert-dismissable'>
                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>

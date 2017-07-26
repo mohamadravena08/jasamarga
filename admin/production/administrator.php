@@ -105,7 +105,7 @@ if(!isset($_SESSION["npp"])){
                   </div>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                      Tabel ini berisi Nilai Sekaligus.
+                      Tabel ini berisi Data Administrator.
                     </p>
                     <table id="dataTables" class="table table-striped table-bordered">
                       <thead>
@@ -120,8 +120,7 @@ if(!isset($_SESSION["npp"])){
 
                       <tbody>
                         <?php                            
-                            $no = 0;
-                            $no++;
+                            $no = 1;
                             $res = mysqli_query($DBcon,"select * from admin");
                             /*print_r($has=mysqli_fetch_assoc($res));*/
                             while($row = $res->fetch_assoc()){
@@ -131,12 +130,11 @@ if(!isset($_SESSION["npp"])){
                                 <td><?php echo $row['npp'];?></td>
                                 <td><?php echo $row['nama'];?></td>
                                 <td>
-                                  <button type="button" class="btn btn-primary" >Edit</button> 
-                                  <button type="button" class="btn btn-primary" >Hapus</button>  
+                                  <a href='hapusadmin.php?id_admin=<?php echo $row['id_admin']?>' type="button" class="btn btn-primary" style="background-color: #db3535;border-color: red; margin:auto; text-align:center" >Hapus</a>  
                                 </td>
                               </tr>
                       </tbody>
-                      <?php } ?>
+                      <?php $no++; } ?>
                     </table>
                   </div>
                 </div>

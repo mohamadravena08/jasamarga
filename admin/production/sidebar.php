@@ -14,6 +14,11 @@
                       <li><a href="purna_karya_kepesertaan.php">Purna Karya Kepesertaan</a></li>
                     </ul>
                   </li>
-                  <li><a href="administrator.php"><i class="fa fa-users"></i>Data Admin</a>
+                  <li><a><i class="fa fa-users"></i>Data Admin<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="administrator.php">Administrator</a></li>
+                      <li><a href="tambahadmin.php">Tambah Admin</a></li>
+                    </ul>
+                  </li>
                 </ul>
               </div>

@@ -17,7 +17,7 @@ if(!isset($_SESSION["npp"])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Tabel Nilai Sekaligus</title>
+    <title>Tabel Data Administrator</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -66,7 +66,6 @@ if(!isset($_SESSION["npp"])){
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <?php include_once("sidebar.php"); ?>
-
             </div>
             <!-- /sidebar menu -->
 
@@ -80,7 +79,7 @@ if(!isset($_SESSION["npp"])){
 
         <!-- top navigation -->
         <div class="top_nav">
-          <?php include_once("header.php"); ?>
+          <?php include_once("header.php");?>
         </div>
         <!-- /top navigation -->
 
@@ -94,7 +93,36 @@ if(!isset($_SESSION["npp"])){
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Tabel Nilai Sekaligus <small>tabel Master</small></h2>
+                    <?php
+
+                      if(isset($_POST["tambah"])){
+
+                        $npp            = $_POST['npp'];
+                        $nama           = $_POST['nama'];
+                        $password       = $_POST['password'];
+                        
+                        // query SQL untuk insert data
+                        $query="INSERT INTO admin SET npp='$npp',nama='$nama', password='$password'";
+                        mysqli_query($DBcon, $query);
+                        // mengalihkan ke halaman index.php
+                        
+                          echo "<center><div class='alert alert-success alert-dismissable'>
+                                      <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                              <b>Berhasil menambah ke database!!</b>
+                          </div><center>";
+                          header("location:administrator.php");
+
+                     
+
+                    if(!$query) {
+                        echo "<center><div class='alert alert-warning alert-dismissable'>
+                                      <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                              <b>Gagal menambah ke database!!</b>
+                          </div><center>";
+                      } } 
+                    ?>
+
+                    <h2>Silahkan Tambah Admin <small>tabel Tambah Admin</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -105,72 +133,43 @@ if(!isset($_SESSION["npp"])){
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                      Tabel ini berisi Nilai Sekaligus.
-                    </p>
-                    <table id="dataTables" class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Usia</th>
-                          <th>M1</th>
-                          <th>M2</th>
-                          <th>M3</th>
-                          <th>M4</th>
-                          <th>F1</th>
-                          <th>F2</th>
-                          <th>F3</th>
-                          <th>F4</th>
-                        </tr>
-                      </thead>
+                    <form method="post" action="" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nomor Pokok Pegawai <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="npp" id="first-name" class="form-control col-md-7 col-xs-12" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Administrator <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="nama" id="last-name" class="form-control col-md-7 col-xs-12" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Password </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="middle-name" name="password" class="form-control col-md-7 col-xs-12" type="password" required>
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <input type="submit" name="tambah" value="Simpan" class="btn btn-primary" />
+                          <a href="administrator.php" class="btn btn-warning">Kembali</a>
+                        </div>
+                      </div>
 
-                      <tbody>
-                        <?php
-                            
-                            $no = 1;
-                            $res = mysqli_query($DBcon,"select * from nilai_sekaligus");
-                            /*print_r($has=mysqli_fetch_assoc($res));*/
-                            while($row = $res->fetch_assoc()){
-                              echo '
-                              <tr>
-                                <td>'.$no.'</td>
-                                <td>'.$row['usia'].'</td>
-                                <td>'.$row['M1'].'</td>
-                                <td>'.$row['M2'].'</td>
-                                <td>'.$row['M3'].'</td>
-                                <td>'.$row['M4'].'</td>
-                                <td>'.$row['F1'].'</td>
-                                <td>'.$row['F2'].'</td>
-                                <td>'.$row['F3'].'</td>
-                                <td>'.$row['F4'].'</td>
-                              </tr>
-                              ';
-                              $no++;
-                            }
-                            ?>
-                      </tbody>
-                    </table>
+                    </form>
                   </div>
                 </div>
               </div>
-
-              <div class="modal fade" id="myModal" role="dialog">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Edit Nilai Sekaligus</h4>
-                          </div>
-                          <div class="modal-body">
-                              <div class="fetched-data"></div>
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- /page content -->
 

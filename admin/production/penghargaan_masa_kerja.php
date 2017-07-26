@@ -1,8 +1,11 @@
-<!DOCTYPE html>
 <?php
-  error_reporting(0);
-  session_start();
-  include_once("../library/koneksi.php");
+error_reporting(0);
+session_start();
+include("../../library/koneksi.php");
+if(!isset($_SESSION["npp"])){
+  echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
+  header("Location:../index.php");
+}
 ?>
 
 <html lang="en">
