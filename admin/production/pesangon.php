@@ -133,7 +133,7 @@ if(!isset($_SESSION["npp"])){
                             $no = 1;
                             $res = mysqli_query($DBcon,"select * from pesangon");
                             /*print_r($has=mysqli_fetch_assoc($res));*/
-                            while($row = $res->fetch_assoc()){
+                            while($row = mysqli_fetch_assoc($res)){
                               echo '
                               <tr>
                                 <td>'.$no.'</td>
