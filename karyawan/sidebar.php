@@ -10,6 +10,32 @@
 		 	<a class="btn btn-primary" href="logout.php" role="button" style="margin-right: 25%;margin-left: 25%;background-color: #c01616;border-color: #a00;">Logout</a>
 		 </div>
 		<div class="details">
+			 <h3>Umur Sekarang</h3>
+			 <p>
+				<?php
+					$npp=$_SESSION['npp']; 
+					$sql = mysqli_query($DBcon, "select * from pegawai where npp='$npp'");
+					$data = mysqli_fetch_array($sql);
+
+					$lahir = $data['tanggal_lahir'];	
+					$tanggallahir=date_create($lahir);
+	
+					  //tanggal lahir
+					  $lahir = new DateTime($lahir);
+					  //tanggal hari ini
+					  $today = new DateTime('today');
+					  //tahun
+					  $y = $today->diff($lahir)->y;
+					  //bulan
+					  $m = $today->diff($lahir)->m;
+					  //hari
+					  $d = $today->diff($lahir)->d;
+
+					  echo "<b>Tanggal Lahir:</b><br /> ". date_format($tanggallahir,'d-M-Y') .'<br />';
+					  echo "<b>Umur Sekarang:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+				?>
+			 </p>
+
 			 <h3>Masa Bakti Kerja</h3>
 			 <p>
 				<?php
@@ -44,12 +70,8 @@
 				echo $data['kategori_tanggungan'];
 			 ?></b></p>
 			 <address>
-			 <h3>Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</h3>
-			 <p>
-			 	Plaza Tol Taman Mini Indonesia Indah Jakarta, 13550 Indonesia Telp. : +6221 841 3630, +6221 841 3526
-			 </p>
+			 	<h3>PT. Jasa Marga (Persero), Tbk.</h3>
 			 </address>
-			 
 		</div>
 		<div class="clearfix"></div>
 </div>
