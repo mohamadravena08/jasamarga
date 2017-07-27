@@ -2,6 +2,7 @@
 /**
  * XLS parsing uses php-excel-reader from http://code.google.com/p/php-excel-reader/
  */
+session_start();
   error_reporting(0);
   include '../../library/koneksi.php';
 
