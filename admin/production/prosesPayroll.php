@@ -20,7 +20,7 @@
 		$Sheets = $Spreadsheet -> Sheets();
 		foreach ($Sheets as $Index => $Name)
 		{
-	
+			$sql="START TRANSACTION;";
 			$Time = microtime(true);
 
 			$Spreadsheet -> ChangeSheet($Index);
@@ -38,14 +38,12 @@
 				$rep=$Row[7];
 				$effs=date_create($Row[8]);
 				$eff=date_format($effs,"Y-m-d G:i:s");
-				$val=$Row[9];
+				$val=(int)$Row[9];
 					if($Key>1&&$Row[7]=="Gaji Pokok."){
-						if($Key==2){
-					$sql="insert into payroll values('','$period','$Asgnum','$pgroup','$org','$pos','$bal','$rep','$eff','$val');";}
-					else {
+						
 						$sql.="insert into payroll values('','$period','$Asgnum','$pgroup','$org','$pos','$bal','$rep','$eff','$val');";
-						// print_r($Row)."<br>";
-					}
+						// echo $sql;
+					
 				}
 				}
 			}
@@ -55,13 +53,13 @@
 	{
 		echo $E -> getMessage();
 	}
+	$sql.="COMMIT;";
 	if ($DBcon->multi_query($sql) === TRUE) {
-    echo "New records created successfully";
+    echo "<script>alert('Berhasil!')</script>";
 } else {
     echo "Error: " . $sql . "<br>" . $DBcon->error;
 }
 
 $DBcon->close();
-echo $sql;
-	// header('location:payroll.php');
+		header('location:payroll.php');
 ?>
