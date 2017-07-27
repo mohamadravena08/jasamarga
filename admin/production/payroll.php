@@ -2,7 +2,18 @@
     <?php
       error_reporting(0);
       session_start();
+      if(!isset($_SESSION["npp"])){
+  echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
+  header("Location:../index.php");
+}
+      if(isset($_GET['status'])){
+        $stat=$_GET['status'];
+      }
       include_once("../../library/koneksi.php");
+      include_once("../../library/fungsi_rupiah.php");
+      $updateBy=mysqli_fetch_array(mysqli_query($DBcon,"select * from payroll_log order by timestamp desc"));
+      $updater=$updateBy['updater'];
+      $waktu=$updateBy['timestamp'];
     ?>
 
     <html lang="en">
@@ -81,6 +92,17 @@
         <!-- /top navigation -->
 
             <!-- page content -->
+            <?php if($status)
+            echo "<center><div class='alert alert-info alert-dismissable'>
+                                      <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                              <b>Tabel Payrol Berhasil Diperbarui!. Refresh sampai tabel penuh/sesuai dengan jumlah entry</b>
+                          </div><center>";
+              else if(isset($_GET['status'])&&$status===FALSE) echo "<center><div class='alert alert-warning alert-dismissable'>
+                                      <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                              <b>Tabel Payroll Gagal Diperbarui. Periksa Kembali file</b>
+                          </div><center>";?>
+
+
             <div class="right_col" role="main">
               <div class="">
 
@@ -90,7 +112,7 @@
                   <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                       <div class="x_title">
-                        <h2>Data Payroll Bulanan<small>terakhir diperbarui pada : </small></h2>
+                        <h2>Data Payroll Bulanan<small>terakhir diperbarui pada : <strong><?php echo $waktu;?></strong> oleh : <strong><?php echo $updater;?></strong></small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                           </li>
@@ -150,7 +172,7 @@
                                      <td>'.$row['BALANCE_NAME'].'</td>
                                     <td>'.$row['REPORTING_NAME'].'</td>
                                     <td>'.$row['EFFECTIVE_DATE'].'</td>
-                                    <td>'.$row['BVALUE'].'</td>
+                                    <td>'.rupiah($row['BVALUE']).'</td>
                                   </tr>
                                   ';
                                   $no++;

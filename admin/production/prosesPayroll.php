@@ -11,16 +11,16 @@
 	// Excel reader from http://code.google.com/p/php-excel-reader/
 	require('php-excel-reader/excel_reader2.php');
 	require('SpreadsheetReader.php');
-
+$sql="START TRANSACTION;";
+		$sql.="truncate table payroll;";
 	try
 	{
 		
-  
-		$Spreadsheet = new SpreadsheetReader($Filepath);
+  		$Spreadsheet = new SpreadsheetReader($Filepath);
 		$Sheets = $Spreadsheet -> Sheets();
 		foreach ($Sheets as $Index => $Name)
 		{
-			$sql="START TRANSACTION;";
+
 			$Time = microtime(true);
 
 			$Spreadsheet -> ChangeSheet($Index);
@@ -30,7 +30,6 @@
 			{
 				$period=$Row[0];
 				$Asgnum=$Row[1];
-				
 				$pgroup=$Row[3];
 				$org=$Row[4];
 				$pos=$Row[5];
@@ -52,14 +51,22 @@
 	catch (Exception $E)
 	{
 		echo $E -> getMessage();
+		header('location:payroll.php?status=FALSE');
 	}
+	$updater=$_SESSION['admin'];
+	
 	$sql.="COMMIT;";
+	mysqli_query($DBcon,"insert into payroll_log values('','$updater',NOW());");
+	// echo $sql.'<br>';
 	if ($DBcon->multi_query($sql) === TRUE) {
-    echo "<script>alert('Berhasil!')</script>";
+    $DBcon->close();
+
+    $_GET['status']=TRUE;
+
+	header('location:payroll.php?status=TRUE');
 } else {
     echo "Error: " . $sql . "<br>" . $DBcon->error;
 }
 
-$DBcon->close();
-		header('location:payroll.php');
+
 ?>
