@@ -26,10 +26,10 @@
 					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
 					$nilai_sekaligus=$nsekaligus[$kategori];
 					  
-					  echo "<b>Gaji : </b> ".rupiah($penghasilan) .'</br>';
-					  echo "<b>Nilai Sekarang : </b> ".$nilai_sekarang .'</br>';
+					  echo "<b>Gaji Pokok : </b><br> ".rupiah($penghasilan) .'</br>';
+					  echo "<b>Nilai Sekarang : </b><br> ".$nilai_sekarang .'</br>';
 					  echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
-					  echo '<b>Faktor Sekaligus : </b>'.$nilai_sekaligus;
+					  echo '<b>Faktor Sekaligus : </b><br>'.$nilai_sekaligus;
 				?>
 			 </p>
 
