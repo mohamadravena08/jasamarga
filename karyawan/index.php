@@ -112,11 +112,11 @@ if(!isset($_SESSION["npp"])){
 
 	?>
 		 <div class="company">
-			 <h3 class="clr1">Manfaat Pasti</h3>
+			 <h3 class="clr1" style="margin:auto; text-align:center">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
 			 <div class="company_details">
 				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 25% x PHDP x Masa Kerja)</span></h4>
 				 <h6>Berikut jumlah dana manfaat bulanan yang anda dapatkan:</h6>
-				 <p class="cmpny1">((PERHITUNGAN))</p>
+				 <p>((PERHITUNGAN))</p>
 			 </div>
 	<?php
 		}
@@ -127,10 +127,9 @@ if(!isset($_SESSION["npp"])){
 	?>
 			 <div class="company_details">
 				 <h4>Manfaat Sekaligus <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
-				 <h6>Berikut jumlah dana manffat sekaligus yang anda dapatkan:</h6>
-				 <p>(PERHITUNGAN))</p>
+				 <h6>Berikut jumlah dana manfaat sekaligus yang anda dapatkan:</h6>
+				 <p class="cmpny1">(PERHITUNGAN))</p>
 			 </div>
-		 </div>
 	<?php
 		}
 	?>
@@ -138,35 +137,58 @@ if(!isset($_SESSION["npp"])){
 	<?php if($jht) {
 
 	?>
-		 <div class="skills">
-			 <h3 class="clr2">Jaminan Hari Tua</h3>
-			 <h6>Berikut jumlah dana Jaminan Hari Tua yang anda dapatkan:</h6>
-			 <div class="skill_info">
-			 <p>((PERHITUNGAN))</p>
+			 <div class="company_details">
+				 <h4>Jaminan Hari Tua <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h6>Berikut jumlah dana Jaminan Hari Tua yang anda dapatkan:</h6>
+				 <p class="cmpny1">(PERHITUNGAN))</p>
 			 </div>
-		 </div>
 	<?php
 		}
 	?>
-	<?php if($manfaat_pasti) {
+
+	<?php if($purna_karya) {
 
 	?>
-		 <div class="education">
-			 <h3 class="clr3">Education</h3>
-			 <div class="education_details">
-				 <h4>University of Awesome<span>JANUARY 2004 - OCTOBER 2009</span></h4>
-				 <h6>MAJOR PHD</h6>
-				 <p class="cmpny1">Nulla volutpat at est sed ultricies. In ac sem consequat, posuere nulla varius, molestie lorem. Duis quis nibh leo.
-				 Curabitur a quam eu mi convallis auctor nec id mauris. Nullam mattis turpis eu turpis tincidunt, et pellentesque leo imperdiet.
-				 Vivamus malesuada, sem laoreet dictum pulvinar, orci lectus rhoncus sapien, ut consectetur augue nibh in neque. In tincidunt sed enim et tincidunt.</p>
+			 <div class="company_details">
+				 <h4>Purna Karya <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h6>Berikut jumlah dana Purna Karya Tua yang anda dapatkan:</h6>
+				 <p class="cmpny1">(PERHITUNGAN))</p>
 			 </div>
-			 
-			 <div class="education_details">
-				 <h4>University of Techonology, Newyork <span>APRIL 2001 - SEPTEMBER 2003</span></h4>
-				 <h6>BACHELORS OF ARTS</h6>
-				 <p>Nulla volutpat at est sed ultricies. In ac sem consequat, posuere nulla varius, molestie lorem. Duis quis nibh leo.
-				 Curabitur a quam eu mi convallis auctor nec id mauris. Nullam mattis turpis eu turpis tincidunt, et pellentesque leo imperdiet.
-				 Vivamus malesuada, sem laoreet dictum pulvinar, orci lectus rhoncus sapien, ut consectetur augue nibh in neque. In tincidunt sed enim et tincidunt.</p>
+	<?php
+		}
+	?>
+
+	<?php if($pesangon) {
+
+	?>
+			 <div class="company_details">
+				 <h4>Pesangon <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h6>Berikut jumlah dana Pesangon yang anda dapatkan:</h6>
+				 <p class="cmpny1">(PERHITUNGAN))</p>
+			 </div>
+	<?php
+		}
+	?>
+	
+	<?php if($penghargaan_masa_kerja) {
+
+	?>
+			 <div class="company_details">
+				 <h4>Penghargaan Masa Kerja <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h6>Berikut jumlah dana Penghargaan Masa Kerja yang anda dapatkan:</h6>
+				 <p class="cmpny1">(PERHITUNGAN))</p>
+			 </div>
+	<?php
+		}
+	?>
+
+	<?php if($uang_penggantian_hak) {
+
+	?>
+			 <div class="company_details">
+				 <h4>Uang Penggantian Hak <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h6>Berikut jumlah dana Uang Penggantian Hak yang anda dapatkan:</h6>
+				 <p class="cmpny1">(PERHITUNGAN))</p>
 			 </div>
 		 </div>
 	<?php
