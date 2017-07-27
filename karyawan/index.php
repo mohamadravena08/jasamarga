@@ -59,17 +59,16 @@ if(!isset($_SESSION["npp"])){
 			 <div class="form-group" >
 			  <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
 			  <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1">
-			    <option selected disabled>Pilih Disini...</option>
-			    <option value="1">Mengundurkan Diri</option>
-			    <option value="2">Meninggal Dunia</option>
-			    <option value="3">Cacat</option>
-			    <option value="4">Ke Anak Perusahaan (KAP)</option>
+			    <option <?php if(!isset($_GET['status'])) echo "selected";?> disabled>Pilih Disini...</option>
+			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="1") echo "selected";?> value="1">Mengundurkan Diri</option>
+			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="2") echo "selected";?> value="2">Meninggal Dunia</option>
+			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="3") echo "selected";?> value="3">Cacat</option>
+			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="4") echo "selected";?> value="4">Ke Anak Perusahaan (KAP)</option>
 			  </select>
 			</div>
 			 <button type="submit" class="btn btn-primary">Simulasi Sekarang</button>
 			</form>
 		</div> 
-
 	<?php 
 	if(isset($_GET['status'])) {
 		if($_GET['status']==1){
@@ -110,7 +109,7 @@ if(!isset($_SESSION["npp"])){
 	<!---//pop-up-box---->
 	
 
-	<?php if($manfaat_pasti) {
+	<?php if(isset($manfaat_pasti)&&$manfaat_pasti) {
 
 	$today = new DateTime('today');
 	$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
@@ -124,35 +123,41 @@ if(!isset($_SESSION["npp"])){
 
 	$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payroll where ASSIGNMENT_NUMBER ='$npp'"));
 	$penghasilan=$gaji['BVALUE'];
-	$const=0.0025;
+	$const=0.025;
 	$manfaatbulan=$nilai_sekarang*$const*$penghasilan*$masabakti;
 	$kategori=$pegawai['kategori_tanggungan'];
 	$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
 	$nilai_sekaligus=$nsekaligus[$kategori];
-
+	$manfaatsekaligus=$manfaatbulan*$nilai_sekaligus;
+	if($manfaatbulan>1500000){
+		$manfaatbulan=0.8*$manfaatbulan;
+		$manfaatsekaligus=0.2*$manfaatsekaligus;
+	}
 	?>
 		 <div class="company">
 			 <h3 class="clr1" style="margin:auto; text-align:center">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
 			 <div class="company_details">
-				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 25% x PHDP x Masa Kerja)</span></h4>
+				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 2.5% x PHDP x Masa Kerja)</span></h4>
 				 <h6>Berikut jumlah dana manfaat bulanan yang anda dapatkan:</h6>
 				 <p>
-				 	<?php echo 'Manfaat Bulanan : '.rupiah($manfaatbulan);?>
+				 	<?php if($usia<46&&status===1) echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; else echo 'Manfaat Bulanan : '.rupiah($manfaatbulan);
+				 	 ?>
 				 </p>
 			 </div>
 
 			 <div class="company_details">
-				 <h4>Manfaat Sekaligus <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h4>Manfaat Sekaligus <span>(Manfaat Bulanan x Faktor Sekaligus)</span></h4>
 				 <h6>Berikut jumlah dana manfaat sekaligus yang anda dapatkan:</h6>
 				 <p class="cmpny1">
-				 <?php echo 'Manfaat sekaligus : '.rupiah($nilai_sekaligus*$manfaatbulan); ?>
+				 <?php if($usia<46&&status===1) echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; else echo 'Manfaat Sekaligus: '.rupiah($manfaatsekaligus);
+				 	 ?>
 				 </p>
 			 </div>
 	<?php
 		}
 	?>
 
-	<?php if($jht) {
+	<?php if(isset($jht)&&$jht) {
 
 	?>
 			 <div class="company_details">
@@ -164,7 +169,7 @@ if(!isset($_SESSION["npp"])){
 		}
 	?>
 
-	<?php if($purna_karya) {
+	<?php if(isset($purna_karya)&&$purna_karya) {
 
 	?>
 			 <div class="company_details">
@@ -176,7 +181,7 @@ if(!isset($_SESSION["npp"])){
 		}
 	?>
 
-	<?php if($pesangon) {
+	<?php if(isset($pesangon)&&$pesangon) {
 
 	?>
 			 <div class="company_details">
@@ -188,7 +193,7 @@ if(!isset($_SESSION["npp"])){
 		}
 	?>
 	
-	<?php if($penghargaan_masa_kerja) {
+	<?php if(isset($penghargaan_masa_kerja)&&$penghargaan_masa_kerja) {
 
 	?>
 			 <div class="company_details">
@@ -200,7 +205,7 @@ if(!isset($_SESSION["npp"])){
 		}
 	?>
 
-	<?php if($uang_penggantian_hak) {
+	<?php if(isset($uang_penggantian_hak)&&$uang_penggantian_hak) {
 
 	?>
 			 <div class="company_details">
