@@ -37,6 +37,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 echo '<br>faktor sekaligus :'.$nilai_sekaligus;
 echo '<br>manfaat sekaligus : '.rupiah($nilai_sekaligus*$manfaatbulan);
 
+header("Location:index.php");
 ?>
 
 <center>

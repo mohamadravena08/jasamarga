@@ -1,7 +1,8 @@
 <?php
-error_reporting(0);
+//error_reporting(0);
 session_start();
 include("../library/koneksi.php");
+include("../library/fungsi_rupiah.php");
 if(!isset($_SESSION["npp"])){
 	echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
 	header("Location:../index.php");
@@ -106,9 +107,28 @@ if(!isset($_SESSION["npp"])){
 	}
 	?>
 
-	<!---//pop-up-box---->			
+	<!---//pop-up-box---->
+	
 
 	<?php if($manfaat_pasti) {
+
+	$today = new DateTime('today');
+	$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
+	$lahir=new DateTime($pegawai['tanggal_lahir']);
+	$usia = $today->diff($lahir)->y;
+	$bakti=new DateTime($pegawai['mulai_bakti']);
+	$masabakti=$today->diff($bakti)->y;
+
+	$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
+	$nilai_sekarang=$ns['nilai_sekarang'];
+
+	$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payroll where ASSIGNMENT_NUMBER ='$npp'"));
+	$penghasilan=$gaji['BVALUE'];
+	$const=0.0025;
+	$manfaatbulan=$nilai_sekarang*$const*$penghasilan*$masabakti;
+	$kategori=$pegawai['kategori_tanggungan'];
+	$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
+	$nilai_sekaligus=$nsekaligus[$kategori];
 
 	?>
 		 <div class="company">
@@ -116,19 +136,17 @@ if(!isset($_SESSION["npp"])){
 			 <div class="company_details">
 				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 25% x PHDP x Masa Kerja)</span></h4>
 				 <h6>Berikut jumlah dana manfaat bulanan yang anda dapatkan:</h6>
-				 <p>((PERHITUNGAN))</p>
+				 <p>
+				 	<?php echo 'Manfaat Bulanan : '.rupiah($manfaatbulan);?>
+				 </p>
 			 </div>
-	<?php
-		}
-	?>
 
-	<?php if($manfaat_pasti) {
-
-	?>
 			 <div class="company_details">
 				 <h4>Manfaat Sekaligus <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
 				 <h6>Berikut jumlah dana manfaat sekaligus yang anda dapatkan:</h6>
-				 <p class="cmpny1">(PERHITUNGAN))</p>
+				 <p class="cmpny1">
+				 <?php echo 'Manfaat sekaligus : '.rupiah($nilai_sekaligus*$manfaatbulan); ?>
+				 </p>
 			 </div>
 	<?php
 		}
