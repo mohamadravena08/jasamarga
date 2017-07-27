@@ -49,6 +49,7 @@ include_once("../library/koneksi.php");
           Selamat anda telah masuk!
                   </div>";
       $_SESSION["npp"]=$data["npp"];
+      $_SESSION["admin"]=$data["npp"];
       $_SESSION["password"]=$data["password"];
       $_SESSION["nama"]=$data["nama"];
       header("Location:production/home.php");

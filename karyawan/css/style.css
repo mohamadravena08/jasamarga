@@ -31,7 +31,7 @@ a:focus {
 }
 /*-- header_top --*/
 .sidebar{
-  background:#2e6e96;
+  background:#3F6794;
   top: 0px;
   padding:2em 30px;
 }
@@ -109,7 +109,7 @@ address span{
 .company h3{
   color: #FFF;
   padding: 5px 41px 5px 30px;
-  display: inline-block;
+  /*! display: inline-block; */
 }
 .skills h3{
   color: #FFF;
@@ -178,7 +178,7 @@ address span{
   display: inline-block;
 }
 h3.clr1{
-	background:#6ecadc;
+	background:#F0CA19;
 }
 h3.clr2{
 	background:#e9a820;

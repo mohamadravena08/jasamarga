@@ -2,7 +2,7 @@
 error_reporting(0);
 session_start();
 include("../../library/koneksi.php");
-if(!isset($_SESSION["npp"])){
+if(!isset($_SESSION["admin"])){
   echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
   header("Location:../index.php");
 }

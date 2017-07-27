@@ -1,3 +1,4 @@
+<<<<<<< HEAD
     <!DOCTYPE html>
     <?php
       error_reporting(0);
@@ -15,6 +16,17 @@
       $updater=$updateBy['updater'];
       $waktu=$updateBy['timestamp'];
     ?>
+=======
+<?php
+error_reporting(0);
+session_start();
+include("../../library/koneksi.php");
+if(!isset($_SESSION["admin"])){
+  echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
+  header("Location:../index.php");
+}
+?>
+>>>>>>> d4cb30140a47951f50d8ea37bbf80565b1c9462f
 
     <html lang="en">
       <head>
