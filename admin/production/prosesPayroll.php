@@ -42,7 +42,7 @@ $sql="START TRANSACTION;";
 					if($Key>1&&$Row[7]=="Gaji Pokok."){
 						
 						$sql.="insert into payroll values('','$period','$Asgnum','$pgroup','$org','$pos','$bal','$rep','$eff','$val');";
-						// echo $sql;
+						
 					
 				}
 				}
@@ -58,13 +58,10 @@ $sql="START TRANSACTION;";
 	
 	$sql.="COMMIT;";
 	mysqli_query($DBcon,"insert into payroll_log values('','$updater',NOW());");
-	// echo $sql.'<br>';
 	if ($DBcon->multi_query($sql) === TRUE) {
     $DBcon->close();
 
-    $_GET['status']=TRUE;
-
-	header('location:payroll.php?status=TRUE');
+    header('location:payroll.php?status=TRUE');
 } else {
     echo "Error: " . $sql . "<br>" . $DBcon->error;
 }

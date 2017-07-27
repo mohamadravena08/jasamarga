@@ -40,10 +40,10 @@ include_once("../library/koneksi.php");
 
   if($npp!="" && $password!=""){
     include_once("library/koneksi.php");
-    $em = mysqli_query($DBcon, "select * from admin where password = '$password' AND npp = '$npp'");
+    $em = mysqli_query($DBcon, "select * from admin where password = '$password' AND (npp = '$npp' or nama='$npp')");
     $data = mysqli_fetch_assoc($em);
 
-    if($data["npp"] == "$npp" && $data["password"] == $password){
+    if(mysqli_num_rows($em)>0){
       echo "<div class='alert alert-success alert-dismissable'>
                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
           Selamat anda telah masuk!
@@ -67,7 +67,7 @@ include_once("../library/koneksi.php");
             <form method="post" action="">
               <h1>Masuk Disini</h1>
               <div>
-                <input type="text" name="npp" class="form-control" placeholder="Nomor Poko Pegawai" required="" />
+                <input type="text" name="npp" class="form-control" placeholder="Nomor Poko Pegawai / Nama" required="" />
               </div>
               <div>
                 <input type="password" name="password" class="form-control" placeholder="Password" required="" />

@@ -124,32 +124,27 @@ if(!isset($_SESSION["admin"])){
 
                       <tbody>
                         <?php
-
-                            $DBhost = "localhost";
-                            $DBuser = "root";
-                            $DBpass = "student";
-                            $DBname = "simpensiun";
-                            
-                            $DBcon = new mysqli($DBhost,$DBuser,$DBpass,$DBname);
-                              
-                               if ($DBcon->connect_errno) {
-                                   die("ERROR : -> ".$DBcon->connect_error);
-                               }
                             
                             $no = 1;
                             $res = mysqli_query($DBcon,"select * from pegawai");
                             /*print_r($has=mysqli_fetch_assoc($res));*/
                             while($row = $res->fetch_assoc()){
+                              if($row['jenis_kelamin']=="M") $jenis_kelamin="Laki-laki"; else $jenis_kelamin="Perempuan";
+                              $bakti=date_create($row['mulai_bakti']);
+                              $tanggal_bakti=date_format($bakti, "d-M-Y");
+                              $lahir=date_create($row['tanggal_lahir']);
+                              $tanggal_lahir=date_format($lahir, "d-M-Y");
+                              if($row['status_nikah']=="M") $status_nikah="Menikah"; else $status_nikah="Lajang";
                               echo '
                               <tr>
                                 <td>'.$no.'</td>
                                 <td>'.$row['npp'].'</td>
                                 <td>'.$row['nama'].'</td>
-                                <td>'.$row['jenis_kelamin'].'</td>
-                                <td>'.$row['status_nikah'].'</td>
+                                <td>'.$jenis_kelamin.'</td>
+                                <td>'.$status_nikah.'</td>
                                 <td>'.$row['jumlah_anak'].'</td>
-                                <td>'.$row['tanggal_lahir'].'</td>
-                                <td>'.$row['mulai_bakti'].'</td>
+                                <td>'.$tanggal_lahir.'</td>
+                                <td>'.$tanggal_bakti.'</td>
                                 <td>'.$row['kategori_tanggungan'].'</td>
                               </tr>
                               ';

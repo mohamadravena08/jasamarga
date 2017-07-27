@@ -1,8 +1,9 @@
     <!DOCTYPE html>
-    <?php
-      error_reporting(0);
-      session_start();
-      if(!isset($_SESSION["npp"])){
+<?php
+error_reporting(0);
+session_start();
+include("../../library/koneksi.php");
+if(!isset($_SESSION["admin"])){
   echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
   header("Location:../index.php");
 }
@@ -148,8 +149,8 @@
                               <th>POS_NAME</th>
                               <th>BALANCE_NAME</th>
                               <th>REPORTING_NAME</th>
-                              <th>EFFECTIVE_DATE</th>
                               <th>BVALUE</th>
+                              <th>EFFECTIVE_DATE</th>
                             </tr>
                           </thead>
 
@@ -171,8 +172,8 @@
                                     <td>'.$row['POS_NAME'].'</td>
                                      <td>'.$row['BALANCE_NAME'].'</td>
                                     <td>'.$row['REPORTING_NAME'].'</td>
-                                    <td>'.$row['EFFECTIVE_DATE'].'</td>
                                     <td>'.rupiah($row['BVALUE']).'</td>
+                                    <td>'.$row['EFFECTIVE_DATE'].'</td>
                                   </tr>
                                   ';
                                   $no++;
