@@ -163,26 +163,47 @@ if(!isset($_SESSION["npp"])){
 			 <div class="company_details">
 				 <h4>Jaminan Hari Tua <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
 				 <h6>Berikut jumlah dana Jaminan Hari Tua yang anda dapatkan:</h6>
-				 <p class="cmpny1">(PERHITUNGAN))</p>
+				 <p class="cmpny1">((Menunggu Tabel JHT dari Bu Rere))</p>
 			 </div>
 	<?php
 		}
 	?>
 
 	<?php if(isset($purna_karya)&&$purna_karya) {
-
+		$baktiup=$masabakti+1;
+		$usiaup=$usia+1;
+		$bulanbakti=$today->diff($bakti)->m;
+		$bulanlahir=$today->diff($lahir)->m;
+				if($usia<31){
+					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir='$masabakti'"));
+					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun berakhir='$baktiup'"));
+					$nilai1=$faktor['faktor_tunai'];
+					$nilai2=$faktor2['faktor_tunai'];
+					if($bulanbakti>0)
+						$faktorkali=($bulanbakti/12)*($nilai2-$nilai1); else $faktorkali=$nilai1;
+					$purnakarya=$penghasilan*$faktorkali;
+				}
+				else{
+					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya where usia=$usia"));
+					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya where usia=$usiaup"));
+					$nilai1=$faktor['nilai_pk'];
+					$nilai2=$faktor2['nilai_pk'];
+					if($bulanbakti>0)
+						$faktorkali=($bulanlahir/12)*($nilai2-$nilai1); else $faktorkali=$nilai1;
+					$purnakarya=$penghasilan*$faktorkali;
+				}
 	?>
 			 <div class="company_details">
-				 <h4>Purna Karya <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
-				 <h6>Berikut jumlah dana Purna Karya Tua yang anda dapatkan:</h6>
-				 <p class="cmpny1">(PERHITUNGAN))</p>
+				 <h4>Tunjangan Purna Karya <span><a href="">Lihat Cara Penghitungan</a></span></h4>
+				 <h6>Berikut jumlah dana Purna Karya yang anda dapatkan:</h6>
+				 <p class="cmpny1"><?php echo rupiah($purnakarya);?></p>
 			 </div>
 	<?php
 		}
 	?>
 
 	<?php if(isset($pesangon)&&$pesangon) {
-
+			$faktorpesangon=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pesangon where tahun_berakhir=$usia"));
 	?>
 			 <div class="company_details">
 				 <h4>Pesangon <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
