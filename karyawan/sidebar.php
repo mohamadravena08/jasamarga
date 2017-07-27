@@ -16,17 +16,20 @@
 					$npp=$_SESSION['npp'];
 					$today = new DateTime('today');
 					$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
-					$tanggungan = $pegawai['kategori_tanggungan'];
+					$kategori = $pegawai['kategori_tanggungan'];
 					$lahir=new DateTime($pegawai['tanggal_lahir']);
 					$usia = $today->diff($lahir)->y;
 					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
 					$nilai_sekarang=$ns['nilai_sekarang']; 
 					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payroll where ASSIGNMENT_NUMBER ='$npp'"));
 					$penghasilan=$gaji['BVALUE'];
+					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
+					$nilai_sekaligus=$nsekaligus[$kategori];
 					  
 					  echo "<b>Gaji : </b> ".rupiah($penghasilan) .'</br>';
 					  echo "<b>Nilai Sekarang : </b> ".$nilai_sekarang .'</br>';
-					  echo "<b>Kategori Tanggungan </b> </br> ".$tanggungan .'</br>';
+					  echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
+					  echo '<b>Faktor Sekaligus : </b>'.$nilai_sekaligus;
 				?>
 			 </p>
 
