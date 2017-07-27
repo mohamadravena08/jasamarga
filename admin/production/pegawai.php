@@ -118,6 +118,7 @@ if(!isset($_SESSION["admin"])){
                           <th>Tanggal Lahir</th>
                           <th>Mulai Bakti</th>
                           <th>Kategori Tanggungan</th>
+                          <th>Password Akun SIMPENSIUN</th>
                         </tr>
                       </thead>
 
@@ -146,6 +147,7 @@ if(!isset($_SESSION["admin"])){
                                 <td>'.$tanggal_lahir.'</td>
                                 <td>'.$tanggal_bakti.'</td>
                                 <td>'.$row['kategori_tanggungan'].'</td>
+                                <td>'.$row['password'].'</td>
                               </tr>
                               ';
                               $no++;
