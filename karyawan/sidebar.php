@@ -6,10 +6,30 @@
 			 	echo "(".$_SESSION['npp']. ")";
 			?></h1>
 		 </div>
-		 <div class="details">
+		 <div class="details" style="position:relative">
 		 	<a class="btn btn-primary" href="logout.php" role="button" style="margin-right: 25%;margin-left: 25%;background-color: #c01616;border-color: #a00;">Logout</a>
 		 </div>
-		<div class="details">
+		<div class="details" style="position:relative">
+			 <h3>Data Perhitungan</h3>
+			 <p>
+				<?php
+					$npp=$_SESSION['npp'];
+					$today = new DateTime('today');
+					$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
+					$tanggungan = $pegawai['kategori_tanggungan'];
+					$lahir=new DateTime($pegawai['tanggal_lahir']);
+					$usia = $today->diff($lahir)->y;
+					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
+					$nilai_sekarang=$ns['nilai_sekarang']; 
+					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payroll where ASSIGNMENT_NUMBER ='$npp'"));
+					$penghasilan=$gaji['BVALUE'];
+					  
+					  echo "<b>Gaji : </b> ".rupiah($penghasilan) .'</br>';
+					  echo "<b>Nilai Sekarang : </b> ".$nilai_sekarang .'</br>';
+					  echo "<b>Kategori Tanggungan </b> </br> ".$tanggungan .'</br>';
+				?>
+			 </p>
+
 			 <h3>Umur Sekarang</h3>
 			 <p>
 				<?php
@@ -60,15 +80,7 @@
 					  echo "<b>Tanggal Bakti:</b><br /> ". date_format($tanggalbakti,'d-M-Y') .'<br />';
 					  echo "<b>Masa Bakti:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 				?>
-			 </p>	 
-			 <h3>Kategori Tanggungan</h3>
-			 <p><b><?php 
-			 	$npp=$_SESSION['npp']; 
-				$sql = mysqli_query($DBcon, "select * from pegawai where npp='$npp'");
-				$data = mysqli_fetch_array($sql);
-
-				echo $data['kategori_tanggungan'];
-			 ?></b></p>
+			 </p>
 			 <address>
 			 	<h3>PT. Jasa Marga (Persero), Tbk.</h3>
 			 </address>

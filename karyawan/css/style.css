@@ -31,16 +31,20 @@ a:focus {
 }
 /*-- header_top --*/
 .sidebar{
-  background:#3F6794;
+  background: url('../images/background.jpg') center center no-repeat;
+  background-size: cover;
   top: 0px;
   padding:2em 30px;
 }
+
+
 .sidebar h1{
 	font-size:2.5em;
 	font-weight:700;
 	margin-bottom:1em;
 	COLOR:#fff;
 	font-family: 'Varela Round', sans-serif;
+  position: relative;
 	
 }
 .sidebar img{
@@ -48,6 +52,17 @@ a:focus {
 	padding:1em;
 	width:100%;
 }
+
+.sidebar:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom right,#003A79,#003A79);
+  opacity: .8; 
+  }
 .details{
 	margin-top:2em;
 }
@@ -242,7 +257,7 @@ h3.clr3{
 /*--responsive--*/
 @media (max-width: 1366px){
 .sidebar h1 {
-  font-size: 2em;
+  font-size: 1.5em;
 }
 }
 @media (max-width: 1024px){
