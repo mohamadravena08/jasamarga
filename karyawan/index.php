@@ -135,7 +135,7 @@ if(!isset($_SESSION["npp"])){
 	}
 	?>
 		 <div class="company">
-			 <h3 class="clr1" style="margin:auto; text-align:center">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
+			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
 			 <div class="company_details">
 				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 2.5% x PHDP x Masa Kerja)</span></h4>
 				 <h6>Berikut jumlah dana manfaat bulanan yang anda dapatkan:</h6>

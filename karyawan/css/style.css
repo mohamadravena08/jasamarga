@@ -95,7 +95,7 @@ address span{
   padding:2em 0;
 }
 .content{
-	margin-right:3em;
+	margin-right:0em;
 }
 .glyphicon {
   top:1px;
@@ -125,6 +125,7 @@ address span{
   color: #FFF;
   padding: 5px 41px 5px 30px;
   /*! display: inline-block; */
+  background-color: #003A79;
 }
 .skills h3{
   color: #FFF;
@@ -160,6 +161,7 @@ address span{
 .cmpny1{
 	border-bottom:3px dashed #999;
 	padding-bottom:1em;
+  margin-right: 2em;
 }
 .skills{
 	margin:2em 0;
@@ -193,7 +195,6 @@ address span{
   display: inline-block;
 }
 h3.clr1{
-	background:#F0CA19;
 }
 h3.clr2{
 	background:#e9a820;
