@@ -133,6 +133,7 @@ if(!isset($_SESSION["npp"])){
 		$manfaatbulan=0.8*$manfaatbulan;
 		$manfaatsekaligus=0.2*$manfaatsekaligus;
 	}
+	else $manfaatbulan=0;
 	?>
 		 <div class="company">
 			 <h3 class="clr1" style="margin:auto; text-align:center">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
@@ -203,36 +204,49 @@ if(!isset($_SESSION["npp"])){
 	?>
 
 	<?php if(isset($pesangon)&&$pesangon) {
-			$faktorpesangon=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pesangon where tahun_berakhir=$usia"));
+			if($masabakti<=8){
+			$fetchfaktorpesangon=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pesangon where tahun_berakhir=$masabakti"));
+			$faktorpesangon=$fetchfaktorpesangon['faktor_tunai'];}
+			else {$faktorpesangon=9;}
+			$nilaipesangon=$faktorpesangon*$penghasilan;
+			if($_GET['status']==3||$_GET['status']==4){
+				$nilaipesangon=$nilaipesangon*2;
+			}
+
 	?>
 			 <div class="company_details">
-				 <h4>Pesangon <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h4>Pesangon <span>(Faktor Pesangon x Gaji Pokok)</span></h4>
 				 <h6>Berikut jumlah dana Pesangon yang anda dapatkan:</h6>
-				 <p class="cmpny1">(PERHITUNGAN))</p>
+				 <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
 			 </div>
 	<?php
 		}
 	?>
 	
 	<?php if(isset($penghargaan_masa_kerja)&&$penghargaan_masa_kerja) {
-
+			if($masabakti<=24){
+				$fetchfaktorupmk=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from penghargaan_masa_kerja where tahun_berakhir=$masabakti"));
+				$faktorupmk=$fetchfaktorupmk['faktor_tunai'];
+			}
+			else $faktorupmk=10;
+			$nilaiupmk=$faktorupmk*$penghasilan;
 	?>
 			 <div class="company_details">
-				 <h4>Penghargaan Masa Kerja <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h4>Penghargaan Masa Kerja <span>(Faktor UPMK x Gaji Pokok)</span></h4>
 				 <h6>Berikut jumlah dana Penghargaan Masa Kerja yang anda dapatkan:</h6>
-				 <p class="cmpny1">(PERHITUNGAN))</p>
+				 <p class="cmpny1"><?php echo rupiah($nilaiupmk);?></p>
 			 </div>
 	<?php
 		}
 	?>
 
 	<?php if(isset($uang_penggantian_hak)&&$uang_penggantian_hak) {
-
+			$uanghak=0.15*($nilaipesangon+$nilaiupmk);
 	?>
 			 <div class="company_details">
-				 <h4>Uang Penggantian Hak <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h4>Uang Penggantian Hak <span>(15% * (uang pesangon + uang penghargaan masa kerja))</span></h4>
 				 <h6>Berikut jumlah dana Uang Penggantian Hak yang anda dapatkan:</h6>
-				 <p class="cmpny1">(PERHITUNGAN))</p>
+				 <p class="cmpny1"><?php echo rupiah($uanghak);?></p>
 			 </div>
 		 </div>
 	<?php
