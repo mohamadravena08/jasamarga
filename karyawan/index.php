@@ -218,7 +218,7 @@ if(!isset($_SESSION["npp"])){
 			$nilaipesangon=$faktorpesangon*$penghasilan;
 			if($_GET['status']==3||$_GET['status']==4){
 				$nilaipesangon=$nilaipesangon*2;
-				$total+=$nilaipesangon;
+				
 			}
 
 	?>
@@ -229,7 +229,7 @@ if(!isset($_SESSION["npp"])){
 				 <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
 			 </div>
 	<?php
-		}
+		$total+=$nilaipesangon;}
 	?>
 	
 	<?php if(isset($penghargaan_masa_kerja)&&$penghargaan_masa_kerja) {
