@@ -250,7 +250,7 @@ if(!isset($_SESSION["npp"])){
 	?>
 
 	<?php if(isset($uang_penggantian_hak)&&$uang_penggantian_hak) {
-			$uanghak=0.15*($nilaipesangon+$nilaiupmk);
+			$uanghak=0.15*($nilaipesangon+$nilaiupmk);	
 	?>
 			 <div class="company_details">
 				 <h4>Uang Penggantian Hak <span>(15% * (uang pesangon + uang penghargaan masa kerja))</span></h4>
