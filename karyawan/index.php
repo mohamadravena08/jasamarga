@@ -110,14 +110,15 @@ if(!isset($_SESSION["npp"])){
 	
 
 	<?php if(isset($manfaat_pasti)&&$manfaat_pasti) {
-
+	$total=0;
 	$today = new DateTime('today');
 	$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
 	$lahir=new DateTime($pegawai['tanggal_lahir']);
 	$usia = $today->diff($lahir)->y;
 	$bakti=new DateTime($pegawai['mulai_bakti']);
 	$masabakti=$today->diff($bakti)->y;
-
+	$manfaatbulan=0;
+	$manfaatsekaligus=0;
 	$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
 	$nilai_sekarang=$ns['nilai_sekarang'];
 
@@ -134,6 +135,7 @@ if(!isset($_SESSION["npp"])){
 		$manfaatsekaligus=0.2*$manfaatsekaligus;
 	}
 	else $manfaatbulan=0;
+	
 	?>
 		 <div class="company">
 			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
@@ -141,7 +143,10 @@ if(!isset($_SESSION["npp"])){
 				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 2.5% x PHDP x Masa Kerja)</span></h4>
 				 <h6>Berikut jumlah dana manfaat bulanan yang anda dapatkan:</h6>
 				 <p>
-				 	<?php if($usia<46&&$_GET['status']==1) echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; else echo 'Manfaat Bulanan : '.rupiah($manfaatbulan);
+				 	<?php if($usia<46&&$_GET['status']==1) {echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; } else echo 'Manfaat Bulanan : '.rupiah($manfaatbulan);
+				 	$manfaatsekaligus=0;
+				 	$manfaatbulan=0;
+				 
 				 	 ?>
 				 </p>
 			 </div>
@@ -150,12 +155,13 @@ if(!isset($_SESSION["npp"])){
 				 <h4>Manfaat Sekaligus <span>(Manfaat Bulanan x Faktor Sekaligus)</span></h4>
 				 <h6>Berikut jumlah dana manfaat sekaligus yang anda dapatkan:</h6>
 				 <p class="cmpny1">
-				 <?php if($usia<46&&$_GET['status']==1) echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; else echo 'Manfaat Sekaligus: '.rupiah($manfaatsekaligus);
+				 <?php if($usia<46&&$_GET['status']==1) {$manfaatsekaligus=0;
+				 	$manfaatbulan=0; echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; }else echo 'Manfaat Sekaligus: '.rupiah($manfaatsekaligus);
 				 	 ?>
 				 </p>
 			 </div>
 	<?php
-		}
+		$total+=$manfaatsekaligus;}
 	?>
 
 	<?php if(isset($jht)&&$jht) {
@@ -194,13 +200,14 @@ if(!isset($_SESSION["npp"])){
 					$purnakarya=$penghasilan*$faktorkali;
 				}
 	?>
+	
 			 <div class="company_details">
 				 <h4>Tunjangan Purna Karya <span><a href="">Lihat Cara Penghitungan</a></span></h4>
 				 <h6>Berikut jumlah dana Purna Karya yang anda dapatkan:</h6>
 				 <p class="cmpny1"><?php echo rupiah($purnakarya);?></p>
 			 </div>
 	<?php
-		}
+		$total+=$purnakarya; }
 	?>
 
 	<?php if(isset($pesangon)&&$pesangon) {
@@ -211,9 +218,11 @@ if(!isset($_SESSION["npp"])){
 			$nilaipesangon=$faktorpesangon*$penghasilan;
 			if($_GET['status']==3||$_GET['status']==4){
 				$nilaipesangon=$nilaipesangon*2;
+				$total+=$nilaipesangon;
 			}
 
 	?>
+
 			 <div class="company_details">
 				 <h4>Pesangon <span>(Faktor Pesangon x Gaji Pokok)</span></h4>
 				 <h6>Berikut jumlah dana Pesangon yang anda dapatkan:</h6>
@@ -237,7 +246,7 @@ if(!isset($_SESSION["npp"])){
 				 <p class="cmpny1"><?php echo rupiah($nilaiupmk);?></p>
 			 </div>
 	<?php
-		}
+		$total+=$nilaiupmk;}
 	?>
 
 	<?php if(isset($uang_penggantian_hak)&&$uang_penggantian_hak) {
@@ -250,8 +259,13 @@ if(!isset($_SESSION["npp"])){
 			 </div>
 		 </div>
 	<?php
-		}
+		$total+=$uanghak;}
+
+		if(isset($total)){
 	?>
+	<center>
+		<h1>Total Tunjangan Sekaligus : <?php echo rupiah($total);?></h1>
+			<h2>plus <?php echo rupiah($manfaatbulan);?> tiap bulan</h2></center> <?php } ?>
 		 <footer style="text-align:center">
 		 <div class="copywrite">
 			 <p>© 2017 Tim Internship Jasa Marga IPB | Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</a> </p>
