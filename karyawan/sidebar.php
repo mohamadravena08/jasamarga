@@ -1,4 +1,6 @@
-<div class="col-sm-3 col-md-2 sidebar">
+<div class="col-sm-3 col-md-2 sidebar" style="
+    height: 1000px;
+">
 		 <div class="sidebar_top">
 		 	<h1 style="text-align:center"><?php 
 
