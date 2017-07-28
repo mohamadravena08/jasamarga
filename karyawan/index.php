@@ -197,8 +197,9 @@ if(!isset($_SESSION["npp"])){
 		$bulanbakti=$today->diff($bakti)->m;
 		$bulanlahir=$today->diff($lahir)->m;
 				if($usia<31){
-					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir='$masabakti'"));
-					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun berakhir='$baktiup'"));
+					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir=$masabakti"));
+					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir=$baktiup"));
+				
 					$nilai1=$faktor['faktor_tunai'];
 					$nilai2=$faktor2['faktor_tunai'];
 					if($bulanbakti>0)
@@ -233,7 +234,7 @@ if(!isset($_SESSION["npp"])){
 			$nilaipesangon=$faktorpesangon*$penghasilan;
 			if($_GET['status']==3||$_GET['status']==4){
 				$nilaipesangon=$nilaipesangon*2;
-				$total+=$nilaipesangon;
+				
 			}
 
 	?>
@@ -244,7 +245,7 @@ if(!isset($_SESSION["npp"])){
 				 <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
 			 </div>
 	<?php
-		}
+		$total+=$nilaipesangon;}
 	?>
 	
 	<?php if(isset($penghargaan_masa_kerja)&&$penghargaan_masa_kerja) {
