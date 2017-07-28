@@ -182,8 +182,9 @@ if(!isset($_SESSION["npp"])){
 		$bulanbakti=$today->diff($bakti)->m;
 		$bulanlahir=$today->diff($lahir)->m;
 				if($usia<31){
-					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir='$masabakti'"));
-					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun berakhir='$baktiup'"));
+					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir=$masabakti"));
+					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir=$baktiup"));
+				
 					$nilai1=$faktor['faktor_tunai'];
 					$nilai2=$faktor2['faktor_tunai'];
 					if($bulanbakti>0)
