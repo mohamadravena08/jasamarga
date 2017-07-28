@@ -16,9 +16,16 @@ if(!isset($_SESSION["npp"])){
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+
 <!-- Custom Theme files -->
- <link href="css/dashboard.css" rel="stylesheet">
+<link href="css/dashboard.css" rel="stylesheet">
 <link href="css/style.css" rel='stylesheet' type='text/css' />
+
+<!-- Include Bootstrap Datepicker -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+
 
 <!-- Custom Theme files -->
 <!--//theme-style-->
@@ -55,7 +62,7 @@ if(!isset($_SESSION["npp"])){
 		
 		<h1 style="text-align:center">Silahkan Pilih Status Pensiun Anda</h1>
 		<div>
-			<form method="get" action="" style="text-align: center"> 
+			<form id="eventForm" method="get" action="" style="text-align: center"> 
 			 <div class="form-group" >
 			  <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
 			  <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1">
@@ -66,6 +73,14 @@ if(!isset($_SESSION["npp"])){
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="4") echo "selected";?> value="4">Ke Anak Perusahaan (KAP)</option>
 			  </select>
 			</div>
+			<div class="form-group" >
+			  <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
+			  <div class="input-group input-append date" id="datePicker" style="width: 50%; margin:auto">
+		                <input type="text" class="form-control" name="date" />
+		                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+		            </div>
+			</div>
+
 			 <button type="submit" class="btn btn-primary">Simulasi Sekarang</button>
 			</form>
 		</div> 
@@ -264,7 +279,7 @@ if(!isset($_SESSION["npp"])){
 		if(isset($total)){
 	?>
 	<center>
-		<h1>Total Tunjangan Sekaligus : <?php echo rupiah($total);?></h1>
+		<h1 style="margin-top: 20px;">Total Tunjangan Sekaligus : <?php echo rupiah($total);?></h1>
 			<h2>plus <?php echo rupiah($manfaatbulan);?> tiap bulan</h2></center> <?php } ?>
 		 <footer style="text-align:center">
 		 <div class="copywrite">
@@ -275,4 +290,41 @@ if(!isset($_SESSION["npp"])){
 </div>
 <!---->
 </body>
+
+<script>
+$(document).ready(function() {
+    $('#datePicker')
+        .datepicker({
+            format: 'mm/dd/yyyy'
+        })
+        .on('changeDate', function(e) {
+            // Revalidate the date field
+            $('#eventForm').formValidation('revalidateField', 'date');
+        });
+
+    $('#eventForm').formValidation({
+        framework: 'bootstrap',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+    
+                date: {
+                validators: {
+                    notEmpty: {
+                        message: 'The date is required'
+                    },
+                    date: {
+                        format: 'MM/DD/YYYY',
+                        message: 'The date is not a valid'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
 </html>
