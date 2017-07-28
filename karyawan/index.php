@@ -143,9 +143,9 @@ if(!isset($_SESSION["npp"])){
 				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 2.5% x PHDP x Masa Kerja)</span></h4>
 				 <h6>Berikut jumlah dana manfaat bulanan yang anda dapatkan:</h6>
 				 <p>
-				 	<?php if($usia<46&&$_GET['status']==1) {echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; } else echo 'Manfaat Bulanan : '.rupiah($manfaatbulan);
-				 	$manfaatsekaligus=0;
-				 	$manfaatbulan=0;
+				 	<?php if($usia<46&&$_GET['status']==1) {echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; $manfaatsekaligus=0;
+				 	$manfaatbulan=0; } else echo 'Manfaat Bulanan : '.rupiah($manfaatbulan);
+				 	
 				 
 				 	 ?>
 				 </p>
