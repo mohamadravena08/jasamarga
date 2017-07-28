@@ -76,7 +76,6 @@ if(@$_POST["login"]){ //jika tombol Login diklik
                                     <i class="fa fa-unlock-alt" aria-hidden="true"></i>
                                 </div>
                                 </div>
-                                <p class="forgot-w3ls">Lupa Password?<a class href="#">  Klik disini</a></p>
                                 <div class="clear"></div>
                                 <div class="submit-agileits">
                                     <input type="submit" name="login" value="Masuk">
