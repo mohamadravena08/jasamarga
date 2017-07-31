@@ -74,18 +74,36 @@ if(!isset($_SESSION["npp"])){
 			  </select>
 			</div>
 			<div class="form-group" >
-			  <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
+			  <label for="sel1" >pada tanggal</label>
 			  <div class="input-group input-append date" id="datePicker" style="width: 50%; margin:auto">
-		                <input type="text" class="form-control" name="date" />
+		                <input type="text" class="form-control" name="tanggalpensiun" value=<?php if(isset($_GET['status'])) {$pensiun=date_create($_GET['tanggalpensiun']);
+	$rencana=date_format($pensiun,"d-M-Y");echo $rencana; }?>>
 		                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 		            </div>
 			</div>
 
 			 <button type="submit" class="btn btn-primary">Simulasi Sekarang</button>
 			</form>
+			
 		</div> 
 	<?php 
 	if(isset($_GET['status'])) {
+		$pensiun=date_create($_GET['tanggalpensiun']);
+		$rencana=date_format($pensiun,"Y-m-d");
+		$today = new DateTime($rencana);
+		$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
+		$lahir=new DateTime($pegawai['tanggal_lahir']);
+		$usia = $today->diff($lahir)->y;
+		$bulanusia= $today->diff($lahir)->m;
+		$hariusia = $today->diff($lahir)->d;
+		$bakti=new DateTime($pegawai['mulai_bakti']);
+		$masabakti=$today->diff($bakti)->y;
+		$manfaatbulan=0;
+		$manfaatsekaligus=0;
+		if($usia>56||($usia==56&&$bulanusia>0&&$hariusia>0)){
+			echo "<br><center><h4>Usia Anda pada tanggal tersebut telah melebihi 56 tahun. Silakan pilih tanggal lain</h4></center>";
+		}
+		else {
 		if($_GET['status']==1){
 			$manfaat_pasti = TRUE;
 			$jht = TRUE;
@@ -118,7 +136,8 @@ if(!isset($_SESSION["npp"])){
 			$penghargaan_masa_kerja = TRUE;
 			$uang_penggantian_hak = TRUE;
 		}
-	}
+
+	}}
 	?>
 
 	<!---//pop-up-box---->
@@ -126,14 +145,7 @@ if(!isset($_SESSION["npp"])){
 
 	<?php if(isset($manfaat_pasti)&&$manfaat_pasti) {
 	$total=0;
-	$today = new DateTime('today');
-	$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
-	$lahir=new DateTime($pegawai['tanggal_lahir']);
-	$usia = $today->diff($lahir)->y;
-	$bakti=new DateTime($pegawai['mulai_bakti']);
-	$masabakti=$today->diff($bakti)->y;
-	$manfaatbulan=0;
-	$manfaatsekaligus=0;
+	
 	$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
 	$nilai_sekarang=$ns['nilai_sekarang'];
 
@@ -152,8 +164,60 @@ if(!isset($_SESSION["npp"])){
 	else $manfaatbulan=0;
 	
 	?>
-		 <div class="company">
+	<div class="company">
 			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
+			 </div>
+<center><h3>Dasar Perhitungan</h3>
+			 <p>
+				<?php
+					
+					$kategori = $pegawai['kategori_tanggungan'];
+					$lahir=new DateTime($pegawai['tanggal_lahir']);
+					$usia = $today->diff($lahir)->y;
+					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
+					$nilai_sekarang=$ns['nilai_sekarang']; 
+					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payroll where ASSIGNMENT_NUMBER ='$npp'"));
+					$penghasilan=$gaji['BVALUE'];
+					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
+					$nilai_sekaligus=$nsekaligus[$kategori];
+					  
+					  echo "<b>Gaji Pokok : </b><br> ".rupiah($penghasilan) .'</br>';
+					  echo "<b>Faktor Manfaat Pasti : </b><br> ".$nilai_sekarang .'</br>';
+					  echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
+					  echo '<b>Faktor Sekaligus : </b><br>'.$nilai_sekaligus;
+				?>
+			 </p>
+
+			 
+			 <p>
+				<?php
+					  $y = $today->diff($lahir)->y;
+					  //bulan
+					  $m = $today->diff($lahir)->m;
+					  //hari
+					  $d = $today->diff($lahir)->d;
+
+					  
+					  echo "<b>Umur Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+				?>
+			 </p>
+
+			
+			 <p>
+				<?php
+					  $y = $today->diff($bakti)->y;
+					  //bulan
+					  $m = $today->diff($bakti)->m;
+					  //hari
+					  $d = $today->diff($bakti)->d;
+
+					  
+					  echo "<b>Masa Bakti Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+				?>
+			 </p>
+
+</center>
+		 <div class="company">
 			 <div class="company_details">
 				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 2.5% x PHDP x Masa Kerja)</span></h4>
 				 <h6>Berikut jumlah dana manfaat bulanan yang anda dapatkan:</h6>

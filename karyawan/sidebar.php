@@ -12,7 +12,7 @@
 		 	<a class="btn btn-primary" href="logout.php" role="button" style="margin-right: 25%;margin-left: 25%;background-color: #c01616;border-color: #a00;">Logout</a>
 		 </div>
 		<div class="details" style="position:relative">
-			 <h3>Data Perhitungan</h3>
+			 <h3>Data Anda Sekarang</h3>
 			 <p>
 				<?php
 					$npp=$_SESSION['npp'];
@@ -29,7 +29,7 @@
 					$nilai_sekaligus=$nsekaligus[$kategori];
 					  
 					  echo "<b>Gaji Pokok : </b><br> ".rupiah($penghasilan) .'</br>';
-					  echo "<b>Nilai Sekarang : </b><br> ".$nilai_sekarang .'</br>';
+					  echo "<b>Faktor Manfaat Pasti : </b><br> ".$nilai_sekarang .'</br>';
 					  echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
 					  echo '<b>Faktor Sekaligus : </b><br>'.$nilai_sekaligus;
 				?>
