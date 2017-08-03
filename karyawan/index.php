@@ -149,8 +149,8 @@ if(!isset($_SESSION["npp"])){
 	$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
 	$nilai_sekarang=$ns['nilai_sekarang'];
 
-	$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payroll where ASSIGNMENT_NUMBER ='$npp'"));
-	$penghasilan=$gaji['BVALUE'];
+	$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
+	$penghasilan=$gaji['phdp'];
 	$const=0.025;
 	$manfaatbulan=$nilai_sekarang*$const*$penghasilan*$masabakti;
 	$kategori=$pegawai['kategori_tanggungan'];
@@ -177,15 +177,10 @@ if(!isset($_SESSION["npp"])){
 					$usia = $today->diff($lahir)->y;
 					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
 					$nilai_sekarang=$ns['nilai_sekarang']; 
-					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payroll where ASSIGNMENT_NUMBER ='$npp'"));
-					$penghasilan=$gaji['BVALUE'];
+					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
+					$penghasilan=$gaji['phdp'];
 					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
 					$nilai_sekaligus=$nsekaligus[$kategori];
-					  
-					  //echo "<b>Gaji Pokok : </b><br> ".rupiah($penghasilan) .'</br>';
-					  //echo "<b>Faktor Manfaat Pasti : </b><br> ".$nilai_sekarang .'</br>';
-					  //echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
-					  //echo '<b>Faktor Sekaligus : </b><br>'.$nilai_sekaligus;
 				?>
 			 </p>
 
@@ -223,8 +218,8 @@ if(!isset($_SESSION["npp"])){
 			 <div class="skill_list">
 				 <div class="skill1">
 					 <ul>					 
-						<li><?php echo "<b>Gaji Pokok : </b><br/>".rupiah($penghasilan); ?></li>
-						<li><?php echo "<b>Faktor Manfaat Pasti : </b></br>".$nilai_sekarang ?>;</li>
+						<li><?php echo "<b>PhDP : </b><br/>".rupiah($penghasilan); ?></li>
+						<li><?php echo "<b>Faktor Manfaat Pasti : </b></br>".$nilai_sekarang ?></li>
 						<li><?php echo "<b>Kategori Tanggungan </b></br>".$kategori;?></li>
 					 </ul>
 				 </div>
@@ -289,7 +284,7 @@ if(!isset($_SESSION["npp"])){
 
 	?>
 			 <div class="company_details">
-				 <h4>Jaminan Hari Tua <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
+				 <h4>Jaminan Hari Tua <span>(Manfaat JHT dari BPJS Ketenagakerjaan)</span></h4>
 				 <p class="cmpny1">((Menunggu Tabel JHT dari Bu Rere))</p>
 			 </div>
 	<?php

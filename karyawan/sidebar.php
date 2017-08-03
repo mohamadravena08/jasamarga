@@ -23,12 +23,13 @@
 					$usia = $today->diff($lahir)->y;
 					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
 					$nilai_sekarang=$ns['nilai_sekarang']; 
-					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payroll where ASSIGNMENT_NUMBER ='$npp'"));
-					$penghasilan=$gaji['BVALUE'];
+					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
+					$penghasilan=$gaji['phdp'];
 					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
 					$nilai_sekaligus=$nsekaligus[$kategori];
 					  
-					  echo "<b>Gaji Pokok : </b><br> ".rupiah($penghasilan) .'</br>';
+					  echo "<b>Gaji Pokok : </b><br> ".rupiah($gaji['gaji_pokok']) .'</br>';
+					  echo "<b>PhDP : </b><br> ".rupiah($gaji['phdp']) .'</br>';
 					  echo "<b>Faktor Manfaat Pasti : </b><br> ".$nilai_sekarang .'</br>';
 					  echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
 					  echo '<b>Faktor Sekaligus : </b><br>'.$nilai_sekaligus;

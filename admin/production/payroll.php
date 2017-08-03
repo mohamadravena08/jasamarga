@@ -125,12 +125,12 @@ if(!isset($_SESSION["admin"])){
                       </div>
                       <?php
                                 $no = 1;
-                                $res = mysqli_query($DBcon,"select * from payroll");
+                                $res = mysqli_query($DBcon,"select * from payrolls");
                                 if(mysqli_num_rows($res)>0){?>
                       <div class="x_content">
                       <center><div>
         <h3>Upload File Payroll Terbaru</h3>
-            <form method="post" action="prosesPayroll.php" enctype="multipart/form-data">
+            <form method="post" action="payrollProses.php" enctype="multipart/form-data">
                       <input type="file" name="payroll">
                       <button class="right" value=1 type="submit" name="kirim">Upload</button>
                       </form>
@@ -141,16 +141,16 @@ if(!isset($_SESSION["admin"])){
                         <table id="dataTables" class="table table-striped table-bordered">
                           <thead>
                             <tr>
-                             <th>PERIODE</th>
-                              <th>NPP</th>
-                              <th>NAMA LENGKAP</th>
-                              <th>PAYROLL_GROUP</th>
-                              <th>ORG_NAME</th>
-                              <th>POS_NAME</th>
-                              <th>BALANCE_NAME</th>
-                              <th>REPORTING_NAME</th>
-                              <th>BVALUE</th>
-                              <th>EFFECTIVE_DATE</th>
+                             <th>NPP</th>
+                              <th>Nama Lengkap</th>
+                              <th>Unit Kerja</th>
+                              <th>Jabatan</th>
+                              <th>Gaji Pokok</th>
+                              <th>PhDP</th>
+                              <th>Total Penerimaan</th>
+                              <th>Total Potongan</th>
+                              <th>Penerimaan Bersih</th>
+                              
                             </tr>
                           </thead>
 
@@ -159,21 +159,21 @@ if(!isset($_SESSION["admin"])){
                             <?php
                                 
                                 while($row = $res->fetch_assoc()){
-                                  $npp=$row['ASSIGNMENT_NUMBER'];
+                                  $npp=$row['npp'];
                                   $emp=mysqli_fetch_array(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
                                   $nama=$emp['nama'];
                                   echo '
                                   <tr>
-                                    <td>'.$row['PERIOD'].'</td>
-                                    <td>'.$row['ASSIGNMENT_NUMBER'].'</td>
+                                    <td>'.$row['npp'].'</td>
                                     <td>'.$nama.'</td>
-                                     <td>'.$row['PAYROLL_GROUP'].'</td>
-                                    <td>'.$row['ORG_NAME'].'</td>
-                                    <td>'.$row['POS_NAME'].'</td>
-                                     <td>'.$row['BALANCE_NAME'].'</td>
-                                    <td>'.$row['REPORTING_NAME'].'</td>
-                                    <td>'.rupiah($row['BVALUE']).'</td>
-                                    <td>'.$row['EFFECTIVE_DATE'].'</td>
+                                     <td>'.$row['unit_kerja'].'</td>
+                                    <td>'.$row['jabatan'].'</td>
+                                    <td>'.rupiah($row['gaji_pokok']).'</td>
+                                     <td>'.rupiah($row['phdp']).'</td>
+                                    
+                                    <td>'.rupiah($row['total_penerimaan']).'</td>
+                                    <td>'.rupiah($row['total_potongan']).'</td>
+                                    <td>'.rupiah($row['penerimaan_bersih']).'</td>
                                   </tr>
                                   ';
                                   $no++;
@@ -189,7 +189,7 @@ if(!isset($_SESSION["admin"])){
     <?php } else { echo "<center>Tabel Payroll Kosong</center>";?>
     <center><div>
     <h3>Upload File Payroll Terbaru</h3>
-            <form method="post" action="prosesPayroll.php" enctype="multipart/form-data">
+            <form method="post" action="payrollProses.php" enctype="multipart/form-data">
                       <input type="file" name="payroll">
                       <button class="right" value=1 type="submit" name="kirim">Upload</button>
                       </form>

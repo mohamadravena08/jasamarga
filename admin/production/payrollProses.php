@@ -29,23 +29,24 @@ $sql="START TRANSACTION;";
 			foreach ($Spreadsheet as $Key => $Row)
 
 			{
-				// $period=$Row[0];
-				// $Asgnum=$Row[1];
-				// $pgroup=$Row[3];
-				// $org=$Row[4];
-				// $pos=$Row[5];
-				// $bal=$Row[6];
-				// $rep=$Row[7];
-				// $effs=date_create($Row[8]);
-				// $eff=date_format($effs,"Y-m-d G:i:s");
-				// $val=(int)$Row[9];
-				// 	if($Key>1&&$Row[7]=="Gaji Pokok."){
+				$npp=$Row[2];
+				$unitkerja=$Row[3];
+				$jabatan=$Row[4];
+				$gajipokok=$Row[18];
+				$phdp=$Row[14];
+				$totalterima=$Row[203];
+				$totalpotongan=$Row[204];
+				$terimabersih=$Row[205];
+				if(strlen($npp)==4){
+					$npp="0".$npp;
+				}
+
+				if($Key>8&&$Row[8]=="TETAP"){
 						
-				// 		$sql.="insert into payroll values('','$period','$Asgnum','$pgroup','$org','$pos','$bal','$rep','$eff','$val');";
+						$sql.="insert into payrolls values('$npp','$unitkerja','$jabatan','$gajipokok','$phdp','$totalterima','$totalpotongan','$terimabersih');";
 						
 					
-				// }
-				print_r($Row); echo '<br>';
+				}
 				}
 			}
 		
@@ -55,17 +56,17 @@ $sql="START TRANSACTION;";
 		echo $E -> getMessage();
 		// header('location:payroll.php?status=FALSE');
 	}
-// 	$updater=$_SESSION['admin'];
+	$updater=$_SESSION['admin'];
 	
-// 	$sql.="COMMIT;";
-// 	mysqli_query($DBcon,"insert into payroll_log values('','$updater',NOW());");
-// 	if ($DBcon->multi_query($sql) === TRUE) {
-//     $DBcon->close();
+ 	$sql.="COMMIT;";
+	mysqli_query($DBcon,"insert into payroll_log values('','$updater',NOW());");
+ 	if ($DBcon->multi_query($sql) === TRUE) {
+     $DBcon->close();
 
-//     header('location:payroll.php?status=TRUE');
-// } else {
-//     echo "Error: " . $sql . "<br>" . $DBcon->error;
-// }
+     header('location:payroll.php?status=TRUE');
+ } else {
+     echo "Error: " . $sql . "<br>" . $DBcon->error;
+ }
 
 
 ?>
