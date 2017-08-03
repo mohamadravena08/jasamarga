@@ -167,7 +167,8 @@ if(!isset($_SESSION["npp"])){
 	<div class="company">
 			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
 			 </div>
-<center><h3>Dasar Perhitungan</h3>
+			
+  	<center>
 			 <p>
 				<?php
 					
@@ -181,10 +182,10 @@ if(!isset($_SESSION["npp"])){
 					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
 					$nilai_sekaligus=$nsekaligus[$kategori];
 					  
-					  echo "<b>Gaji Pokok : </b><br> ".rupiah($penghasilan) .'</br>';
-					  echo "<b>Faktor Manfaat Pasti : </b><br> ".$nilai_sekarang .'</br>';
-					  echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
-					  echo '<b>Faktor Sekaligus : </b><br>'.$nilai_sekaligus;
+					  //echo "<b>Gaji Pokok : </b><br> ".rupiah($penghasilan) .'</br>';
+					  //echo "<b>Faktor Manfaat Pasti : </b><br> ".$nilai_sekarang .'</br>';
+					  //echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
+					  //echo '<b>Faktor Sekaligus : </b><br>'.$nilai_sekaligus;
 				?>
 			 </p>
 
@@ -198,7 +199,7 @@ if(!isset($_SESSION["npp"])){
 					  $d = $today->diff($lahir)->d;
 
 					  
-					  echo "<b>Umur Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+					  //echo "<b>Umur Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 				?>
 			 </p>
 
@@ -212,18 +213,60 @@ if(!isset($_SESSION["npp"])){
 					  $d = $today->diff($bakti)->d;
 
 					  
-					  echo "<b>Masa Bakti Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+					  //echo "<b>Masa Bakti Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 				?>
 			 </p>
 
 </center>
+		<div class="skills">
+			 <h3 class="clr2" >Dasar Perhitungan</h3>
+			 <div class="skill_list">
+				 <div class="skill1">
+					 <ul>					 
+						<li><?php echo "<b>Gaji Pokok : </b><br/>".rupiah($penghasilan); ?></li>
+						<li><?php echo "<b>Faktor Manfaat Pasti : </b></br>".$nilai_sekarang ?>;</li>
+						<li><?php echo "<b>Kategori Tanggungan </b></br>".$kategori;?></li>
+					 </ul>
+				 </div>
+				 <div class="skill2">
+					 <ul>					 
+						<li><?php echo '<b>Faktor Sekaligus : </b></br>'.$nilai_sekaligus;?></li>
+						<li>
+							<?php
+					  			$y = $today->diff($lahir)->y;
+								  //bulan
+								  $m = $today->diff($lahir)->m;
+								  //hari
+								  $d = $today->diff($lahir)->d;
+
+								echo "<b>Umur Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+							?>
+						</li>
+						<li>
+							<?php
+								  $y = $today->diff($bakti)->y;
+								  //bulan
+								  $m = $today->diff($bakti)->m;
+								  //hari
+								  $d = $today->diff($bakti)->d;
+
+					  
+					  echo "<b>Masa Bakti Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+				?>
+						</li>
+					 </ul>
+				 </div>
+				 <div class="clearfix"></div>
+			 </div>
+		 </div>
+
 		 <div class="company">
+		 <h3 class="clr2" style="text-align: center;">Hasil Perhitungan</h3>
 			 <div class="company_details">
 				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 2.5% x PHDP x Masa Kerja)</span></h4>
-				 <h6>Berikut jumlah dana manfaat bulanan yang anda dapatkan:</h6>
-				 <p>
+				 <p class="cmpny1">
 				 	<?php if($usia<46&&$_GET['status']==1) {echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; $manfaatsekaligus=0;
-				 	$manfaatbulan=0; } else echo 'Manfaat Bulanan : '.rupiah($manfaatbulan);
+				 	$manfaatbulan=0; } else echo rupiah($manfaatbulan);
 				 	
 				 
 				 	 ?>
@@ -232,10 +275,9 @@ if(!isset($_SESSION["npp"])){
 
 			 <div class="company_details">
 				 <h4>Manfaat Sekaligus <span>(Manfaat Bulanan x Faktor Sekaligus)</span></h4>
-				 <h6>Berikut jumlah dana manfaat sekaligus yang anda dapatkan:</h6>
 				 <p class="cmpny1">
 				 <?php if($usia<46&&$_GET['status']==1) {$manfaatsekaligus=0;
-				 	$manfaatbulan=0; echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; }else echo 'Manfaat Sekaligus: '.rupiah($manfaatsekaligus);
+				 	$manfaatbulan=0; echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; }else echo rupiah($manfaatsekaligus);
 				 	 ?>
 				 </p>
 			 </div>
@@ -248,7 +290,6 @@ if(!isset($_SESSION["npp"])){
 	?>
 			 <div class="company_details">
 				 <h4>Jaminan Hari Tua <span>(Manfaat Bulanan x Nilai Sekaligus)</span></h4>
-				 <h6>Berikut jumlah dana Jaminan Hari Tua yang anda dapatkan:</h6>
 				 <p class="cmpny1">((Menunggu Tabel JHT dari Bu Rere))</p>
 			 </div>
 	<?php
@@ -283,7 +324,6 @@ if(!isset($_SESSION["npp"])){
 	
 			 <div class="company_details">
 				 <h4>Tunjangan Purna Karya <span><a href="">Lihat Cara Penghitungan</a></span></h4>
-				 <h6>Berikut jumlah dana Purna Karya yang anda dapatkan:</h6>
 				 <p class="cmpny1"><?php echo rupiah($purnakarya);?></p>
 			 </div>
 	<?php
@@ -305,7 +345,6 @@ if(!isset($_SESSION["npp"])){
 
 			 <div class="company_details">
 				 <h4>Pesangon <span>(Faktor Pesangon x Gaji Pokok)</span></h4>
-				 <h6>Berikut jumlah dana Pesangon yang anda dapatkan:</h6>
 				 <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
 			 </div>
 	<?php
@@ -322,7 +361,6 @@ if(!isset($_SESSION["npp"])){
 	?>
 			 <div class="company_details">
 				 <h4>Penghargaan Masa Kerja <span>(Faktor UPMK x Gaji Pokok)</span></h4>
-				 <h6>Berikut jumlah dana Penghargaan Masa Kerja yang anda dapatkan:</h6>
 				 <p class="cmpny1"><?php echo rupiah($nilaiupmk);?></p>
 			 </div>
 	<?php
@@ -334,7 +372,6 @@ if(!isset($_SESSION["npp"])){
 	?>
 			 <div class="company_details">
 				 <h4>Uang Penggantian Hak <span>(15% * (uang pesangon + uang penghargaan masa kerja))</span></h4>
-				 <h6>Berikut jumlah dana Uang Penggantian Hak yang anda dapatkan:</h6>
 				 <p class="cmpny1"><?php echo rupiah($uanghak);?></p>
 			 </div>
 		 </div>
@@ -343,10 +380,18 @@ if(!isset($_SESSION["npp"])){
 
 		if(isset($total)){
 	?>
-	<center>
-		<h1 style="margin-top: 20px;">Total Tunjangan Sekaligus : <?php echo rupiah($total);?></h1>
-			<h2>plus <?php echo rupiah($manfaatbulan);?> tiap bulan</h2></center> <?php } ?>
-		 <footer style="text-align:center">
+	
+	<div class="row">
+  		<div class="col-sm-8"><h1 style="margin-top: 10px; padding-left: 0.9em; font-family: Varela Round; font-weight: 600;">
+  		Total Tunjangan Sekaligus :</h1></div>
+  		<div class="col-sm-4"><h1 style="margin-top: 10px; padding-left: 0.9em; font-family: Varela Round; font-weight: 600"><?php echo rupiah($total);?></h1></div>
+	</div>
+	<div class="row">
+  		<div class="col-sm-8"><h4 text-align="right" style="margin-top: 10px; padding-left: 2em; font-family: Varela Round; font-weight: 600;"> </h4></div>
+  		<div class="col-sm-4"><h4 style="margin-top: 10px; padding-left: 2em; font-family: Varela Round; font-weight: 600; text-align: right; padding-right: 2.5em"><?php echo "plus   ".rupiah($manfaatbulan);?> tiap bulan</h4></div>
+	</div>
+ <?php } ?>
+		 <footer style="text-align:center; padding-top: 2em">
 		 <div class="copywrite">
 			 <p>© 2017 Tim Internship Jasa Marga IPB | Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</a> </p>
 		 </div>
@@ -360,6 +405,7 @@ if(!isset($_SESSION["npp"])){
 $(document).ready(function() {
     $('#datePicker')
         .datepicker({
+        	autoclose: true,
             format: 'mm/dd/yyyy'
         })
         .on('changeDate', function(e) {

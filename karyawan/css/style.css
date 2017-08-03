@@ -129,18 +129,20 @@ address span{
 }
 .skills h3{
   color: #FFF;
-  padding: 5px 98px 5px 30px;
-  display: inline-block;
+  padding: 5px 30px 5px 30px;
+  display: inline;
+  text-align: center;
 }
 .company_details,.education_details {
-	padding:1.5em 0 0em 2em;
+	padding: 1.5em 0 0em 2em;
 }
 .company_details h4,.education_details h4{
 	color:#333;
 	font-weight:600;
-	font-size:1.5em;
+	font-size: 1.2em;
 	margin-bottom:6px;
 	font-family: 'Varela Round', sans-serif;
+	text-align:;
 }
 .company_details h4 span,.education_details h4 span{
 	font-size: 0.65em;
@@ -156,8 +158,10 @@ address span{
 .company_details p,.skill_info p,.education_details p{
 	color:#168a86;
 	font-weight:500;
-	line-height:1.7em;
-	font-size: 1.3em;
+	line-height: 0.5em;
+	font-size: 1.2em;
+	text-align: right;
+	/* padding-right: 2em; */
 }
 .cmpny1{
 	border-bottom:3px dashed #999;
@@ -165,13 +169,14 @@ address span{
   margin-right: 2em;
 }
 .skills{
-	margin:2em 0;
+	margin: 2em;
 }
 .skill_info {
 	padding:1.5em 0 0 2em;
 }
 .skill_list{
 	padding:1.5em 0 0 2em;
+	margin: auto;
 }
 .skill1,.skill2{
 	 float:left;
@@ -199,6 +204,7 @@ h3.clr1{
 }
 h3.clr2{
 	background:#e9a820;
+	/* text-align: -webkit-center; */
 }
 h3.clr3{
 	background:#3eb991;
