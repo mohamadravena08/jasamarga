@@ -193,7 +193,7 @@ if(!isset($_SESSION["npp"])){
 	
 	?>
 	<div class="company">
-			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Dana Pensiun Anda Jika Anda Pensiun Pada tanggal <?php echo $rencana; ?> dengan status <?php echo $status ?> </h3>
+			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Dana Pensiun Anda Jika Anda Pensiun Pada tanggal <br><?php echo $_GET['tanggalpensiun']; ?> dengan status <b><?php echo $status ?> </b></h3>
 			 </div>
 			
   	<center>
