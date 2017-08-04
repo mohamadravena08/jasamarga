@@ -13,7 +13,7 @@ session_start();
 	require('php-excel-reader/excel_reader2.php');
 	require('SpreadsheetReader.php');
 $sql="START TRANSACTION;";
-		$sql.="truncate table payroll;";
+		$sql.="truncate table payrolls;";
 	try
 	{
 		

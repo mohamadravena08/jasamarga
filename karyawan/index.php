@@ -46,6 +46,30 @@ if(!isset($_SESSION["npp"])){
    vertical-align: middle;
 }
 
+@media print {
+    .sidebar {
+      display: none;
+    }
+
+    .ps {
+      display: none;
+    }
+
+    .form-group {
+      display: none;
+    }
+
+    .hd {
+      display: none;
+    }
+
+    .btn {
+      display: none;
+    }
+
+
+}
+
 </style>
   
 </head>
@@ -60,7 +84,7 @@ if(!isset($_SESSION["npp"])){
 	 <div class="content">
 <!---->
 		
-		<h1 style="text-align:center">Silahkan Pilih Status Pensiun Anda</h1>
+		<h1 class="hd" style="text-align:center">Silahkan Pilih Status Pensiun Anda</h1>
 		<div>
 			<form id="eventForm" method="get" action="" style="text-align: center"> 
 			 <div class="form-group" >
@@ -105,6 +129,7 @@ if(!isset($_SESSION["npp"])){
 		}
 		else {
 		if($_GET['status']==1){
+			$status="Mengundurkan Diri";
 			$manfaat_pasti = TRUE;
 			$jht = TRUE;
 			$purna_karya =TRUE;
@@ -113,6 +138,7 @@ if(!isset($_SESSION["npp"])){
 			$uang_penggantian_hak = FALSE;
 
 		} else if($_GET['status']==2){
+			$status="Meningal Dunia";
 			$manfaat_pasti = TRUE;
 			$jht = TRUE;
 			$purna_karya =TRUE;
@@ -121,6 +147,7 @@ if(!isset($_SESSION["npp"])){
 			$uang_penggantian_hak = FALSE;
 
 		} else if($_GET['status']==3){
+			$status="Cacat";
 			$manfaat_pasti = TRUE;
 			$jht = TRUE;
 			$purna_karya =TRUE;
@@ -129,6 +156,7 @@ if(!isset($_SESSION["npp"])){
 			$uang_penggantian_hak = FALSE;
 
 		} else if($_GET['status']==4){
+			$status="Ke Anak Perusahaan (KAP)";
 			$manfaat_pasti = TRUE;
 			$jht = TRUE;
 			$purna_karya =TRUE;
@@ -165,7 +193,7 @@ if(!isset($_SESSION["npp"])){
 	
 	?>
 	<div class="company">
-			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Berikut Hasil Simulasi Dana Pensiun Anda</h3>
+			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Dana Pensiun Anda Jika Anda Pensiun Pada tanggal <?php echo $rencana; ?> dengan status <?php echo $status ?> </h3>
 			 </div>
 			
   	<center>
@@ -214,17 +242,19 @@ if(!isset($_SESSION["npp"])){
 
 </center>
 		<div class="skills">
-			 <h3 class="clr2" >Dasar Perhitungan</h3>
+			 <h3 class="clr2" >Data dan Dasar Perhitungan Pensiunan</h3>
 			 <div class="skill_list">
 				 <div class="skill1">
 					 <ul>					 
+						<li><?php echo "<b>Nama Pensiunan : </b><br/>".$_SESSION['nama']; ?></li>
+						<li><?php echo "<b>Nomor Pokok Pegawai </b></br>".$_SESSION['npp'];?></li>
 						<li><?php echo "<b>PhDP : </b><br/>".rupiah($penghasilan); ?></li>
 						<li><?php echo "<b>Faktor Manfaat Pasti : </b></br>".$nilai_sekarang ?></li>
-						<li><?php echo "<b>Kategori Tanggungan </b></br>".$kategori;?></li>
 					 </ul>
 				 </div>
 				 <div class="skill2">
 					 <ul>					 
+						<li><?php echo "<b>Kategori Tanggungan </b></br>".$kategori;?></li>
 						<li><?php echo '<b>Faktor Sekaligus : </b></br>'.$nilai_sekaligus;?></li>
 						<li>
 							<?php
@@ -369,22 +399,35 @@ if(!isset($_SESSION["npp"])){
 				 <h4>Uang Penggantian Hak <span>(15% * (uang pesangon + uang penghargaan masa kerja))</span></h4>
 				 <p class="cmpny1"><?php echo rupiah($uanghak);?></p>
 			 </div>
-		 </div>
+		 
 	<?php
 		$total+=$uanghak;}
 
 		if(isset($total)){
 	?>
-	
-	<div class="row">
-  		<div class="col-sm-8"><h1 style="margin-top: 10px; padding-left: 0.9em; font-family: Varela Round; font-weight: 600;">
-  		Total Tunjangan Sekaligus :</h1></div>
-  		<div class="col-sm-4"><h1 style="margin-top: 10px; padding-left: 0.9em; font-family: Varela Round; font-weight: 600"><?php echo rupiah($total);?></h1></div>
-	</div>
-	<div class="row">
-  		<div class="col-sm-8"><h4 text-align="right" style="margin-top: 10px; padding-left: 2em; font-family: Varela Round; font-weight: 600;"> </h4></div>
-  		<div class="col-sm-4"><h4 style="margin-top: 10px; padding-left: 2em; font-family: Varela Round; font-weight: 600; text-align: right; padding-right: 2.5em"><?php echo "plus   ".rupiah($manfaatbulan);?> tiap bulan</h4></div>
-	</div>
+
+	 <div class="company_details">
+				 <h4 style="font-size: 1.2em">Total Tunjangan Sekaligus <span>(plus tunjangan bulanan)</span></h4>
+				 <p class="cmpny1" style="
+    border-bottom: 0px dashed #999;"><h2 style="
+    text-align: right;
+    padding-right: 1.3em;
+"><?php echo rupiah($total);?></h2><h4 style="
+    text-align: right;
+    font-size: 15px;
+    padding-right: 2.7em;
+"><?php echo " plus   ".rupiah($manfaatbulan);?> tiap bulan </h4></p>
+			 </div>
+			 <button class="btn btn-primary btn-lg pull-right" style="
+    margin-right: 2em;
+    margin-top: 1em;
+    padding-left: 2em;
+    padding-right: 2em;" onClick="window.print();">Print</button> 
+</div>
+
+    
+
+
  <?php } ?>
 		 <footer style="text-align:center; padding-top: 2em">
 		 <div class="copywrite">

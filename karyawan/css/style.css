@@ -134,13 +134,13 @@ address span{
   text-align: center;
 }
 .company_details,.education_details {
-	padding: 1.5em 0 0em 2em;
+	padding: 0.5em 0 0em 2em;
 }
 .company_details h4,.education_details h4{
 	color:#333;
 	font-weight:600;
-	font-size: 1.2em;
-	margin-bottom:6px;
+	font-size: 1em;
+	margin-bottom: px;
 	font-family: 'Varela Round', sans-serif;
 	text-align:;
 }
@@ -159,14 +159,14 @@ address span{
 	color:#168a86;
 	font-weight:500;
 	line-height: 0.5em;
-	font-size: 1.2em;
+	font-size: 1.1em;
 	text-align: right;
 	/* padding-right: 2em; */
 }
 .cmpny1{
-	border-bottom:3px dashed #999;
-	padding-bottom:1em;
-  margin-right: 2em;
+	border-bottom: 0.5px dashed #999;
+	padding-bottom: 0.5em;
+	margin-right: 2em;
 }
 .skills{
 	margin: 2em;
