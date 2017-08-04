@@ -1,5 +1,5 @@
 # Sistem Simulasi Pensiun PT. Jasa Marga (Persero), Tbk.
-![SIMPENSIUN JASA MARGA](http://vectorlogo4u.com/wp-content/uploads/2015/12/Jasa-Marga-Vector-Logo.png)
+![SIMPENSIUN JASA MARGA](https://upload.wikimedia.org/wikipedia/id/thumb/9/93/Jasa_Marga_logo.svg/1280px-Jasa_Marga_logo.svg.png)
 
 > Tim internship IPB Jasa Marga 2017
 
