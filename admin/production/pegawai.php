@@ -6,7 +6,15 @@ if(!isset($_SESSION["admin"])){
   echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
   header("Location:../index.php");
 }
-?>
+ if(isset($_GET['status'])){
+        $stat=$_GET['status'];
+      }
+      include_once("../../library/koneksi.php");
+      include_once("../../library/fungsi_rupiah.php");
+      $updateBy=mysqli_fetch_array(mysqli_query($DBcon,"select * from pegawai_log order by timestamp desc"));
+      $updater=$updateBy['updater'];
+      $waktu=$updateBy['timestamp'];
+    ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -92,7 +100,8 @@ if(!isset($_SESSION["admin"])){
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Tabel Master Pegawai <small>tabel Master</small></h2>
+                    <h2>Data Pegawai <small>terakhir diperbarui pada : <?php echo $waktu;?> oleh <strong><?php echo $updater;?></strong></small></h2>
+
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -101,7 +110,23 @@ if(!isset($_SESSION["admin"])){
                       </li>
                     </ul>
                     <div class="clearfix"></div>
+                    <center><h5>Contoh file Pegawai : <a href="">Download</a></h5></center>
                   </div>
+
+<?php
+                            
+                            $no = 1;
+                            $res = mysqli_query($DBcon,"select * from pegawai");
+                            if(mysqli_num_rows($res)>0){?>
+                             <div class="x_content">
+                      <center><div>
+        <h3>Upload File Pegawai Terbaru</h3>
+            <form method="post" action="prosesPegawai.php" enctype="multipart/form-data">
+                      <input type="file" name="pegawai">
+                      <button class="right" value=1 type="submit" name="kirim">Upload</button>
+                      </form>
+    </div></center>
+
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
                       Tabel ini berisi data pegawai Jasa Marga.
@@ -124,11 +149,9 @@ if(!isset($_SESSION["admin"])){
 
 
                       <tbody>
-                        <?php
-                            
-                            $no = 1;
-                            $res = mysqli_query($DBcon,"select * from pegawai");
-                            /*print_r($has=mysqli_fetch_assoc($res));*/
+                        
+    <?php
+
                             while($row = $res->fetch_assoc()){
                               if($row['jenis_kelamin']=="M") $jenis_kelamin="Laki-laki"; else $jenis_kelamin="Perempuan";
                               $bakti=date_create($row['mulai_bakti']);
@@ -160,7 +183,15 @@ if(!isset($_SESSION["admin"])){
               </div>
 
         <!-- /page content -->
-
+<?php } else {echo "<center>Tabel Pegawai Kosong</center>"; ?>
+ <center><div>
+    <h3>Upload File Pegawai Terbaru</h3>
+            <form method="post" action="prosesPegawai.php" enctype="multipart/form-data">
+                      <input type="file" name="pegawai">
+                      <button class="right" value=1 type="submit" name="kirim">Upload</button>
+                      </form>
+                      <?php } ?>
+    </div></center>
         <!-- footer content -->
         <footer>
           <div class="pull-right">
