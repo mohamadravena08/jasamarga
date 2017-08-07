@@ -122,6 +122,7 @@ if(!isset($_SESSION["admin"])){
                           </li>
                         </ul>
                         <div class="clearfix"></div>
+                        <center><h5>Contoh file Payroll : <a target="blank" href="contohexcel/cotoh%20data%20payroll.xlsx">Download</a></h5></center>
                       </div>
                       <?php
                                 $no = 1;

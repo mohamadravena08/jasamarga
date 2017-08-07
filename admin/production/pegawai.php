@@ -110,7 +110,7 @@ if(!isset($_SESSION["admin"])){
                       </li>
                     </ul>
                     <div class="clearfix"></div>
-                    <center><h5>Contoh file Pegawai : <a href="">Download</a></h5></center>
+                    <center><h5>Contoh file Pegawai : <a target="_blank" href="contohexcel/contoh%20data%20pegawai.xlsx">Download</a></h5></center>
                   </div>
 
 <?php

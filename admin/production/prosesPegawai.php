@@ -2,16 +2,17 @@
 /**
  * XLS parsing uses php-excel-reader from http://code.google.com/p/php-excel-reader/
  */
-
+date_default_timezone_set("Asia/Jakarta");
 session_start();
   error_reporting(0);
   include '../../library/koneksi.php';
-  include '../../library/anti-inject.php';
+  $date = date("d-M-Y His");
 
-	$Filepath=basename($_FILES['pegawai']['name']);
-	 move_uploaded_file($Filepath, "./");
-
-	// Excel reader from http://code.google.com/p/php-excel-reader/
+  $temp = explode(".", $_FILES["pegawai"]["name"]);
+	$newfilename = "DataPegawai - update  ".$date.' by '.$_SESSION['admin'].'.'. end($temp);
+move_uploaded_file($_FILES["pegawai"]["tmp_name"], "excelpegawai/" . $newfilename);
+	$Filepath="excelpegawai/".$newfilename;
+	 	// Excel reader from http://code.google.com/p/php-excel-reader/
 	require('php-excel-reader/excel_reader2.php');
 	require('SpreadsheetReader.php');
 $sql="START TRANSACTION;";
@@ -59,6 +60,9 @@ $sql="START TRANSACTION;";
 	}
 	$updater=$_SESSION['admin'];
  	$sql.="COMMIT;";
+ 	// echo $sql."<br><br><br><br>";
+ 	// echo $Filepath;
+
 	mysqli_query($DBcon,"insert into pegawai_log values('','$updater',NOW());");
  	if ($DBcon->multi_query($sql) === TRUE) {
      $DBcon->close();

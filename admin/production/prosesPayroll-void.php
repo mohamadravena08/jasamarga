@@ -4,19 +4,19 @@
  */
 date_default_timezone_set("Asia/Jakarta");
 session_start();
-  error_reporting(0);
+  //error_reporting(0);
   include '../../library/koneksi.php';
-$date = date("d-M-Y His");
 
-  $temp = explode(".", $_FILES["payroll"]["name"]);
+  	$temp = explode(".", $_FILES["payroll"]["name"]);
 	$newfilename = "DataPayroll - update  ".$date.' by '.$_SESSION['admin'].'.'. end($temp);
 move_uploaded_file($_FILES["payroll"]["tmp_name"], "excelpayroll/" . $newfilename);
 	$Filepath="excelpayroll/".$newfilename;
+
 	// Excel reader from http://code.google.com/p/php-excel-reader/
 	require('php-excel-reader/excel_reader2.php');
 	require('SpreadsheetReader.php');
 $sql="START TRANSACTION;";
-		$sql.="truncate table payrolls;";
+		$sql.="truncate table payroll;";
 	try
 	{
 		
@@ -32,21 +32,19 @@ $sql="START TRANSACTION;";
 			foreach ($Spreadsheet as $Key => $Row)
 
 			{
-				$npp=$Row[2];
-				$unitkerja=$Row[3];
-				$jabatan=$Row[4];
-				$gajipokok=$Row[18];
-				$phdp=$Row[14];
-				$totalterima=$Row[203];
-				$totalpotongan=$Row[204];
-				$terimabersih=$Row[205];
-				if(strlen($npp)==4){
-					$npp="0".$npp;
-				}
-
-				if($Key>8&&$Row[8]=="TETAP"){
+				$period=$Row[0];
+				$Asgnum=$Row[1];
+				$pgroup=$Row[3];
+				$org=$Row[4];
+				$pos=$Row[5];
+				$bal=$Row[6];
+				$rep=$Row[7];
+				$effs=date_create($Row[8]);
+				$eff=date_format($effs,"Y-m-d G:i:s");
+				$val=(int)$Row[9];
+					if($Key>1&&$Row[7]=="Gaji Pokok."){
 						
-						$sql.="insert into payrolls values('$npp','$unitkerja','$jabatan','$gajipokok','$phdp','$totalterima','$totalpotongan','$terimabersih');";
+						$sql.="insert into payroll values('','$period','$Asgnum','$pgroup','$org','$pos','$bal','$rep','$eff','$val');";
 						
 					
 				}
@@ -57,20 +55,19 @@ $sql="START TRANSACTION;";
 	catch (Exception $E)
 	{
 		echo $E -> getMessage();
-		// header('location:payroll.php?status=FALSE');
+		header('location:payroll.php?status=FALSE');
 	}
 	$updater=$_SESSION['admin'];
 	
- 	$sql.="COMMIT;";
- 	
+	$sql.="COMMIT;";
 	mysqli_query($DBcon,"insert into payroll_log values('','$updater',NOW());");
- 	if ($DBcon->multi_query($sql) === TRUE) {
-     $DBcon->close();
+	if ($DBcon->multi_query($sql) === TRUE) {
+    $DBcon->close();
 
-     header('location:payroll.php?status=TRUE');
- } else {
-     echo "Error: " . $sql . "<br>" . $DBcon->error;
- }
+    header('location:payroll.php?status=TRUE');
+} else {
+    echo "Error: " . $sql . "<br>" . $DBcon->error;
+}
 
 
 ?>
