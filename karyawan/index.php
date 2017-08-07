@@ -91,10 +91,12 @@ if(!isset($_SESSION["npp"])){
 			  <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
 			  <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1">
 			    <option <?php if(!isset($_GET['status'])) echo "selected";?> disabled>Pilih Disini...</option>
-			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="1") echo "selected";?> value="5">Pensiun Normal</option>
+			     <option <?php if(isset($_GET['status'])&&$_GET['status']==="5") echo "selected";?> value="5">Pensiun Normal</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="1") echo "selected";?> value="1">Mengundurkan Diri</option>
-			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="2") echo "selected";?> value="2">Meninggal Dunia/Cacat</option>
+			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="2") echo "selected";?> value="2">Meninggal Dunia</option>
+			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="3") echo "selected";?> value="3">Cacat / Sakit Keras</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="4") echo "selected";?> value="4">Ke Anak Perusahaan (KAP)</option>
+
 			  </select>
 			</div>
 			<div class="form-group" >
@@ -164,6 +166,15 @@ if(!isset($_SESSION["npp"])){
 			$penghargaan_masa_kerja = TRUE;
 			$uang_penggantian_hak = TRUE;
 		}
+		else if($_GET['status']==5){
+			$status="Pensiun Normal";
+			$manfaat_pasti = TRUE;
+			$jht = TRUE;
+			$purna_karya =TRUE;
+			$pesangon = TRUE;
+			$penghargaan_masa_kerja = TRUE;
+			$uang_penggantian_hak = TRUE;
+		}
 
 	}}
 	?>
@@ -213,46 +224,27 @@ if(!isset($_SESSION["npp"])){
 			 </p>
 
 			 
-			 <p>
-				<?php
-					  $y = $today->diff($lahir)->y;
-					  //bulan
-					  $m = $today->diff($lahir)->m;
-					  //hari
-					  $d = $today->diff($lahir)->d;
-
-					  
-					  //echo "<b>Umur Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
-				?>
-			 </p>
-
-			
-			 <p>
-				<?php
-					  $y = $today->diff($bakti)->y;
-					  //bulan
-					  $m = $today->diff($bakti)->m;
-					  //hari
-					  $d = $today->diff($bakti)->d;
-
-					  
-					  //echo "<b>Masa Bakti Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
-				?>
-			 </p>
-
+			 
 </center>
 		<div class="skills">
 			 <h3 class="clr2" >Data dan Dasar Perhitungan Pensiunan</h3>
 			 <div class="skill_list">
 				 <div class="skill1">
 					 <ul>					 
-						<li><?php echo "<b>Nama Pensiunan : </b><br/>".$_SESSION['nama']; ?></li>
+						<li><?php echo "<b>Nama Pegawai : </b><br/>".$_SESSION['nama']; ?></li>
 						<li><?php echo "<b>Nomor Pokok Pegawai </b></br>".$_SESSION['npp'];?></li>
+						<li><?php echo "<b>Unit Kerja </b></br>".$_SESSION['npp'];?></li>
+						<li><?php echo "<b>Usia Mulai Bekerja : </b><br/>".rupiah($penghasilan); ?></li>
+						</ul>
+				 </div>
+				 <div class ="skill1">
+				 <li><?php echo "<b>Gaji Pokok: </b><br/>".$_SESSION['nama']; ?></li>
+						<li><?php echo "<b>Penghasilan </b></br>".$_SESSION['npp'];?></li>
 						<li><?php echo "<b>PhDP : </b><br/>".rupiah($penghasilan); ?></li>
 						<li><?php echo "<b>Faktor Manfaat Pasti : </b></br>".$nilai_sekarang ?></li>
-					 </ul>
+						
 				 </div>
-				 <div class="skill2">
+				 <div class="skill1">
 					 <ul>					 
 						<li><?php echo "<b>Kategori Tanggungan </b></br>".$kategori;?></li>
 						<li><?php echo '<b>Faktor Sekaligus : </b></br>'.$nilai_sekaligus;?></li>
@@ -264,7 +256,7 @@ if(!isset($_SESSION["npp"])){
 								  //hari
 								  $d = $today->diff($lahir)->d;
 
-								echo "<b>Umur Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
+								echo "<b>Usia Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 							?>
 						</li>
 						<li>
@@ -279,6 +271,7 @@ if(!isset($_SESSION["npp"])){
 					  echo "<b>Masa Bakti Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 				?>
 						</li>
+						
 					 </ul>
 				 </div>
 				 <div class="clearfix"></div>
@@ -299,7 +292,7 @@ if(!isset($_SESSION["npp"])){
 			 </div>
 
 			 <div class="company_details">
-				 <h4>Manfaat Sekaligus <span>(Manfaat Bulanan x Faktor Sekaligus)</span></h4>
+				 <h4>Manfaat Sekaligus<span>(Manfaat Bulanan x Faktor Sekaligus)</span></h4>
 				 <p class="cmpny1">
 				 <?php if($usia<46&&$_GET['status']==1) {$manfaatsekaligus=0;
 				 	$manfaatbulan=0; echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; }else echo rupiah($manfaatsekaligus);
@@ -315,7 +308,7 @@ if(!isset($_SESSION["npp"])){
 	?>
 			 <div class="company_details">
 				 <h4>Jaminan Hari Tua <span>(Manfaat JHT dari BPJS Ketenagakerjaan)</span></h4>
-				 <p class="cmpny1">((Menunggu Tabel JHT dari Bu Rere))</p>
+				 <p class="cmpny1">Data dari Tabel JHT</p>
 			 </div>
 	<?php
 		}
@@ -342,8 +335,8 @@ if(!isset($_SESSION["npp"])){
 					$nilai1=$faktor['nilai_pk'];
 					$nilai2=$faktor2['nilai_pk'];
 					if($bulanbakti>0)
-						$faktorkali=($bulanlahir/12)*($nilai2-$nilai1); else $faktorkali=$nilai1;
-					$purnakarya=$penghasilan*$faktorkali;
+						$faktorkalitambah=($bulanlahir/12)*($nilai2-$nilai1); else $faktorkalitambah=0;
+					$purnakarya=($penghasilan*$nilai1)+($penghasilan*$faktorkalitambah);
 				}
 	?>
 	
@@ -431,7 +424,7 @@ if(!isset($_SESSION["npp"])){
  <?php } ?>
 		 <footer style="text-align:center; padding-top: 2em">
 		 <div class="copywrite">
-			 <p>© 2017 Tim Internship Jasa Marga IPB | Kantor Pusat Pt Jasa Marga (PERSERO) Tbk.</a> </p>
+			 <p>© 2017 Tim Internship Jasa Marga IPB | Kantor Pusat PT Jasa Marga (PERSERO) Tbk.</a> </p>
 		 </div>
 		</footer>
 	 </div>
