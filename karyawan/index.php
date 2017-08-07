@@ -91,9 +91,9 @@ if(!isset($_SESSION["npp"])){
 			  <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
 			  <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1">
 			    <option <?php if(!isset($_GET['status'])) echo "selected";?> disabled>Pilih Disini...</option>
+			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="1") echo "selected";?> value="5">Pensiun Normal</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="1") echo "selected";?> value="1">Mengundurkan Diri</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="2") echo "selected";?> value="2">Meninggal Dunia/Cacat</option>
-			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="3") echo "selected";?> value="3">Cacat</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="4") echo "selected";?> value="4">Ke Anak Perusahaan (KAP)</option>
 			  </select>
 			</div>
@@ -125,7 +125,7 @@ if(!isset($_SESSION["npp"])){
 		$manfaatbulan=0;
 		$manfaatsekaligus=0;
 		if($usia>56||($usia==56&&$bulanusia>0&&$hariusia>0)){
-			echo "<br><center><h4>Usia Anda pada tanggal tersebut telah melebihi 56 tahun. Silakan pilih tanggal lain</h4></center>";
+			echo "<br><center><h4>Usia Anda pada tanggal tersebut telah melebihi 56 tahun, silakan pilih tanggal lain.</h4></center>";
 		}
 		else {
 		if($_GET['status']==1){
@@ -138,7 +138,7 @@ if(!isset($_SESSION["npp"])){
 			$uang_penggantian_hak = FALSE;
 
 		} else if($_GET['status']==2){
-			$status="Meningal Dunia";
+			$status="Meningal Dunia/Cacat";
 			$manfaat_pasti = TRUE;
 			$jht = TRUE;
 			$purna_karya =TRUE;
@@ -286,7 +286,7 @@ if(!isset($_SESSION["npp"])){
 		 </div>
 
 		 <div class="company">
-		 <h3 class="clr2" style="text-align: center;">Hasil Perhitungan</h3>
+		 <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
 			 <div class="company_details">
 				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 2.5% x PHDP x Masa Kerja)</span></h4>
 				 <p class="cmpny1">
