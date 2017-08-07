@@ -92,7 +92,7 @@ if(!isset($_SESSION["npp"])){
 			  <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1">
 			    <option <?php if(!isset($_GET['status'])) echo "selected";?> disabled>Pilih Disini...</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="1") echo "selected";?> value="1">Mengundurkan Diri</option>
-			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="2") echo "selected";?> value="2">Meninggal Dunia</option>
+			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="2") echo "selected";?> value="2">Meninggal Dunia/Cacat</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="3") echo "selected";?> value="3">Cacat</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="4") echo "selected";?> value="4">Ke Anak Perusahaan (KAP)</option>
 			  </select>
