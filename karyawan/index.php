@@ -200,12 +200,12 @@ $phdp=$gaji['phdp'];
 $penghasilan=$gaji['gaji_pokok']+$gaji['tunjangan_struktural']+$gaji['tunjangan_fungsional']+$gaji['tunjangan_operasional'];
 $nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
 $nilai_sekaligus=$nsekaligus[$kategori];
-$total=0;
+
 
 
 	//hitung manfaat pasti
 	if(isset($manfaat_pasti)&&$manfaat_pasti) {
-	
+	$total=0;
 	$const=0.025;
 	$manfaatbulan=$nilai_sekarang*$const*$phdp*$masabakti;
 	$nilai_sekaligus=$nsekaligus[$kategori];
@@ -218,7 +218,8 @@ $total=0;
 	
 	?>
 	<div class="company">
-			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Dana Pensiun Anda Jika Anda Pensiun Pada tanggal <br><?php echo $_GET['tanggalpensiun']; ?> dengan status <b><?php echo $status ?> </b></h3>
+			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Dana Pensiun Anda Jika Anda Pensiun pada tanggal <br><?php $pensiun=date_create($_GET['tanggalpensiun']);
+	$rencana=date_format($pensiun,"d-M-Y");echo $rencana; ?> dengan status <b><?php echo $status ?> </b></h3>
 			 </div>
 			
   	
@@ -279,7 +280,7 @@ $total=0;
 		 <div class="company">
 		 <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
 			 <div class="company_details">
-				 <h4>Manfaat Bulanan <span>(Nilai Sekarang x 2.5% x PHDP x Masa Kerja)</span></h4>
+				 <h4>Manfaat Bulanan <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php echo $nilai_sekarang."x2.5%x".rupiah($phdp)."x".$masabakti;?></span></h4>
 				 <p class="cmpny1">
 				 	<?php if($usia<46&&$_GET['status']==1) {echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; $manfaatsekaligus=0;
 				 	$manfaatbulan=0; } else echo rupiah($manfaatbulan);
@@ -317,8 +318,9 @@ $total=0;
 		$usiaup=$usia+1;
 		$bulanbakti=$today->diff($bakti)->m;
 		$bulanlahir=$today->diff($lahir)->m;
-				if($usia<31){
-					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir=$masabakti"));
+				if($usia<46){
+					if($usiamasuk<=30){
+						$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir=$masabakti"));
 					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir=$baktiup"));
 				
 					$nilai1=$faktor['faktor_tunai'];
@@ -326,7 +328,22 @@ $total=0;
 					if($bulanbakti>0)
 						$faktorkalitambah=($bulanbakti/12)*($nilai2-$nilai1); else $faktorkali=$nilai1;
 					$purnakarya=($gajipokok*$nilai1)+($gajipokok*$faktorkalitambah);
+					}
+					else {
+						$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_dini where usia=$usia"));
+					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_dini where usia=$usiaup"));
+				
+					$nilai1=$faktor['faktor_tunai'];
+					$nilai2=$faktor2['faktor_tunai'];
+					if($bulanbakti>0)
+						$faktorkalitambah=($bulanbakti/12)*($nilai2-$nilai1); else $faktorkali=$nilai1;
+					$purnakarya=($gajipokok*$nilai1)+($gajipokok*$faktorkalitambah);
+
+					}
+
+
 				}
+				
 				else{
 					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya where usia=$usia"));
 					$faktor2=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya where usia=$usiaup"));
@@ -339,7 +356,7 @@ $total=0;
 	?>
 	
 			 <div class="company_details">
-				 <h4>Tunjangan Purna Karya <span><a href="">Lihat Cara Penghitungan</a></span></h4>
+				 <h4>Tunjangan Purna Karya <span>Faktor Kali x Gaji Pokok | <?php echo rupiah($gajipokok)."x".$nilai1." + ".rupiah($gajipokok)."x".$faktorkalitambah;?></span></h4>
 				 <p class="cmpny1"><?php echo rupiah($purnakarya);?></p>
 			 </div>
 	<?php
@@ -351,16 +368,17 @@ $total=0;
 			$fetchfaktorpesangon=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pesangon where tahun_berakhir=$masabakti"));
 			$faktorpesangon=$fetchfaktorpesangon['faktor_tunai'];}
 			else {$faktorpesangon=9;}
+			$konstanta=1;
 			$nilaipesangon=$faktorpesangon*$penghasilan;
 			if($_GET['status']==3||$_GET['status']==4){
-				$nilaipesangon=$nilaipesangon*2;
-				
+				$konstanta=2;
+				$nilaipesangon=$nilaipesangon*2;	
 			}
 
 	?>
 
 			 <div class="company_details">
-				 <h4>Pesangon <span>(Faktor Pesangon x Gaji Pokok)</span></h4>
+				 <h4>Pesangon <span>Faktor Pesangon x Penghasilan x Konstanta | <?php echo $faktorpesangon."x".rupiah($penghasilan)."x".$konstanta;?> </span></h4>
 				 <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
 			 </div>
 	<?php
@@ -376,7 +394,7 @@ $total=0;
 			$nilaiupmk=$faktorupmk*$penghasilan;
 	?>
 			 <div class="company_details">
-				 <h4>Penghargaan Masa Kerja <span>(Faktor UPMK x Gaji Pokok)</span></h4>
+				 <h4>Penghargaan Masa Kerja <span>Faktor UPMK x Gaji Pokok | <?php echo $faktorupmk."x".rupiah($penghasilan);?></span></h4>
 				 <p class="cmpny1"><?php echo rupiah($nilaiupmk);?></p>
 			 </div>
 	<?php
