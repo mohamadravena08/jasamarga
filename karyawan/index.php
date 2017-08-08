@@ -207,9 +207,9 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 	if(isset($manfaat_pasti)&&$manfaat_pasti) {
 	$total=0;
 	$const=0.025;
-	$manfaatbulan=$nilai_sekarang*$const*$phdp*$masabakti;
+	$manfaatbulantemp=$nilai_sekarang*$const*$phdp*$masabakti;
 	$nilai_sekaligus=$nsekaligus[$kategori];
-	$manfaatsekaligus=$manfaatbulan*$nilai_sekaligus;
+	$manfaatsekaligus=$manfaatbulantemp*$nilai_sekaligus;
 	if($manfaatbulan>1500000){
 		$manfaatbulan=0.8*$manfaatbulan;
 		$manfaatsekaligus=0.2*$manfaatsekaligus;
@@ -280,7 +280,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 		 <div class="company">
 		 <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
 			 <div class="company_details">
-				 <h4>Manfaat Bulanan <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php echo $nilai_sekarang."x2.5%x".rupiah($phdp)."x".$masabakti;?></span></h4>
+				 <h4>Manfaat Bulanan <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php echo $nilai_sekarang." x 2.5% x ".rupiah($phdp)." x ".$masabakti;?></span></h4>
 				 <p class="cmpny1">
 				 	<?php if($usia<46&&$_GET['status']==1) {echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; $manfaatsekaligus=0;
 				 	$manfaatbulan=0; } else echo rupiah($manfaatbulan);
@@ -291,7 +291,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 			 </div>
 
 			 <div class="company_details">
-				 <h4>Manfaat Sekaligus<span>(Manfaat Bulanan x Faktor Sekaligus)</span></h4>
+				 <h4>Manfaat Sekaligus<span>Manfaat Bulanan x Faktor Sekaligus | <?php echo rupiah($manfaatbulantemp)." x ".$nilai_sekaligus;?></span></h4>
 				 <p class="cmpny1">
 				 <?php if($usia<46&&$_GET['status']==1) {$manfaatsekaligus=0;
 				 	$manfaatbulan=0; echo "Anda tidak berhak Mendapaatkan Manfaat Pasti jika mengundurkan diri pada usia kurang dari 46 tahun"; }else echo rupiah($manfaatsekaligus);
@@ -356,7 +356,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 	?>
 	
 			 <div class="company_details">
-				 <h4>Tunjangan Purna Karya <span>Faktor Kali x Gaji Pokok | <?php echo rupiah($gajipokok)."x".$nilai1." + ".rupiah($gajipokok)."x".$faktorkalitambah;?></span></h4>
+				 <h4>Tunjangan Purna Karya <span>Faktor Kali x Gaji Pokok | <?php echo rupiah($gajipokok)." x ".$nilai1." + ".rupiah($gajipokok)." x ".$faktorkalitambah;?></span></h4>
 				 <p class="cmpny1"><?php echo rupiah($purnakarya);?></p>
 			 </div>
 	<?php
@@ -378,7 +378,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 	?>
 
 			 <div class="company_details">
-				 <h4>Pesangon <span>Faktor Pesangon x Penghasilan x Konstanta | <?php echo $faktorpesangon."x".rupiah($penghasilan)."x".$konstanta;?> </span></h4>
+				 <h4>Pesangon <span>Faktor Pesangon x Penghasilan x Konstanta | <?php echo $faktorpesangon." x ".rupiah($penghasilan)." x ".$konstanta;?> </span></h4>
 				 <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
 			 </div>
 	<?php
@@ -394,7 +394,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 			$nilaiupmk=$faktorupmk*$penghasilan;
 	?>
 			 <div class="company_details">
-				 <h4>Penghargaan Masa Kerja <span>Faktor UPMK x Gaji Pokok | <?php echo $faktorupmk."x".rupiah($penghasilan);?></span></h4>
+				 <h4>Penghargaan Masa Kerja <span>Faktor UPMK x Gaji Pokok | <?php echo $faktorupmk." x ".rupiah($penghasilan);?></span></h4>
 				 <p class="cmpny1"><?php echo rupiah($nilaiupmk);?></p>
 			 </div>
 	<?php
@@ -405,7 +405,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 			$uanghak=0.15*($nilaipesangon+$nilaiupmk);	
 	?>
 			 <div class="company_details">
-				 <h4>Uang Penggantian Hak <span>(15% * (uang pesangon + uang penghargaan masa kerja))</span></h4>
+				 <h4>Uang Penggantian Hak <span>(15% * (uang pesangon + uang penghargaan masa kerja)) | <?php echo "15% x (".rupiah($nilaipesangon)." + ".rupiah($nilaiupmk).")";?></span></h4>
 				 <p class="cmpny1"><?php echo rupiah($uanghak);?></p>
 			 </div>
 		 
