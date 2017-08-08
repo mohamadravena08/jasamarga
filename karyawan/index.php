@@ -126,6 +126,8 @@ if(!isset($_SESSION["npp"])){
 		$masabakti=$today->diff($bakti)->y;
 		$manfaatbulan=0;
 		$manfaatsekaligus=0;
+		$usiamasuk=$bakti->diff($lahir)->y;
+		$bulanmasuk=$bakti->diff($lahir)->m;
 		if($usia>56||($usia==56&&$bulanusia>0&&$hariusia>0)){
 			echo "<br><center><h4>Usia Anda pada tanggal tersebut telah melebihi 56 tahun, silakan pilih tanggal lain.</h4></center>";
 		}
@@ -180,20 +182,32 @@ if(!isset($_SESSION["npp"])){
 	?>
 
 	<!---//pop-up-box---->
-	
+<?php	
+//kategori tanggungan
+$kategori = $pegawai['kategori_tanggungan'];
+if($kategori=="M1") $keterangan="Laki-laki menikah dan memiliki beberapa anak"; else if($kategori=="M2") $keterangan="Laki-laki menikah belum memiliki anak"; else if($kategori=="M3") $keterangan="Lajang/Duda dan memiliki beberapa anak"; else if($kategori=="M4")
+$keterangan="Laki-laki Lajang"; else if($kategori=="F1") $keterangan="Perempuan menikah dan memiliki beberapa anak"; else if($kategori=="F2") $keterangan="Perempuan menikah belum memiliki anak"; else if($kategori=="F3") $keterangan="Lajang/Janda dan memiliki beberapa anak"; else $keterangan="Perempuan Lajang";
 
-	<?php if(isset($manfaat_pasti)&&$manfaat_pasti) {
-	$total=0;
-	
-	$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
-	$nilai_sekarang=$ns['nilai_sekarang'];
+//tanggal lahir dan bakti				
+$lahir=new DateTime($pegawai['tanggal_lahir']);
+$usia = $today->diff($lahir)->y;
+$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
+$nilai_sekarang=$ns['nilai_sekarang']; 
+$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
+$unitkerja=$gaji['unit_kerja'];
+$gajipokok=$gaji['gaji_pokok'];
+$phdp=$gaji['phdp'];
+$penghasilan=$gaji['gaji_pokok']+$gaji['tunjangan_struktural']+$gaji['tunjangan_fungsional']+$gaji['tunjangan_operasional'];
+$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
+$nilai_sekaligus=$nsekaligus[$kategori];
+$total=0;
 
-	$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
-	$penghasilan=$gaji['phdp'];
+
+	//hitung manfaat pasti
+	if(isset($manfaat_pasti)&&$manfaat_pasti) {
+	
 	$const=0.025;
-	$manfaatbulan=$nilai_sekarang*$const*$penghasilan*$masabakti;
-	$kategori=$pegawai['kategori_tanggungan'];
-	$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
+	$manfaatbulan=$nilai_sekarang*$const*$phdp*$masabakti;
 	$nilai_sekaligus=$nsekaligus[$kategori];
 	$manfaatsekaligus=$manfaatbulan*$nilai_sekaligus;
 	if($manfaatbulan>1500000){
@@ -207,46 +221,30 @@ if(!isset($_SESSION["npp"])){
 			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Dana Pensiun Anda Jika Anda Pensiun Pada tanggal <br><?php echo $_GET['tanggalpensiun']; ?> dengan status <b><?php echo $status ?> </b></h3>
 			 </div>
 			
-  	<center>
-			 <p>
-				<?php
-					
-					$kategori = $pegawai['kategori_tanggungan'];
-					$lahir=new DateTime($pegawai['tanggal_lahir']);
-					$usia = $today->diff($lahir)->y;
-					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
-					$nilai_sekarang=$ns['nilai_sekarang']; 
-					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
-					$penghasilan=$gaji['phdp'];
-					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
-					$nilai_sekaligus=$nsekaligus[$kategori];
-				?>
-			 </p>
+  	
 
-			 
-			 
-</center>
-		<div class="skills">
+
+  	<div class="skills">
 			 <h3 class="clr2" >Data dan Dasar Perhitungan Pensiunan</h3>
 			 <div class="skill_list">
 				 <div class="skill1">
 					 <ul>					 
 						<li><?php echo "<b>Nama Pegawai : </b><br/>".$_SESSION['nama']; ?></li>
 						<li><?php echo "<b>Nomor Pokok Pegawai </b></br>".$_SESSION['npp'];?></li>
-						<li><?php echo "<b>Unit Kerja </b></br>".$_SESSION['npp'];?></li>
-						<li><?php echo "<b>Usia Mulai Bekerja : </b><br/>".rupiah($penghasilan); ?></li>
+						<li><?php echo "<b>Unit Kerja </b></br>".$unitkerja;?></li>
+						<li><?php echo "<b>Usia Mulai Bekerja : </b><br/>".$usiamasuk." tahun"; ?></li>
 						</ul>
 				 </div>
 				 <div class ="skill1">
-				 <li><?php echo "<b>Gaji Pokok: </b><br/>".$_SESSION['nama']; ?></li>
-						<li><?php echo "<b>Penghasilan </b></br>".$_SESSION['npp'];?></li>
-						<li><?php echo "<b>PhDP : </b><br/>".rupiah($penghasilan); ?></li>
+				 <li><?php echo "<b>Gaji Pokok: </b><br/>".rupiah($gajipokok); ?></li>
+						<li><?php echo "<b>Penghasilan </b></br>".rupiah($penghasilan);?></li>
+						<li><?php echo "<b>PhDP : </b><br/>".rupiah($phdp); ?></li>
 						<li><?php echo "<b>Faktor Manfaat Pasti : </b></br>".$nilai_sekarang ?></li>
 						
 				 </div>
 				 <div class="skill1">
 					 <ul>					 
-						<li><?php echo "<b>Kategori Tanggungan </b></br>".$kategori;?></li>
+						<li><?php echo "<b>Kategori Tanggungan </b></br>".$kategori." (".$keterangan.")";?></li>
 						<li><?php echo '<b>Faktor Sekaligus : </b></br>'.$nilai_sekaligus;?></li>
 						<li>
 							<?php
@@ -277,7 +275,7 @@ if(!isset($_SESSION["npp"])){
 				 <div class="clearfix"></div>
 			 </div>
 		 </div>
-
+ 
 		 <div class="company">
 		 <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
 			 <div class="company_details">
@@ -326,8 +324,8 @@ if(!isset($_SESSION["npp"])){
 					$nilai1=$faktor['faktor_tunai'];
 					$nilai2=$faktor2['faktor_tunai'];
 					if($bulanbakti>0)
-						$faktorkali=($bulanbakti/12)*($nilai2-$nilai1); else $faktorkali=$nilai1;
-					$purnakarya=$penghasilan*$faktorkali;
+						$faktorkalitambah=($bulanbakti/12)*($nilai2-$nilai1); else $faktorkali=$nilai1;
+					$purnakarya=($gajipokok*$nilai1)+($gajipokok*$faktorkalitambah);
 				}
 				else{
 					$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya where usia=$usia"));
@@ -336,7 +334,7 @@ if(!isset($_SESSION["npp"])){
 					$nilai2=$faktor2['nilai_pk'];
 					if($bulanbakti>0)
 						$faktorkalitambah=($bulanlahir/12)*($nilai2-$nilai1); else $faktorkalitambah=0;
-					$purnakarya=($penghasilan*$nilai1)+($penghasilan*$faktorkalitambah);
+					$purnakarya=($gajipokok*$nilai1)+($gajipokok*$faktorkalitambah);
 				}
 	?>
 	

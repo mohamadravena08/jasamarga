@@ -148,6 +148,9 @@ if(!isset($_SESSION["admin"])){
                               <th>Jabatan</th>
                               <th>Gaji Pokok</th>
                               <th>PhDP</th>
+                              <th>Tunjangan Struktural</th>
+                              <th>Tunjangan Fungsional</th>
+                              <th>Tunjangan Operasional</th>
                               <th>Total Penerimaan</th>
                               <th>Total Potongan</th>
                               <th>Penerimaan Bersih</th>
@@ -171,7 +174,9 @@ if(!isset($_SESSION["admin"])){
                                     <td>'.$row['jabatan'].'</td>
                                     <td>'.rupiah($row['gaji_pokok']).'</td>
                                      <td>'.rupiah($row['phdp']).'</td>
-                                    
+                                    <td>'.rupiah($row['tunjangan_struktural']).'</td>
+                                    <td>'.rupiah($row['tunjangan_fungsional']).'</td>
+                                    <td>'.rupiah($row['tunjangan_operasional']).'</td>
                                     <td>'.rupiah($row['total_penerimaan']).'</td>
                                     <td>'.rupiah($row['total_potongan']).'</td>
                                     <td>'.rupiah($row['penerimaan_bersih']).'</td>

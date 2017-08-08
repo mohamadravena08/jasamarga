@@ -43,13 +43,17 @@ $sql="START TRANSACTION;";
 				if(strlen($npp)==4){
 					$npp="0".$npp;
 				}
-
+				$tunjangan_struktural=$Row[39];
+				$tunjangan_fungsional=$Row[41];
+				$tunjangan_operasional=$Row[43];
+				// 	npp	unit_kerja	jabatan	gaji_pokok	phdp	tunjangan_struktural	tunjangan_fungsional	tunjangan_operasional	total_penerimaan	total_potongan	penerimaan_bersih
 				if($Key>8&&$Row[8]=="TETAP"){
 						
-						$sql.="insert into payrolls values('$npp','$unitkerja','$jabatan','$gajipokok','$phdp','$totalterima','$totalpotongan','$terimabersih');";
+						$sql.="insert into payrolls values('$npp','$unitkerja','$jabatan','$gajipokok','$phdp','$tunjangan_struktural','$tunjangan_fungsional','$tunjangan_operasional','$totalterima','$totalpotongan','$terimabersih');";
 						
 					
 				}
+				// print_r($Row);
 				}
 			}
 		
@@ -62,7 +66,6 @@ $sql="START TRANSACTION;";
 	$updater=$_SESSION['admin'];
 	
  	$sql.="COMMIT;";
- 	
 	mysqli_query($DBcon,"insert into payroll_log values('','$updater',NOW());");
  	if ($DBcon->multi_query($sql) === TRUE) {
      $DBcon->close();
