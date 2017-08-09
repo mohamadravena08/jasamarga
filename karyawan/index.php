@@ -15,17 +15,35 @@ if(!isset($_SESSION["npp"])){
 <title>Simulasi Pensiun Karyawan Jasa Marga</title>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary JavaScript plugins) -->
-<script src="js/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script> -->
 
+<script
+  src="http://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+  crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+$(function() {               
+    $("#datepicker" ).datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+});
+</script>
 <!-- Custom Theme files -->
 <link href="css/dashboard.css" rel="stylesheet">
 <link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href="https://code.jquery.com/ui/jquery-ui-git.css" rel='stylesheet' type='text/css' />
 
 <!-- Include Bootstrap Datepicker -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
-
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+ -->
 
 <!-- Custom Theme files -->
 <!--//theme-style-->
@@ -102,8 +120,9 @@ if(!isset($_SESSION["npp"])){
 			<div class="form-group" >
 			  <label for="sel1" >pada tanggal</label>
 			  <div class="input-group input-append date" id="datePicker" style="width: 50%; margin:auto">
-		                <input type="text" class="form-control" name="tanggalpensiun" value=<?php if(isset($_GET['status'])) {$pensiun=date_create($_GET['tanggalpensiun']);
-	$rencana=date_format($pensiun,"d-M-Y");echo $rencana; }?>>
+		                <input type="text" id="datepicker" class="form-control" name="tanggalpensiun" value=<?php if(isset($_GET['status'])) {$pensiun=date_create($_GET['tanggalpensiun']); $rencana=date_format($pensiun,"d-M-Y");echo $rencana; }?>>
+		                <!-- <input type="text" class="form-control" name="tanggalpensiun" value=<?php if(isset($_GET['status'])) {$pensiun=date_create($_GET['tanggalpensiun']);
+	$rencana=date_format($pensiun,"d-M-Y");echo $rencana; }?>> -->
 		                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 		            </div>
 			</div>
@@ -237,11 +256,12 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 						</ul>
 				 </div>
 				 <div class ="skill1">
-				 <li><?php echo "<b>Gaji Pokok: </b><br/>".rupiah($gajipokok); ?></li>
+				 	<ul>
+				 		<li><?php echo "<b>Gaji Pokok: </b><br/>".rupiah($gajipokok); ?></li>
 						<li><?php echo "<b>Penghasilan </b></br>".rupiah($penghasilan);?></li>
 						<li><?php echo "<b>PhDP : </b><br/>".rupiah($phdp); ?></li>
 						<li><?php echo "<b>Faktor Manfaat Pasti : </b></br>".$nilai_sekarang ?></li>
-						
+					</ul>
 				 </div>
 				 <div class="skill1">
 					 <ul>					 
@@ -448,12 +468,15 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 <!---->
 </body>
 
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 <script>
 $(document).ready(function() {
     $('#datePicker')
         .datepicker({
         	autoclose: true,
-            format: 'mm/dd/yyyy'
+            format: 'mm/dd/yyyy',
+            changeMonth:true,
+           	changeYear:true
         })
         .on('changeDate', function(e) {
             // Revalidate the date field
@@ -483,6 +506,6 @@ $(document).ready(function() {
         }
     });
 });
-</script>
+</script> -->
 
 </html>
