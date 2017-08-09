@@ -12,6 +12,7 @@
                       <li><a href="penghargaan_masa_kerja.php">Penghargaan Masa Kerja</a></li>
                       <li><a href="pesangon.php">Pesangon</a></li>
                       <li><a href="purna_karya.php">Purna Karya</a></li>
+                      <li><a href="purna_karya_dini.php">Purna Karya Dini</a></li>
                       <li><a href="purna_karya_kepesertaan.php">Purna Karya Kepesertaan</a></li>
                     </ul>
                   </li>
