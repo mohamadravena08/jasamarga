@@ -102,12 +102,19 @@ $(function() {
 	 <div class="content">
 <!---->
 		
+		<?php 
+		$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
+		$tanggalpensiun_normal = date_create($pegawai['tanggal_lahir']);
+		date_add($tanggalpensiun_normal, date_interval_create_from_date_string('56 years'));
+		$tanggalpensiun_normal=date_format($tanggalpensiun_normal, 'd-M-Y');
+
+		?>
 		<h1 class="hd" style="text-align:center">Silahkan Pilih Status Pensiun Anda</h1>
 		<div>
 			<form id="eventForm" method="get" action="" style="text-align: center"> 
 			 <div class="form-group" >
 			  <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
-			  <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1">
+			  <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1" required>
 			    <option <?php if(!isset($_GET['status'])) echo "selected";?> disabled>Pilih Disini...</option>
 			     <option <?php if(isset($_GET['status'])&&$_GET['status']==="5") echo "selected";?> value="5">Pensiun Normal</option>
 			    <option <?php if(isset($_GET['status'])&&$_GET['status']==="1") echo "selected";?> value="1">Mengundurkan Diri</option>
@@ -120,9 +127,9 @@ $(function() {
 			<div class="form-group" >
 			  <label for="sel1" >pada tanggal</label>
 			  <div class="input-group input-append date" id="datePicker" style="width: 50%; margin:auto">
-		                <input type="text" id="datepicker" class="form-control" name="tanggalpensiun" value=<?php if(isset($_GET['status'])) {$pensiun=date_create($_GET['tanggalpensiun']); $rencana=date_format($pensiun,"d-M-Y");echo $rencana; }?>>
-		                <!-- <input type="text" class="form-control" name="tanggalpensiun" value=<?php if(isset($_GET['status'])) {$pensiun=date_create($_GET['tanggalpensiun']);
-	$rencana=date_format($pensiun,"d-M-Y");echo $rencana; }?>> -->
+		                <input type="text" id="datepicker" class="form-control" name="tanggalpensiun" value=<?php if(!isset($_GET['status'])) echo $tanggalpensiun_normal; else { $pensiun=date_create($_GET['tanggalpensiun']);
+							$rencana=date_format($pensiun,"d-M-Y");echo $rencana;} ?>>
+		          
 		                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 		            </div>
 			</div>
@@ -133,20 +140,33 @@ $(function() {
 		</div> 
 	<?php 
 	if(isset($_GET['status'])) {
+		
 		$pensiun=date_create($_GET['tanggalpensiun']);
 		$rencana=date_format($pensiun,"Y-m-d");
-		$today = new DateTime($rencana);
-		$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
+		$haripensiun = new DateTime($rencana);
+		
 		$lahir=new DateTime($pegawai['tanggal_lahir']);
-		$usia = $today->diff($lahir)->y;
-		$bulanusia= $today->diff($lahir)->m;
-		$hariusia = $today->diff($lahir)->d;
+		$usia = $haripensiun->diff($lahir)->y;
+		$bulanusia= $haripensiun->diff($lahir)->m;
+		$hariusia = $haripensiun->diff($lahir)->d;
 		$bakti=new DateTime($pegawai['mulai_bakti']);
-		$masabakti=$today->diff($bakti)->y;
+		$masabakti=$haripensiun->diff($bakti)->y;
 		$manfaatbulan=0;
 		$manfaatsekaligus=0;
 		$usiamasuk=$bakti->diff($lahir)->y;
 		$bulanmasuk=$bakti->diff($lahir)->m;
+
+		$today=new DateTime('today');
+		$usiakini = $today->diff($lahir)->y;
+					  //bulan
+		$bulankini = $today->diff($lahir)->m;
+					  //hari
+		$harikini = $today->diff($lahir)->d;
+
+		
+	
+
+
 		if($usia>56||($usia==56&&$bulanusia>0&&$hariusia>0)){
 			echo "<br><center><h4>Usia Anda pada tanggal tersebut telah melebihi 56 tahun, silakan pilih tanggal lain.</h4></center>";
 		}
@@ -197,7 +217,7 @@ $(function() {
 			$uang_penggantian_hak = TRUE;
 		}
 
-	}}
+	}
 	?>
 
 	<!---//pop-up-box---->
@@ -209,7 +229,7 @@ $keterangan="Laki-laki Lajang"; else if($kategori=="F1") $keterangan="Perempuan 
 
 //tanggal lahir dan bakti				
 $lahir=new DateTime($pegawai['tanggal_lahir']);
-$usia = $today->diff($lahir)->y;
+$usia = $haripensiun->diff($lahir)->y;
 $ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
 $nilai_sekarang=$ns['nilai_sekarang']; 
 $gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
@@ -269,22 +289,22 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 						<li><?php echo '<b>Faktor Sekaligus : </b></br>'.$nilai_sekaligus;?></li>
 						<li>
 							<?php
-					  			$y = $today->diff($lahir)->y;
+					  			$y = $haripensiun->diff($lahir)->y;
 								  //bulan
-								  $m = $today->diff($lahir)->m;
+								  $m = $haripensiun->diff($lahir)->m;
 								  //hari
-								  $d = $today->diff($lahir)->d;
+								  $d = $haripensiun->diff($lahir)->d;
 
 								echo "<b>Usia Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 							?>
 						</li>
 						<li>
 							<?php
-								  $y = $today->diff($bakti)->y;
+								  $y = $haripensiun->diff($bakti)->y;
 								  //bulan
-								  $m = $today->diff($bakti)->m;
+								  $m = $haripensiun->diff($bakti)->m;
 								  //hari
-								  $d = $today->diff($bakti)->d;
+								  $d = $haripensiun->diff($bakti)->d;
 
 					  
 					  echo "<b>Masa Bakti Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
@@ -336,8 +356,8 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 	<?php if(isset($purna_karya)&&$purna_karya) {
 		$baktiup=$masabakti+1;
 		$usiaup=$usia+1;
-		$bulanbakti=$today->diff($bakti)->m;
-		$bulanlahir=$today->diff($lahir)->m;
+		$bulanbakti=$haripensiun->diff($bakti)->m;
+		$bulanlahir=$haripensiun->diff($lahir)->m;
 				if($usia<46){
 					if($usiamasuk<=30){
 						$faktor=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from purna_karya_kepesertaan where tahun_berakhir=$masabakti"));
@@ -457,7 +477,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
     
 
 
- <?php } ?>
+ <?php }}?>
 		 <footer style="text-align:center; padding-top: 2em">
 		 <div class="copywrite">
 			 <p>© 2017 Tim Internship Jasa Marga IPB | Kantor Pusat PT Jasa Marga (PERSERO) Tbk.</a> </p>
@@ -467,45 +487,5 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 </div>
 <!---->
 </body>
-
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('#datePicker')
-        .datepicker({
-        	autoclose: true,
-            format: 'mm/dd/yyyy',
-            changeMonth:true,
-           	changeYear:true
-        })
-        .on('changeDate', function(e) {
-            // Revalidate the date field
-            $('#eventForm').formValidation('revalidateField', 'date');
-        });
-
-    $('#eventForm').formValidation({
-        framework: 'bootstrap',
-        icon: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-    
-                date: {
-                validators: {
-                    notEmpty: {
-                        message: 'The date is required'
-                    },
-                    date: {
-                        format: 'MM/DD/YYYY',
-                        message: 'The date is not a valid'
-                    }
-                }
-            }
-        }
-    });
-});
-</script> -->
 
 </html>
