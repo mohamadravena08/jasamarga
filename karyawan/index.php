@@ -257,7 +257,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 	
 	?>
 	<div class="company">
-			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Dana Pensiun Anda Jika Anda Pensiun pada tanggal <br><?php $pensiun=date_create($_GET['tanggalpensiun']);
+			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Manfaat Pensiun jika Anda Pensiun pada Tanggal <br><?php $pensiun=date_create($_GET['tanggalpensiun']);
 	$rencana=date_format($pensiun,"d-M-Y");echo $rencana; ?> dengan status <b><?php echo $status ?> </b></h3>
 			 </div>
 			
