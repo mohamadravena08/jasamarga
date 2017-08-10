@@ -516,25 +516,18 @@ if (isset($_GET['status'])) {
 ?>
 
     <?php
-    if (isset($pesangon) && $pesangon)
-        {
-        if ($masabakti <= 8)
-            {
+    if (isset($pesangon) && $pesangon){
+        if ($masabakti <= 8){
             $fetchfaktorpesangon = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from pesangon where tahun_berakhir=$masabakti"));
-            $faktorpesangon = $fetchfaktorpesangon['faktor_tunai'];
-            }
-          else
-            {
-            $faktorpesangon = 9;
-            }
+            $faktorpesangon = $fetchfaktorpesangon['faktor_tunai'];}
+          else{
+            $faktorpesangon = 9;}
 
         $konstanta = 1;
         $nilaipesangon = $faktorpesangon * $penghasilan;
-        if ($_GET['status'] == 3 || $_GET['status'] == 4)
-            {
+        if ($_GET['status'] == 3 || $_GET['status'] == 4){
             $konstanta = 2;
-            $nilaipesangon = $nilaipesangon * 2;
-            }
+            $nilaipesangon = $nilaipesangon * 2;}
 
 ?>
 
@@ -580,6 +573,7 @@ if (isset($_GET['status'])) {
     <?php
     if (isset($uang_penggantian_hak) && $uang_penggantian_hak)
         {
+        if(isset($nilaipesangon)&&isset($nilaiupmk)){
         $uanghak = 0.15 * ($nilaipesangon + $nilaiupmk);
 ?>
              <div class="company_details">
@@ -587,12 +581,32 @@ if (isset($_GET['status'])) {
         echo "15% x (" . rupiah($nilaipesangon) . " + " . rupiah($nilaiupmk) . ")";
 ?></span></h4>
                  <p class="cmpny1"><?php
-        echo rupiah($uanghak);
-?></p>
+        echo rupiah($uanghak)."</div>";} else { ?>
+       
+        
+         <?php $uanghak=0;?>
+         <div class="company_details">
+              <h4>Uang Penggantian Hak</h4>
+               <p class="cmpny1">Konsultasikan Perhitungan dengan Divisi HCS</p>
              </div>
          
-    <?php
+    <?php }
         $total+= $uanghak;
+        }
+
+    if (isset($uang_pisah) && $uang_pisah)
+        {
+        $nilaiuangpisah=$penghasilan;?>
+             <div class="company_details">
+                 <h4>Uang Pisah <span> 1 x Penghasilan | <?php
+        echo "1 x " . rupiah($penghasilan);
+?></span></h4>
+                 <p class="cmpny1"><?php
+        echo rupiah($nilaiuangpisah);
+?></p>
+             </div>
+    <?php
+        $total+= $nilaiuangpisah;
         }
 
     if (isset($total))
