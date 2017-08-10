@@ -3,7 +3,7 @@
 ">
 		 <div class="sidebar_top">
 		 	<h1 style="text-align:center"><?php 
-
+		 			
 			 	echo "". $_SESSION['nama']. '<br />';
 			 	echo "(".$_SESSION['npp']. ")";
 			?></h1>

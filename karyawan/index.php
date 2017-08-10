@@ -2,6 +2,7 @@
 //error_reporting(0);
 session_start();
 include("../library/koneksi.php");
+include("../library/fungsi_kalender.php");
 include("../library/fungsi_rupiah.php");
 if(!isset($_SESSION["npp"])){
 	echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
@@ -257,8 +258,7 @@ $nilai_sekaligus=$nsekaligus[$kategori];
 	
 	?>
 	<div class="company">
-			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Manfaat Pensiun jika Anda Pensiun pada Tanggal <br><?php $pensiun=date_create($_GET['tanggalpensiun']);
-	$rencana=date_format($pensiun,"d-M-Y");echo $rencana; ?> dengan status <b><?php echo $status ?> </b></h3>
+			 <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Manfaat Pensiun jika Anda Pensiun pada <br><?php echo indonesian_date($_GET['tanggalpensiun']);?> dengan status <b><?php echo $status ?> </b></h3>
 			 </div>
 			
   	
