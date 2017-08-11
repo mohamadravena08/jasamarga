@@ -16,8 +16,10 @@ $npp = $_SESSION['npp'];
 $pegawai = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from pegawai where npp='$npp'"));
 $tanggalpensiun_normal1 = date_create($pegawai['tanggal_lahir']);
 date_add($tanggalpensiun_normal1, date_interval_create_from_date_string('56 years'));
+if(!isset($_GET['alternatif'])) $_GET['alternatif']=1;
 $tanggalpensiun_normal = date_format($tanggalpensiun_normal1, 'Y, m, d');
 $tanggalpensiun_normal2 = date_format($tanggalpensiun_normal1, 'd-M-Y');
+
 ?>
 
 <!DOCTYPE HTML>
@@ -155,6 +157,7 @@ if (isset($_GET['status'])) {
     $manfaatsekaligus = 0;
     $usiamasuk = $bakti->diff($lahir)->y;
     $bulanmasuk = $bakti->diff($lahir)->m;
+    $harimasuk = $bakti->diff($lahir)->d;
      // tanggal lahir dan bakti
 
     $ns = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from nilai_sekarang where usia_bayar=$usia"));
@@ -163,7 +166,7 @@ if (isset($_GET['status'])) {
     $unitkerja = $gaji['unit_kerja'];
     $gajipokok = $gaji['gaji_pokok'];
     $phdp = $gaji['phdp'];
-    $penghasilan = $gaji['gaji_pokok'] + $gaji['tunjangan_struktural'] + $gaji['tunjangan_fungsional'] + $gaji['tunjangan_operasional'];
+    
     $nsekaligus = mysqli_fetch_assoc(mysqli_query($DBcon, "select $kategori from nilai_sekaligus where usia=$usia"));
     $nilai_sekaligus = $nsekaligus[$kategori];
 
@@ -192,7 +195,7 @@ if (isset($_GET['status'])) {
       $gajipokok=$gajipokok+0.08*$gajipokok;
     }
     // echo rupiah($gajipokok);
-
+    $penghasilan = $gajipokok + $gaji['tunjangan_struktural'] + $gaji['tunjangan_fungsional'] + $gaji['tunjangan_operasional'];
            
         if ($_GET['status'] == 1)
             {
@@ -355,20 +358,6 @@ if (isset($_GET['status'])) {
       else $keterangan = "Perempuan Lajang";
 
    
-    // hitung manfaat pasti
-
-    if (isset($manfaat_pasti) && $manfaat_pasti){
-        $total = 0;
-        $const = 0.025;
-        $manfaatbulantemp = $nilai_sekarang * $const * $phdp * $masabakti;
-        $nilai_sekaligus = $nsekaligus[$kategori];
-        $manfaatsekaligus = $manfaatbulantemp * $nilai_sekaligus;
-        if ($manfaatbulan > 1500000)
-            {
-            $manfaatbulan = 0.8 * $manfaatbulan;
-            $manfaatsekaligus = 0.2 * $manfaatsekaligus;
-            }
-          else $manfaatbulan = 0;
 ?>
     <div class="company">
         <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Manfaat Pensiun jika Anda Pensiun pada <br><?php
@@ -383,14 +372,14 @@ if (isset($_GET['status'])) {
             <li><?php echo "<b>Nama Pegawai : </b><br/>".$_SESSION['nama'];?></li>
             <li><?php echo "<b>Nomor Pokok Pegawai </b></br>".$_SESSION['npp'];?></li>
             <li><?php echo "<b>Unit Kerja </b></br>".$unitkerja;?></li>
-            <li><?php echo "<b>Usia Mulai Bekerja : </b><br/>".$usiamasuk." tahun";?></li>
+            <li><?php echo "<b>Usia Mulai Bekerja : </b><br/>".$usiamasuk." tahun ".$bulanmasuk." bulan ".$harimasuk." hari";?></li>
           </ul>
         </div>
                  
         <div class ="skill1">
           <ul>
               <li><?php echo "<b>Gaji Pokok Saat Pensiun (asumsi kenaikan 8% per 1 Januari tiap tahun): </b><br/>".rupiah($gajipokok);?></li>
-              <li><?php echo "<b>Penghasilan </b></br>".rupiah($penghasilan);?></li>
+              <li><?php echo "<b>Penghasilan (Gaji Pokok + Tunjangan Jabatan) </b></br>".rupiah($penghasilan);?></li>
               <li><?php echo "<b>PhDP Saat Pensiun (asumsi kenaikan 5% per 1 Juli tiap tahun) : </b><br/>".rupiah($phdp);?></li>
               <li><?php echo "<b>Faktor Manfaat Pasti : </b></br>" . $nilai_sekarang;?></li>
           </ul>
@@ -418,8 +407,27 @@ if (isset($_GET['status'])) {
     </div>
   </div>
  
+
          <div class="company">
          <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
+
+
+
+
+   <?php // hitung manfaat pasti
+
+    if (isset($manfaat_pasti) && $manfaat_pasti){
+        $total = 0;
+        $const = 0.025;
+        $manfaatbulantemp = $nilai_sekarang * $const * $phdp * $masabakti;
+        $nilai_sekaligus = $nsekaligus[$kategori];
+        $manfaatsekaligus = $manfaatbulantemp * $nilai_sekaligus;
+        if ($manfaatbulan > 1500000)
+            {
+            $manfaatbulan = 0.8 * $manfaatbulan;
+            $manfaatsekaligus = 0.2 * $manfaatsekaligus;
+            }
+          else $manfaatbulan = 0;?>
              <div class="company_details">
                  <h4>Manfaat Bulanan <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php
         echo $nilai_sekarang . " x 2.5% x " . rupiah($phdp) . " x " . $masabakti;?></span></h4>
@@ -453,6 +461,14 @@ if (isset($_GET['status'])) {
              </div>
     <?php
         $total+= $manfaatsekaligus;}?>
+
+
+
+
+
+
+
+
 
     <?php
     if (isset($jht) && $jht){
@@ -514,6 +530,7 @@ if (isset($_GET['status'])) {
                  <p class="cmpny1"><?php echo rupiah($purnakarya);?></p>
              </div>
     <?php
+        if(!isset($total)) $total=0;
         $total+= $purnakarya;
         }
 
@@ -644,7 +661,6 @@ if (isset($_GET['status'])) {
         </footer>
      </div>
 </div>
-<!---->
 </body>
 
 </html>
