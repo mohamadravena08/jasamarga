@@ -412,14 +412,21 @@ if (isset($_GET['status'])) {
     <div class="clearfix"></div>
     </div>
   </div>
+
+
  
 
 
          <div class="company">
          <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
 
-<h3>Alternatif 1</h3>
+<div class="nav nav-pills" style="padding-bottom: 1em; padding-left: 1em">
+  <button class="btn btn-default" onclick="openCity('Alternatif 1')">Alternatif 1</button>
+  <button class="btn btn-default" onclick="openCity('Alternatif 2')">Alternatif 2</button>
+</div>
 
+<div id="Alternatif 1" class="w3-container city">
+  <h3>Alternatif 1</h3>
 
    <?php // hitung manfaat pasti
 
@@ -644,18 +651,15 @@ if (isset($_GET['status'])) {
       </div>
              <button class="btn btn-primary btn-lg pull-right" style="margin-right: 2em; margin-top: 1em;padding-left: 2em; padding-right: 2em;" onClick="window.print();">Print</button> 
 </div>
-
-    
-
-
  <?php
         }
     }
 
 ?>
-<br>
-<br>
-<div class="company">
+</div>
+
+<div id="Alternatif 2" class="w3-container city" style="display:none">
+  <div class="company">
 <h3>Alternatif 2</h3>
 
 <?php if(isset($manfaat_pasti)&&$manfaat_pasti){?>
@@ -749,7 +753,20 @@ if (isset($total))
 
 }
 ?>
+</div> 
 </div>
+
+<script>
+function openCity(cityName) {
+    var i;
+    var x = document.getElementsByClassName("city");
+    for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";  
+    }
+    document.getElementById(cityName).style.display = "block";  
+}
+</script>
+
 
          <footer style="text-align:center; padding-top: 2em">
          <div class="copywrite">
