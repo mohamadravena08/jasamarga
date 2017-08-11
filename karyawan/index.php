@@ -153,6 +153,8 @@ if (isset($_GET['status'])) {
     $hariusia = $haripensiun->diff($lahir)->d;
     $bakti = new DateTime($pegawai['mulai_bakti']);
     $masabakti = $haripensiun->diff($bakti)->y;
+    $bulanbakti = $haripensiun->diff($bakti)->m;
+    $haribakti= $haripensiun->diff($bakti)->d;
     $manfaatbulan = 0;
     $manfaatsekaligus = 0;
     $usiamasuk = $bakti->diff($lahir)->y;
@@ -231,11 +233,16 @@ if (isset($_GET['status'])) {
           else
         if ($_GET['status'] == 2)
             {
-
+              $status = "Meninggal Dunia / Gugur Dalam Tugas setelah 46 tahun";
             if($usia<46){
+              $status = "Meninggal Dunia / Gugur Dalam Tugas sebelum 46 tahun";
               $masabakti = $bakti->diff($tanggalpensiun_normal1)->y;
+              $bulanbakti=  $bakti->diff($tanggalpensiun_normal1)->m;
+              $haribakti=  $bakti->diff($tanggalpensiun_normal1)->d;
+              echo $masabakti."<br>";
+              echo $usia;
             }
-            $status = "Meninggal Dunia / Gugur Dalam Tugas";
+            
             $manfaat_pasti = TRUE;
             $jht = TRUE;
             $purna_karya = TRUE;
@@ -246,8 +253,8 @@ if (isset($_GET['status'])) {
           else
         if ($_GET['status'] == 3)
             {
-              $masabakti=$bakti->diff($tanggalpensiun_normal1)->y;
-              $usia=$lahir->diff($tanggalpensiun_normal1)->y;
+            $masabakti=$bakti->diff($tanggalpensiun_normal1)->y;
+            $usia=$lahir->diff($tanggalpensiun_normal1)->y;
             $status = "Cacat Jasmani/Rohani atau Sakit Keras";
             $manfaat_pasti = TRUE;
             $jht = TRUE;
@@ -385,33 +392,33 @@ if (isset($_GET['status'])) {
           </ul>
         </div>
         
+       
         <div class="skill1">
           <ul>                    
           <li><?php echo "<b>Kategori Tanggungan </b></br>" . $kategori . " (" . $keterangan . ")";?></li>
           <li><?php echo '<b>Faktor Sekaligus : </b></br>' . $nilai_sekaligus;?></li>
-          <li><?php $y = $haripensiun->diff($lahir)->y;
-                    $m = $haripensiun->diff($lahir)->m;
-                    $d = $haripensiun->diff($lahir)->d;
-        echo "<b>Usia Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";?>
-          </li>
-          <li> <?php $y = $haripensiun->diff($bakti)->y;
-                     $m = $haripensiun->diff($bakti)->m;
-                     $d = $haripensiun->diff($bakti)->d;
-        echo "<b>Masa Bakti Saat Pensiun:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";?>
-          </li>
-                        
+          
+       <?php if($_GET['status']==3){
+              echo "<li><b>Usia Saat Pensiun:</b><br /> " . $usia . " tahun 0 bulan 0 hari (Penyesuaian)";
+              echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti . " hari (Penyesuaian)</li>";
+        }
+        else {
+               echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
+              echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari</li>";
+        }
+        ?>                        
           </ul>
         </div>
-    
     <div class="clearfix"></div>
     </div>
   </div>
  
 
+
          <div class="company">
          <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
 
-
+<h3>Alternatif 1</h3>
 
 
    <?php // hitung manfaat pasti
@@ -463,13 +470,6 @@ if (isset($_GET['status'])) {
         $total+= $manfaatsekaligus;}?>
 
 
-
-
-
-
-
-
-
     <?php
     if (isset($jht) && $jht){
       $tabeljht=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from jht where npp='$npp'"));
@@ -486,8 +486,7 @@ if (isset($_GET['status'])) {
     if (isset($purna_karya) && $purna_karya){
         $baktiup = $masabakti + 1;
         $usiaup = $usia + 1;
-        $bulanbakti = $haripensiun->diff($bakti)->m;
-        $bulanlahir = $haripensiun->diff($lahir)->m;
+        
         if ($usia < 46)
             {
             if ($usiamasuk <= 30)
@@ -517,7 +516,7 @@ if (isset($_GET['status'])) {
             $faktor2 = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from purna_karya where usia=$usiaup"));
             $nilai1 = $faktor['nilai_pk'];
             $nilai2 = $faktor2['nilai_pk'];
-            if ($bulanbakti > 0) $faktorkalitambah = ($bulanlahir / 12) * ($nilai2 - $nilai1);
+            if ($bulanbakti > 0) $faktorkalitambah = ($bulanusia / 12) * ($nilai2 - $nilai1);
               else $faktorkalitambah = 0;
             $purnakarya = ($gajipokok * $nilai1) + ($gajipokok * $faktorkalitambah);
             }
@@ -654,6 +653,104 @@ if (isset($_GET['status'])) {
     }
 
 ?>
+<br>
+<br>
+<div class="company">
+<h3>Alternatif 2</h3>
+
+<?php if(isset($manfaat_pasti)&&$manfaat_pasti){?>
+<div class="company_details">
+              <h4>Manfaat Bulanan<span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php
+        echo $nilai_sekarang . " x 2.5% x " . rupiah($phdp) . " x " . $masabakti;?></span></h4>
+                 <p class="cmpny1"><?php echo rupiah($manfaatbulan);?></p>
+             </div>
+<div class="company_details">
+              <h4>Manfaat Sekaligus <span>Manfaat Bulanan x Faktor Sekaligus | <?php
+                  echo rupiah($manfaatbulantemp) . " x " . $nilai_sekaligus;?></span></h4>
+                 <p class="cmpny1"><?php echo rupiah($manfaatsekaligus);?></p>
+             </div>
+<?php } 
+  if(isset($jht)&&$jht){?>
+
+ <div class="company_details">
+              <h4>Jaminan Hari Tua <span>(Manfaat JHT dari BPJS Ketenagakerjaan)</span></h4>
+                 <p class="cmpny1"><?php echo rupiah($nilaijht);?></p>
+             </div>
+ <?php }
+ if(isset($purna_karya)&&$purna_karya){?>
+<div class="company_details">
+              <h4>Tunjangan Purna Karya <span>Faktor Kali x Gaji Pokok | <?php
+        echo rupiah($gajipokok) . " x " . $nilai1 . " + " . rupiah($gajipokok) . " x " . $faktorkalitambah;?></span></h4>
+                 <p class="cmpny1"><?php echo rupiah($purnakarya);?></p>
+             </div>
+
+ <?php }
+ if(isset($pesangon)){?>
+ <div class="company_details">
+              <h4>Pesangon <span>Faktor Pesangon x Penghasilan x Konstanta | <?php
+        echo rupiah($gajipokok) . " x " . $nilai1 . " + " . rupiah($gajipokok) . " x " . $faktorkalitambah;?></span></h4>
+                 <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
+             </div>
+
+
+ <?php } 
+ if(isset($penghargaan_masa_kerja)&&$penghargaan_masa_kerja){?>
+
+ <div class="company_details">
+              <h4>Tunjangan Purna Karya <span>Faktor Kali x Gaji Pokok | <?php
+        echo rupiah($gajipokok) . " x " . $nilai1 . " + " . rupiah($gajipokok) . " x " . $faktorkalitambah;?></span></h4>
+                 <p class="cmpny1"><?php echo rupiah($nilaiupmk);?></p>
+             </div>
+ <?php }
+ if(isset($uang_penggantian_hak)&&$uang_penggantian_hak){?>
+
+ <div class="company_details">
+ <?php if(isset($pesangon)&&isset($nilaiupmk)){?>
+              <h4>Uang Penggantian Hak <span>(15% * (uang pesangon + uang penghargaan masa kerja)) | <?php
+        echo "15% x (" . rupiah($nilaipesangon) . " + " . rupiah($nilaiupmk) . ")";
+?></span></h4> 
+                 <p class="cmpny1"><?php echo rupiah($uanghak)."</div>";}else{
+                  $uanghak=0;
+                 echo "<h4>Uang Penggantian Hak</h4><p class='cmpny1'>Konsultasikan Penghitungan bersama Divisi HCS";
+                 ?>
+             </div>
+
+<?php } 
+if(isset($uang_pisah)&&$uang_pisah){?>
+<div class="company_details">
+              <h4>Uang Pisah <span>1 x Penghasilan | <?php
+        echo "1 x " . rupiah($penghasilan);?></span></h4>
+                 <p class="cmpny1"><?php echo rupiah($nilaiuangpisah);?></p>
+             </div>
+
+<?php }
+
+if (isset($total))
+        {
+?>
+
+     <div class="company_details">
+                 <h4 style="font-size: 1.2em">Total Tunjangan Sekaligus <span>(plus tunjangan bulanan)</span></h4>
+                 <p class="cmpny1" style="border-bottom: 0px dashed #999;">
+                 <h2 style="text-align: right;padding-right: 1.3em;"><?php echo rupiah($total);?></h2>
+                 <h4 style="text-align: right;font-size: 15px;padding-right: 2.7em;">
+                 <?php
+        echo " plus   " . rupiah($manfaatbulan);?> tiap bulan </h4>
+        </p>
+      </div>
+             <button class="btn btn-primary btn-lg pull-right" style="margin-right: 2em; margin-top: 1em;padding-left: 2em; padding-right: 2em;" onClick="window.print();">Print</button> 
+</div>
+
+    
+
+
+ <?php
+        }
+
+}
+?>
+</div>
+
          <footer style="text-align:center; padding-top: 2em">
          <div class="copywrite">
              <p>© 2017 Tim Internship Jasa Marga IPB | Kantor Pusat PT Jasa Marga (PERSERO) Tbk.</a> </p>
