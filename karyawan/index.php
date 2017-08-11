@@ -455,12 +455,16 @@ if (isset($_GET['status'])) {
         $total+= $manfaatsekaligus;}?>
 
     <?php
-    if (isset($jht) && $jht){?>
+    if (isset($jht) && $jht){
+      $tabeljht=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from jht where npp='$npp'"));
+      $nilaijht=$tabeljht['nilai_rupiah'];
+
+      ?>
              <div class="company_details">
                  <h4>Jaminan Hari Tua <span>(Manfaat JHT dari BPJS Ketenagakerjaan)</span></h4>
-                 <p class="cmpny1">Data dari Tabel JHT</p>
+                 <p class="cmpny1"><?php echo rupiah($nilaijht);?></p>
              </div>
-    <?php } ?>
+    <?php $total=$total+$nilaijht; } ?>
 
     <?php
     if (isset($purna_karya) && $purna_karya){
@@ -615,25 +619,14 @@ if (isset($_GET['status'])) {
 
      <div class="company_details">
                  <h4 style="font-size: 1.2em">Total Tunjangan Sekaligus <span>(plus tunjangan bulanan)</span></h4>
-                 <p class="cmpny1" style="
-    border-bottom: 0px dashed #999;"><h2 style="
-    text-align: right;
-    padding-right: 1.3em;
-"><?php
-        echo rupiah($total);
-?></h2><h4 style="
-    text-align: right;
-    font-size: 15px;
-    padding-right: 2.7em;
-"><?php
-        echo " plus   " . rupiah($manfaatbulan);
-?> tiap bulan </h4></p>
-             </div>
-             <button class="btn btn-primary btn-lg pull-right" style="
-    margin-right: 2em;
-    margin-top: 1em;
-    padding-left: 2em;
-    padding-right: 2em;" onClick="window.print();">Print</button> 
+                 <p class="cmpny1" style="border-bottom: 0px dashed #999;">
+                 <h2 style="text-align: right;padding-right: 1.3em;"><?php echo rupiah($total);?></h2>
+                 <h4 style="text-align: right;font-size: 15px;padding-right: 2.7em;">
+                 <?php
+        echo " plus   " . rupiah($manfaatbulan);?> tiap bulan </h4>
+        </p>
+      </div>
+             <button class="btn btn-primary btn-lg pull-right" style="margin-right: 2em; margin-top: 1em;padding-left: 2em; padding-right: 2em;" onClick="window.print();">Print</button> 
 </div>
 
     
