@@ -157,12 +157,17 @@ if(!isset($_SESSION["admin"])){
         <h3>Upload File Tabel JHT Terbaru</h3>
             <form method="post" action="prosesJHT.php" enctype="multipart/form-data">
                       <input type="file" name="jht">
-                        <div class='input-group date' id='myDatepicker4' style="padding-top: 1em; padding-bottom: 1em;margin-left: 25%;margin-right: 25%;">
-                                  <input type='text' class="form-control" readonly="readonly" />
-                                  <span class="input-group-addon">
-                                     <span class="glyphicon glyphicon-calendar"></span>
-                                  </span>
-                              </div>
+                      <fieldset style="padding-top: 1em;margin-left: 25%;margin-right: 25%;">
+                                <div class="control-group">
+                                  <div class="controls">
+                                    <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
+                                      <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                      <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                    </div>
+                                  </div>
+                                </div>
+                        </fieldset>
                         <button class="right" value=1 type="submit" name="kirim">Upload</button>
 
                       </form>
@@ -214,12 +219,17 @@ if(!isset($_SESSION["admin"])){
     <h3>Upload File JHT Terbaru</h3>
             <form method="post" action="prosesJHT.php" enctype="multipart/form-data">
                       <input type="file" name="jht">
-                              <div class='input-group date' id='myDatepicker4' style="padding-top: 1em; padding-bottom: 1em;margin-left: 25%;margin-right: 25%;">
-                                  <input type='text' class="form-control" readonly="readonly" />
-                                  <span class="input-group-addon">
-                                     <span class="glyphicon glyphicon-calendar"></span>
-                                  </span>
-                              </div>
+                              <fieldset style="padding-top: 1em;margin-left: 25%;margin-right: 25%;">
+                                <div class="control-group">
+                                  <div class="controls">
+                                    <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
+                                      <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                      <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </fieldset>
                       <button class="right" value=1 type="submit" name="kirim">Upload</button>
                       </form>
                       <?php } ?>
@@ -264,6 +274,7 @@ if(!isset($_SESSION["admin"])){
 
             <!-- jQuery -->
         <script src="../vendors/jquery/dist/jquery.min.js"></script>
+         <script src="../build/js/custom.js"></script>
         <!-- Bootstrap -->
         <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
         <!-- FastClick -->
@@ -325,6 +336,13 @@ if(!isset($_SESSION["admin"])){
                 
                 $("#datetimepicker7").on("dp.change", function(e) {
                     $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                });
+
+                $('#single_cal1').daterangepicker({
+                  singleDatePicker: true,
+                  singleClasses: "picker_1"
+                }, function(start, end, label) {
+                  console.log(start.toISOString(), end.toISOString(), label);
                 });
             </script>
 
