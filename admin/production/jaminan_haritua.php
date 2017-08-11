@@ -157,9 +157,12 @@ if(!isset($_SESSION["admin"])){
         <h3>Upload File Tabel JHT Terbaru</h3>
             <form method="post" action="prosesJHT.php" enctype="multipart/form-data">
                       <input type="file" name="jht">
-                       <input type="text" class="form-control has-feedback-left" id="single_cal3" placeholder="First Name" aria-describedby="inputSuccess2Status3">
-                       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                
+                        <div class='input-group date' id='myDatepicker4' style="padding-top: 1em; padding-bottom: 1em;margin-left: 25%;margin-right: 25%;">
+                                  <input type='text' class="form-control" readonly="readonly" />
+                                  <span class="input-group-addon">
+                                     <span class="glyphicon glyphicon-calendar"></span>
+                                  </span>
+                              </div>
                         <button class="right" value=1 type="submit" name="kirim">Upload</button>
 
                       </form>
