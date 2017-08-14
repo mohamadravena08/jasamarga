@@ -239,7 +239,7 @@ if (isset($_GET['status'])) {
                 $nilai2 = $faktor2['faktor_tunai'];
                 if ($bulanbakti > 0) $faktorkalitambah = ($bulanbakti / 12) * ($nilai2 - $nilai1);
                     else $faktorkali = $nilai1;
-                $purnakarya = ($gajipokok * $nilai1) + ($gajipokok * $faktorkalitambah); }
+                }
             
             else{
                 $faktor = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from purna_karya_dini where usia=$usia"));
@@ -248,9 +248,15 @@ if (isset($_GET['status'])) {
                 $nilai2 = $faktor2['faktor_tunai'];
                 if ($bulanbakti > 0) $faktorkalitambah = ($bulanbakti / 12) * ($nilai2 - $nilai1);
                       else $faktorkali = $nilai1;
-                $purnakarya = ($gajipokok * $nilai1) + ($gajipokok * $faktorkalitambah);
+                
                 }
             }
+             else if ($_GET['status']==2||$_GET['status']==3){
+                $nilai1=24;
+                $nilai2=24;
+                $faktorkalitambah=0;
+          }
+
           else {
             $faktor = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from purna_karya where usia=$usia"));
             $faktor2 = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from purna_karya where usia=$usiaup"));
@@ -258,8 +264,8 @@ if (isset($_GET['status'])) {
             $nilai2 = $faktor2['nilai_pk'];
             if ($bulanbakti > 0) $faktorkalitambah = ($bulanusia / 12) * ($nilai2 - $nilai1);
               else $faktorkalitambah = 0;
-            $purnakarya = ($gajipokok * $nilai1) + ($gajipokok * $faktorkalitambah);}
-
+            }
+            $purnakarya = ($gajipokok * $nilai1) + ($gajipokok * $faktorkalitambah);
             $total1+=$purnakarya;
             $total2+=$purnakarya;
         }
@@ -479,7 +485,7 @@ echo $tanggalpensiun_normal;
     if(isset($pesangon)){?>
 
 <div class="company_details">
-    <h4>Pesangon <span>Faktor Pesangon x Penghasilan x Konstanta | <?php echo rupiah($gajipokok) . " x " . $nilai1 . " + " . rupiah($gajipokok) . " x " . $faktorkalitambah;?></span></h4>
+    <h4>Pesangon <span>Faktor Pesangon x Penghasilan x Konstanta | <?php echo rupiah($gajipokok) . " x " . $nilai1 . " + " . rupiah($gajipokok) . " x " . $konstanta;?></span></h4>
     <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
  </div>
 
@@ -557,7 +563,7 @@ echo $tanggalpensiun_normal;
     if(isset($pesangon)){?>
 
 <div class="company_details">
-    <h4>Pesangon <span>Faktor Pesangon x Penghasilan x Konstanta | <?php echo rupiah($gajipokok) . " x " . $nilai1 . " + " . rupiah($gajipokok) . " x " . $faktorkalitambah;?></span></h4>
+    <h4>Pesangon <span>Faktor Pesangon x Penghasilan x Konstanta | <?php echo rupiah($gajipokok) . " x " . $nilai1 . " + " . rupiah($gajipokok) . " x " . $konstanta;?></span></h4>
     <p class="cmpny1"><?php echo rupiah($nilaipesangon);?></p>
  </div>
 
