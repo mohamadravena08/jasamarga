@@ -24,7 +24,6 @@
 					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
 					$nilai_sekarang=$ns['nilai_sekarang']; 
 					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
-					$penghasilan=$gaji['phdp'];
 					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
 					$nilai_sekaligus=$nsekaligus[$kategori];
 					  
