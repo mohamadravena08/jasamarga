@@ -27,11 +27,12 @@
 					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$umur"));
 					$nilai_sekaligus=$nsekaligus[$kategori];
 					  
-					  echo "<b>Gaji Pokok : </b><br> ".rupiah($gaji['gaji_pokok']) .'</br>';
-					  echo "<b>PhDP : </b><br> ".rupiah($gaji['phdp']) .'</br>';
-					  echo "<b>Faktor Manfaat Pasti : </b><br> ".$nilai_sekarang .'</br>';
+					  echo "<b>Gaji Pokok  </b><br> ".rupiah($gaji['gaji_pokok']) .'</br>';
+					  echo "<b>Penghasilan  </b><br> ".rupiah($gaji['gaji_pokok']+$gaji['tunjangan_struktural']+$gaji['tunjangan_fungsional']+$gaji['tunjangan_operasional']) .'</br>';
+					  echo "<b>PhDP  </b><br> ".rupiah($gaji['phdp']) .'</br>';
+					  echo "<b>Faktor Manfaat Pasti  </b><br> ".$nilai_sekarang .'</br>';
 					  echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
-					  echo '<b>Faktor Sekaligus : </b><br>'.$nilai_sekaligus;
+					  echo '<b>Faktor Sekaligus  </b><br>'.$nilai_sekaligus;
 				?>
 			 </p>
 
