@@ -20,11 +20,11 @@
 					$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
 					$kategori = $pegawai['kategori_tanggungan'];
 					$lahir=new DateTime($pegawai['tanggal_lahir']);
-					$usia = $today->diff($lahir)->y;
-					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$usia"));
+					$umur = $today->diff($lahir)->y;
+					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$umur"));
 					$nilai_sekarang=$ns['nilai_sekarang']; 
 					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
-					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$usia"));
+					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$umur"));
 					$nilai_sekaligus=$nsekaligus[$kategori];
 					  
 					  echo "<b>Gaji Pokok : </b><br> ".rupiah($gaji['gaji_pokok']) .'</br>';

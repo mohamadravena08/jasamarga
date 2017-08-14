@@ -219,8 +219,9 @@ if (isset($_GET['status'])) {
             $manfaatsekaligus1=0;
             $manfaatsekaligus2=$nilai_sekaligus*$manfaatbulantemp;
         }
+        if($usia>46){
         $total1+=$manfaatsekaligus1;
-        $total2+=$manfaatsekaligus2;
+        $total2+=$manfaatsekaligus2;}
     }
     if (isset($jht) && $jht){
       $tabeljht=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from jht where npp='$npp'"));
@@ -420,11 +421,11 @@ echo $tanggalpensiun_normal;
               echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti . " hari (Penyesuaian)</li>";
         }
         else if ($_GET['status']==2&&$usia<46){
-                echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
-              echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari (Penyesuaian)</li>";
+                echo "<li><b>Usia Saat Pensiun:</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
+              echo "<li><b>Masa Bakti Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari (Penyesuaian)</li>";
         }
         else {
-              echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
+              echo "<li><b>Usia Saat Pensiun:</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
               echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari</li>";
         }
         ?>                        
@@ -444,18 +445,18 @@ echo $tanggalpensiun_normal;
 
 <div id="Alternatif 1" class="w3-container city">
     <div class="company">
-
+ <h3 class="clr1">Alternatif 1 (100% Manfaat Pasti Bulanan)</h3>
 <?php if(isset($manfaat_pasti)){?>
      <div class="company_details">
         <h4>Manfaat Pasti (Bulanan) <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php
         echo $nilai_sekarang . " x 2.5% x " . rupiah($phdp) . " x " . $masabakti;?></span></h4>
-        <p class="cmpny1"><?php echo rupiah($manfaatbulan1);?></p>
+        <p class="cmpny1"><?php echo rupiah($manfaatbulan1); if($usia<=46) echo " (dibayarkan pada usia 46 tahun)";?></p>
      </div>
 
      <div class="company_details">
         <h4>Manfaat Pasti (Sekaligus) <span>Manfaat Bulanan x Faktor Sekaligus | <?php
                   echo rupiah($manfaatbulantemp) . " x " . $nilai_sekaligus;?></span></h4>
-        <p class="cmpny1"><?php echo rupiah($manfaatsekaligus1);?></p>
+        <p class="cmpny1"><?php echo rupiah($manfaatsekaligus1); if($usia<=46) echo " (dibayarkan pada usia 46 tahun)";?></p>
      </div>
  <?php }
 
@@ -522,18 +523,18 @@ echo $tanggalpensiun_normal;
 
 <div id="Alternatif 2" class="w3-container city" style="display:none">
     <div class="company">
-
+<h3 class="clr1">Alternatif 2 <?php if($manfaatbulantemp>1500000) echo "(80% Manfaat Bulan, 20% Manfaat Sekaligus)"; else echo "(100% Manfaat Sekaligus)";?></h3>
 <?php if(isset($manfaat_pasti)){?>
      <div class="company_details">
         <h4>Manfaat Pasti (Bulanan) <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php
         echo $nilai_sekarang . " x 2.5% x " . rupiah($phdp) . " x " . $masabakti;?></span></h4>
-        <p class="cmpny1"><?php echo rupiah($manfaatbulan2);?></p>
+        <p class="cmpny1"><?php echo rupiah($manfaatbulan2); if($usia<=46) echo " (dibayarkan pada usia 46 tahun)";?></p>
      </div>
 
      <div class="company_details">
         <h4>Manfaat Pasti (Sekaligus) <span>Manfaat Bulanan x Faktor Sekaligus | <?php
                   echo rupiah($manfaatbulantemp) . " x " . $nilai_sekaligus;?></span></h4>
-        <p class="cmpny1"><?php echo rupiah($manfaatsekaligus2);?></p>
+        <p class="cmpny1"><?php echo rupiah($manfaatsekaligus2); if($usia<=46) echo " (dibayarkan pada usia 46 tahun)";?></p>
      </div>
  <?php }
 
