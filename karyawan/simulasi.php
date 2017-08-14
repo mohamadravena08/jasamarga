@@ -6,20 +6,18 @@ include("../library/koneksi.php");
 include("../library/fungsi_kalender.php");
 include("../library/fungsi_rupiah.php");
 
-if (!isset($_SESSION["npp"])) {
+if (!isset($_SESSION["admin"])) {
     echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
-    header("Location:../index.php");
+    header("Location:../admin.php");
 }
-$npp                    = $_SESSION['npp'];
+$npp                    = $_GET['npp'];
 $pegawai                = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from pegawai where npp='$npp'"));
 $tanggalpensiun_normal1 = date_create($pegawai['tanggal_lahir']);
 date_add($tanggalpensiun_normal1, date_interval_create_from_date_string('56 years'));
 if (!isset($_GET['alternatif']))
     $_GET['alternatif'] = 1;
 $tanggalpensiun_normal  = date_format($tanggalpensiun_normal1, 'Y, m, d');
-$tanggalpensiun_normal2 = date_format($tanggalpensiun_normal1, 'd-M-Y');
-
-// kategori tanggungan
+$tanggalpensiun_normal2 = date_format($tanggalpensiun_normal1, 'd-M-Y');// kategori tanggungan
 $kategori = $pegawai['kategori_tanggungan'];
 if ($kategori == "M1")
     $keterangan = "Laki-laki menikah dan memiliki beberapa anak";
@@ -219,8 +217,9 @@ if (isset($_GET['status'])) {
             $manfaatsekaligus1=0;
             $manfaatsekaligus2=$nilai_sekaligus*$manfaatbulantemp;
         }
+        if($usia>46){
         $total1+=$manfaatsekaligus1;
-        $total2+=$manfaatsekaligus2;
+        $total2+=$manfaatsekaligus2;}
     }
     if (isset($jht) && $jht){
       $tabeljht=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from jht where npp='$npp'"));
@@ -272,7 +271,7 @@ if (isset($_GET['status'])) {
               else{
                 $faktorpesangon = 9;}
         $konstanta = 1;
-        $nilaipesangon = $faktorpesanqgon * $penghasilan;
+        $nilaipesangon = $faktorpesangon * $penghasilan;
         if ($_GET['status'] == 3 || $_GET['status'] == 4){
             $konstanta = 2;
             $nilaipesangon = $nilaipesangon * $konstanta;}
@@ -293,7 +292,7 @@ if (isset($_GET['status'])) {
     if (isset($uang_penggantian_hak) && $uang_penggantian_hak){
         if(isset($nilaipesangon)&&isset($nilaiupmk))
           $uanghak = 0.15 * ($nilaipesangon + $nilaiupmk);
-        else {$uanghak=0; $flag="Silakan Konsultasikan Penghitungan bersama divisi HCS";}
+        else {$nilaipesangon=0; $nilaiupmk=0; $uanghak=0; $flag="Konsultasikan Penghitungan bersama divisi HCS";}
     $total1+=$uanghak;
     $total2+=$uanghak;
     }
@@ -341,16 +340,19 @@ echo $tanggalpensiun_normal;
     .btn {display: none;}}</style>
 </head>
 <body>
-    <?php include_once('sidebar.php');?>
+    <?php include_once('sidebar.php');
+    ?>
     <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
      <div class="content">      
-        <h1 class="hd" style="text-align:center">Silahkan Pilih Status Pensiun Anda</h1>
+        <h1 class="hd" style="text-align:center">Pilih Status Pensiun </h1>
         <div>
             <form id="eventForm" method="get" action="" style="text-align: center"> 
+            <input type="hidden" name="npp" value="<?php echo $npp;?>">
+
              <div class="form-group" >
-              <label for="sel1" >Simulasi Dana Pensiun Jika Anda</label>
+              <label for="sel1" >Simulasi Dana Pensiun <?php echo $pegawai['nama']." (".$npp.")";?> Jika</label>
               <select name="status" class="form-control" class="text-center col-md-4 col-md-offset-4" style="width: 50%" style="vertical-align: middle" style="margin:auto" id="sel1" required>
 
                 <option <?php if (!isset($_GET['status'])) echo "selected";?> disabled>Pilih Disini...</option>
@@ -375,7 +377,6 @@ echo $tanggalpensiun_normal;
                   <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
               </div>
             </div>
-
              <button type="submit" class="btn btn-primary">Simulasi Sekarang</button>
             </form>
             
@@ -385,7 +386,7 @@ echo $tanggalpensiun_normal;
     if(isset($_GET['status'])){?>
     
     <div class="company">
-        <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Manfaat Pensiun jika Anda Pensiun pada <br><?php $tang = date_create($_GET['tanggalpensiun']); $rencana = date_format($tang, "d-M-Y"); echo $rencana;?> dengan status <b> <?php echo $status;?> </b></h3>
+        <h3 class="clr1" style="text-align:center; margin-right: 0em">Hasil Simulasi Manfaat Pensiun jika <?php echo $pegawai['nama'];?> - <?php echo $npp;?> Pensiun pada <br><?php $tang = date_create($_GET['tanggalpensiun']); $rencana = date_format($tang, "d-M-Y"); echo $rencana;?> dengan status <b> <?php echo $status;?> </b></h3>
     </div>
             
   <div class="skills">
@@ -393,19 +394,19 @@ echo $tanggalpensiun_normal;
       <div class="skill_list">
         <div class="skill1">
           <ul>                    
-            <li><?php echo "<b>Nama Pegawai : </b><br/>".$_SESSION['nama'];?></li>
+            <li><?php echo "<b>Nama Lengkap </b><br/>".$_SESSION['nama'];?></li>
             <li><?php echo "<b>Nomor Pokok Pegawai </b></br>".$_SESSION['npp'];?></li>
             <li><?php echo "<b>Unit Kerja </b></br>".$unitkerja;?></li>
-            <li><?php echo "<b>Usia Mulai Bekerja : </b><br/>".$usiamasuk." tahun ".$bulanmasuk." bulan ".$harimasuk." hari";?></li>
+            <li><?php echo "<b>Usia Mulai Bekerja  </b><br/>".$usiamasuk." tahun ".$bulanmasuk." bulan ".$harimasuk." hari";?></li>
           </ul>
         </div>
                  
         <div class ="skill1">
           <ul>
-              <li><?php echo "<b>Gaji Pokok Saat Pensiun (asumsi kenaikan 8% per 1 Januari tiap tahun): </b><br/>".rupiah($gajipokok);?></li>
+              <li><?php echo "<b>Gaji Pokok Saat Pensiun (asumsi kenaikan 8% per 1 Januari tiap tahun) </b><br/>".rupiah($gajipokok);?></li>
               <li><?php echo "<b>Penghasilan (Gaji Pokok + Tunjangan Jabatan) </b></br>".rupiah($penghasilan);?></li>
-              <li><?php echo "<b>PhDP Saat Pensiun (asumsi kenaikan 5% per 1 Juli tiap tahun) : </b><br/>".rupiah($phdp);?></li>
-              <li><?php echo "<b>Faktor Manfaat Pasti : </b></br>" . $nilai_sekarang;?></li>
+              <li><?php echo "<b>PhDP Saat Pensiun (asumsi kenaikan 5% per 1 Juli tiap tahun)  </b><br/>".rupiah($phdp);?></li>
+              <li><?php echo "<b>Faktor Manfaat Pasti (Nilai Sekarang)  </b></br>" . $nilai_sekarang;?></li>
           </ul>
         </div>
         
@@ -413,19 +414,19 @@ echo $tanggalpensiun_normal;
         <div class="skill1">
           <ul>                    
           <li><?php echo "<b>Kategori Tanggungan </b></br>" . $kategori . " (" . $keterangan . ")";?></li>
-          <li><?php echo '<b>Faktor Sekaligus : </b></br>' . $nilai_sekaligus;?></li>
+          <li><?php echo '<b>Faktor Sekaligus  </b></br>' . $nilai_sekaligus;?></li>
           
        <?php if($_GET['status']==3){
               echo "<li><b>Usia Saat Pensiun:</b><br /> " . $usia . " tahun 0 bulan 0 hari (Penyesuaian)";
-              echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti . " hari (Penyesuaian)</li>";
+              echo "<li><b>Masa Bakti Saat Pensiun</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti . " hari (Penyesuaian)</li>";
         }
         else if ($_GET['status']==2&&$usia<46){
-                echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
-              echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari (Penyesuaian)</li>";
+                echo "<li><b>Usia Saat Pensiun</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
+              echo "<li><b>Masa Bakti Pensiun</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari (Penyesuaian)</li>";
         }
         else {
-              echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
-              echo "<li><b>Masa Bakti Saat Pensiun:</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari</li>";
+              echo "<li><b>Usia Saat Pensiun</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
+              echo "<li><b>Masa Bakti Saat Pensiun</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari</li>";
         }
         ?>                        
           </ul>
@@ -444,18 +445,18 @@ echo $tanggalpensiun_normal;
 
 <div id="Alternatif 1" class="w3-container city">
     <div class="company">
-
+ <h3 class="clr1">Alternatif 1 <?php if(isset($manfaatbulantemp)) echo "(100% Manfaat Pasti Bulanan)";?></h3>
 <?php if(isset($manfaat_pasti)){?>
      <div class="company_details">
         <h4>Manfaat Pasti (Bulanan) <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php
         echo $nilai_sekarang . " x 2.5% x " . rupiah($phdp) . " x " . $masabakti;?></span></h4>
-        <p class="cmpny1"><?php echo rupiah($manfaatbulan1);?></p>
+        <p class="cmpny1"><?php echo rupiah($manfaatbulan1); if($usia<=46) echo " (dibayarkan mulai usia 46 tahun)";?></p>
      </div>
 
      <div class="company_details">
         <h4>Manfaat Pasti (Sekaligus) <span>Manfaat Bulanan x Faktor Sekaligus | <?php
                   echo rupiah($manfaatbulantemp) . " x " . $nilai_sekaligus;?></span></h4>
-        <p class="cmpny1"><?php echo rupiah($manfaatsekaligus1);?></p>
+        <p class="cmpny1"><?php echo rupiah($manfaatsekaligus1); if($usia<=46) echo " (dibayarkan pada usia 46 tahun)";?></p>
      </div>
  <?php }
 
@@ -490,6 +491,17 @@ echo $tanggalpensiun_normal;
  </div>
 
  <?php }
+     if(isset($uang_penggantian_hak)){?>
+
+<div class="company_details">
+    <h4>Uang Penggantian Hak  <span>(15% x (uang pesangon + uang penghargaan masa kerja)) | <?php
+        echo "15% x (" . rupiah($nilaipesangon) . " + " . rupiah($nilaiupmk) . ")";
+?></span></h4>
+    <p class="cmpny1"><?php if ($uanghak>0) echo rupiah($uanghak); else echo $flag;?></p>
+ </div>
+<?php }
+
+
     if(isset($uangpisah)){?>
 
 <div class="company_details">
@@ -503,7 +515,7 @@ echo $tanggalpensiun_normal;
          <p class="cmpny1" style="border-bottom: 0px dashed #999;">
          <h2 style="text-align: right;padding-right: 1.3em;"><?php echo rupiah($total1);?></h2>
          <h4 style="text-align: right;font-size: 15px;padding-right: 2.7em;">
-        <?php echo " plus   " . rupiah($manfaatbulan1);?> tiap bulan </h4></p>
+        <?php if(isset($manfaatbulantemp)) echo " plus   " . rupiah($manfaatbulan1); else echo "Rp 0"?> tiap bulan </h4></p>
     </div>
     </div>
 </div>
@@ -511,18 +523,18 @@ echo $tanggalpensiun_normal;
 
 <div id="Alternatif 2" class="w3-container city" style="display:none">
     <div class="company">
-
+<h3 class="clr1">Alternatif 2 <?php if(isset($manfaatbulantemp)) if($manfaatbulantemp>1500000) echo "(80% Manfaat Bulan, 20% Manfaat Sekaligus)"; else echo "(100% Manfaat Sekaligus)";?></h3>
 <?php if(isset($manfaat_pasti)){?>
      <div class="company_details">
         <h4>Manfaat Pasti (Bulanan) <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php
         echo $nilai_sekarang . " x 2.5% x " . rupiah($phdp) . " x " . $masabakti;?></span></h4>
-        <p class="cmpny1"><?php echo rupiah($manfaatbulan2);?></p>
+        <p class="cmpny1"><?php echo rupiah($manfaatbulan2); if($usia<=46) echo " (dibayarkan mulai usia 46 tahun)";?></p>
      </div>
 
      <div class="company_details">
         <h4>Manfaat Pasti (Sekaligus) <span>Manfaat Bulanan x Faktor Sekaligus | <?php
                   echo rupiah($manfaatbulantemp) . " x " . $nilai_sekaligus;?></span></h4>
-        <p class="cmpny1"><?php echo rupiah($manfaatsekaligus2);?></p>
+        <p class="cmpny1"><?php echo rupiah($manfaatsekaligus2); if($usia<=46) echo " (dibayarkan pada usia 46 tahun)";?></p>
      </div>
  <?php }
 
@@ -557,6 +569,16 @@ echo $tanggalpensiun_normal;
  </div>
 
  <?php }
+    if(isset($uang_penggantian_hak)){?>
+
+<div class="company_details">
+    <h4>Uang Penggantian Hak  <span>(15% x (uang pesangon + uang penghargaan masa kerja)) | <?php
+        echo "15% x (" . rupiah($nilaipesangon) . " + " . rupiah($nilaiupmk) . ")";
+?></span></h4>
+    <p class="cmpny1"><?php if ($uanghak>0) echo rupiah($uanghak); else echo $flag;?></p>
+ </div>
+<?php }
+
     if(isset($uangpisah)){?>
 
 <div class="company_details">
@@ -570,7 +592,7 @@ echo $tanggalpensiun_normal;
          <p class="cmpny1" style="border-bottom: 0px dashed #999;">
          <h2 style="text-align: right;padding-right: 1.3em;"><?php echo rupiah($total2);?></h2>
          <h4 style="text-align: right;font-size: 15px;padding-right: 2.7em;">
-        <?php echo " plus   " . rupiah($manfaatbulan2);?> tiap bulan </h4></p>
+        <?php if(isset($manfaatbulantemp)) echo " plus   " . rupiah($manfaatbulan2); else echo "Rp 0"?> tiap bulan </h4></p>
     </div>
     </div>
 </div>

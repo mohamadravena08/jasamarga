@@ -1,24 +1,23 @@
-<?php $npp=$_GET['npp'];
-$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));?>
 <div class="col-sm-3 col-md-2 sidebar" style="
     height: 1000px;
 ">
 		 <div class="sidebar_top">
 		 	<h1 style="text-align:center"><?php 
 		 			
-			 	echo "". $pegawai['nama']. '<br />';
-			 	echo "(".$npp. ")";
+			 	echo "". $_SESSION['nama']. '<br />';
+			 	echo "(".$_SESSION['npp']. ")";
 			?></h1>
 		 </div>
 		 <div class="details" style="position:relative">
 		 	<a class="btn btn-primary" href="logout.php" role="button" style="margin-right: 25%;margin-left: 25%;background-color: #c01616;border-color: #a00;">Logout</a>
 		 </div>
 		<div class="details" style="position:relative">
-			 <h3>Data Sekarang</h3>
+			 <h3>Data Anda Sekarang</h3>
 			 <p>
 				<?php
+					$npp=$_SESSION['npp'];
 					$today = new DateTime('today');
-					
+					$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
 					$kategori = $pegawai['kategori_tanggungan'];
 					$lahir=new DateTime($pegawai['tanggal_lahir']);
 					$umur = $today->diff($lahir)->y;
@@ -40,9 +39,9 @@ $pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp
 			 <h3>Umur Sekarang</h3>
 			 <p>
 				<?php
+					$npp=$_SESSION['npp']; 
 					$sql = mysqli_query($DBcon, "select * from pegawai where npp='$npp'");
 					$data = mysqli_fetch_array($sql);
-
 					$lahir = $data['tanggal_lahir'];	
 					$tanggallahir=date_create($lahir);
 	
@@ -56,7 +55,6 @@ $pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp
 					  $m = $today->diff($lahir)->m;
 					  //hari
 					  $d = $today->diff($lahir)->d;
-
 					  echo "<b>Tanggal Lahir:</b><br /> ". date_format($tanggallahir,'d-M-Y') .'<br />';
 					  echo "<b>Umur Sekarang:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 				?>
@@ -65,9 +63,9 @@ $pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp
 			 <h3>Masa Bakti Kerja</h3>
 			 <p>
 				<?php
+					$npp=$_SESSION['npp']; 
 					$sql = mysqli_query($DBcon, "select * from pegawai where npp='$npp'");
 					$data = mysqli_fetch_array($sql);
-
 					$bakti = $data['mulai_bakti'];	
 					$tanggalbakti=date_create($bakti);
 	
@@ -81,7 +79,6 @@ $pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp
 					  $m = $today->diff($bakti)->m;
 					  //hari
 					  $d = $today->diff($bakti)->d;
-
 					  echo "<b>Tanggal Bakti:</b><br /> ". date_format($tanggalbakti,'d-M-Y') .'<br />';
 					  echo "<b>Masa Bakti:</b><br /> " . $y . " tahun " . $m . " bulan " . $d . " hari";
 				?>

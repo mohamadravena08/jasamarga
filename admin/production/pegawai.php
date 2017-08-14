@@ -144,6 +144,7 @@ if(!isset($_SESSION["admin"])){
                           <th>Mulai Bakti</th>
                           <th>Kategori Tanggungan</th>
                           <th>Password Akun SIMPENSIUN</th>
+                          <th>Simulasi</th>
                         </tr>
                       </thead>
 
@@ -159,20 +160,21 @@ if(!isset($_SESSION["admin"])){
                               $lahir=date_create($row['tanggal_lahir']);
                               $tanggal_lahir=date_format($lahir, "d-M-Y");
                               if($row['status_nikah']=="M") $status_nikah="Menikah"; else $status_nikah="Lajang";
-                              echo '
+                              ?>
                               <tr>
-                                <td>'.$no.'</td>
-                                <td>'.$row['npp'].'</td>
-                                <td>'.$row['nama'].'</td>
-                                <td>'.$jenis_kelamin.'</td>
-                                <td>'.$status_nikah.'</td>
-                                <td>'.$row['jumlah_anak'].'</td>
-                                <td>'.$tanggal_lahir.'</td>
-                                <td>'.$tanggal_bakti.'</td>
-                                <td>'.$row['kategori_tanggungan'].'</td>
-                                <td>'.$row['password'].'</td>
+                                <td><?php echo $no;?></td>
+                                <td><?php echo $row['npp'];?></td>
+                                <td><?php echo $row['nama'];?></td>
+                                <td><?php echo $jenis_kelamin;?></td>
+                                <td><?php echo $status_nikah;?></td>
+                                <td><?php echo $row['jumlah_anak'];?></td>
+                                <td><?php echo $tanggal_lahir;?></td>
+                                <td><?php echo $tanggal_bakti;?></td>
+                                <td><?php echo $row['kategori_tanggungan'];?></td>
+                                <td><?php echo $row['password'];?></td>
+                                <td><a href="../../karyawan/simulasi.php?npp=<?php echo $row['npp'];?>">Lihat Simulasi</a></td>
                               </tr>
-                              ';
+                              <?php 
                               $no++;
                             }
                             ?>
