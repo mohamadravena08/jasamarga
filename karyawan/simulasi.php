@@ -400,8 +400,8 @@ echo $tanggalpensiun_normal;
       <div class="skill_list">
         <div class="skill1">
           <ul>                    
-            <li><?php echo "<b>Nama Lengkap </b><br/>".$_SESSION['nama'];?></li>
-            <li><?php echo "<b>Nomor Pokok Pegawai </b></br>".$_SESSION['npp'];?></li>
+            <li><?php echo "<b>Nama Lengkap </b><br/>".$pegawai['nama'];?></li>
+            <li><?php echo "<b>Nomor Pokok Pegawai </b></br>".$npp;?></li>
             <li><?php echo "<b>Unit Kerja </b></br>".$unitkerja;?></li>
             <li><?php echo "<b>Usia Mulai Bekerja  </b><br/>".$usiamasuk." tahun ".$bulanmasuk." bulan ".$harimasuk." hari";?></li>
           </ul>

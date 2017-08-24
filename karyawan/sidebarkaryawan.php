@@ -6,23 +6,31 @@
 		 			
 			 	echo "". $_SESSION['nama']. '<br />';
 			 	echo "(".$_SESSION['npp']. ")";
-			?></h1>
-		 </div>
+		$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
+		$kategori = $pegawai['kategori_tanggungan'];
+		$lahir=new DateTime($pegawai['tanggal_lahir']);
+			$pensiun_normal=$lahir;
+			date_add($pensiun_normal, date_interval_create_from_date_string('56 years'));?></h1>
+		</div>
 		 <div class="details" style="position:relative">
-		 	<a class="btn btn-primary" href="logout.php" role="button" style="margin-right: 25%;margin-left: 25%;background-color: #c01616;border-color: #a00;">Logout</a>
+		 <center>
+		 <p><strong>Pensiun Normal</strong><br> <?php echo date_format($pensiun_normal,"d-M-Y");?> <p>
+		 	<a class="btn btn-danger" href="logout.php" role="button">Logout</a>
+
+		 	</center>
 		 </div>
+
+
 		<div class="details" style="position:relative">
 			 <h3>Data Anda Sekarang</h3>
 			 <p>
 				<?php
 					$npp=$_SESSION['npp'];
 					$today = new DateTime('today');
-					$pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
-					$kategori = $pegawai['kategori_tanggungan'];
-					$lahir=new DateTime($pegawai['tanggal_lahir']);
+					
 					$umur = $today->diff($lahir)->y;
 					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$umur"));
-					$nilai_sekarang=$ns['nilai_sekarang']; 
+					$nilaisekarangside=$ns['nilai_sekarang']; 
 					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
 					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$umur"));
 					$nilai_sekaligus=$nsekaligus[$kategori];
@@ -30,7 +38,7 @@
 					  echo "<b>Gaji Pokok  </b><br> ".rupiah($gaji['gaji_pokok']) .'</br>';
 					  echo "<b>Penghasilan  </b><br> ".rupiah($gaji['gaji_pokok']+$gaji['tunjangan_struktural']+$gaji['tunjangan_fungsional']+$gaji['tunjangan_operasional']) .'</br>';
 					  echo "<b>PhDP  </b><br> ".rupiah($gaji['phdp']) .'</br>';
-					  echo "<b>Faktor Manfaat Pasti  </b><br> ".$nilai_sekarang .'</br>';
+					  echo "<b>Faktor Manfaat Pasti  </b><br> ".$nilaisekarangside .'</br>';
 					  echo "<b>Kategori Tanggungan </b> </br> ".$kategori .'</br>';
 					  echo '<b>Faktor Sekaligus  </b><br>'.$nilai_sekaligus;
 				?>

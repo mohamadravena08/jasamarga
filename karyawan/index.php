@@ -14,8 +14,6 @@ $npp                    = $_SESSION['npp'];
 $pegawai                = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from pegawai where npp='$npp'"));
 $tanggalpensiun_normal1 = date_create($pegawai['tanggal_lahir']);
 date_add($tanggalpensiun_normal1, date_interval_create_from_date_string('56 years'));
-if (!isset($_GET['alternatif']))
-    $_GET['alternatif'] = 1;
 $tanggalpensiun_normal  = date_format($tanggalpensiun_normal1, 'Y, m, d');
 $tanggalpensiun_normal2 = date_format($tanggalpensiun_normal1, 'd-M-Y');
 
@@ -57,8 +55,10 @@ if (isset($_GET['status'])) {
     $bulanmasuk = $bakti->diff($lahir)->m;
     $harimasuk  = $bakti->diff($lahir)->d;
     
+
     $ns              = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from nilai_sekarang where usia_bayar=$usia"));
     $nilai_sekarang  = $ns['nilai_sekarang'];
+  
     $nsekaligus      = mysqli_fetch_assoc(mysqli_query($DBcon, "select $kategori from nilai_sekaligus where usia=$usia"));
     $nilai_sekaligus = $nsekaligus[$kategori];
     
@@ -198,6 +198,7 @@ if (isset($_GET['status'])) {
         $purna_karya   = TRUE;
         $manfaat_pasti = TRUE;
     }
+    
 
 
     //perhitungan manfaat
