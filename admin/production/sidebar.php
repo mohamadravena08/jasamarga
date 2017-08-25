@@ -14,6 +14,7 @@
                       <li><a href="purna_karya.php">Purna Karya</a></li>
                       <li><a href="purna_karya_dini.php">Purna Karya Dini</a></li>
                       <li><a href="purna_karya_kepesertaan.php">Purna Karya Kepesertaan</a></li>
+                      <li><a href="iuranpasti.php">Tabel Manfaat Pasti Iuran Pasti</a></li>
                       <li><a href="bpjstk.php">Tabel Manfaat BPJSTk</a></li>
                     </ul>
                   </li>

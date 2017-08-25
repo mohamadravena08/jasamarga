@@ -12,7 +12,7 @@ if(!isset($_SESSION["admin"])){
       }
       include_once("../../library/koneksi.php");
       include_once("../../library/fungsi_rupiah.php");
-      $updateBy=mysqli_fetch_array(mysqli_query($DBcon,"select * from payroll_log order by timestamp desc"));
+      $updateBy=mysqli_fetch_array(mysqli_query($DBcon,"select * from iuranpasti_log order by timestamp desc"));
       $updater=$updateBy['updater'];
       $waktu=$updateBy['timestamp'];
     ?>
@@ -25,7 +25,7 @@ if(!isset($_SESSION["admin"])){
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Tabel Iuran Pasti (JiwaSraya)</title>
+        <title>Tabel Manfaat Pasti Iuran Pasti JiwaSraya</title>
 
         <!-- Bootstrap -->
         <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,7 +44,30 @@ if(!isset($_SESSION["admin"])){
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
+
+        <!-- bootstrap-daterangepicker -->
+        <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+        <!-- bootstrap-datetimepicker -->
+        <link href="../vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+        <!-- Ion.RangeSlider -->
+        <link href="../vendors/normalize-css/normalize.css" rel="stylesheet">
+        <link href="../vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
+        <link href="../vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+        <!-- Bootstrap Colorpicker -->
+        <link href="../vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+        <link href="../vendors/cropper/dist/cropper.min.css" rel="stylesheet">
+
+        <!-- Custom Theme Style -->
+        <link href="../build/css/custom.min.css" rel="stylesheet">
+
+
+
       </head>
+
+
+
+
 
         <body class="nav-md">
         <div class="container body">
@@ -94,7 +117,6 @@ if(!isset($_SESSION["admin"])){
 
             <!-- page content -->
 
-
             <div class="right_col" role="main">
               <div class="">
 
@@ -104,7 +126,8 @@ if(!isset($_SESSION["admin"])){
                   <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                       <div class="x_title">
-                        <h2>Data Iuran Pasti (JiwaSraya)<small>terakhir diperbarui pada : <strong><?php echo $waktu;?></strong> oleh : <strong><?php echo $updater;?></strong></small></h2>
+                      
+                        <h2>Data Tabel Manfaat Iuran Pasti JiwaSraya <small>efektif sejak : <strong><!-- <?php echo $efektif;?> --></strong>terakhir diperbarui pada : <strong><?php echo $waktu;?></strong> oleh : <strong><?php echo $updater;?></strong></small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                           </li>
@@ -113,7 +136,7 @@ if(!isset($_SESSION["admin"])){
                           </li>
                         </ul>
                         <div class="clearfix"></div>
-                        <center><h5>Contoh file Iuran Pasti : <a target="blank" href="contohexcel/cotoh%20data%20iuranpasti.xlsx">Download</a></h5></center>
+                        <center><h5>Contoh file Tabel MPIP : <a target="blank" href="contohexcel/contoh%20tabel%20iuranpasti.xlsx">Download</a></h5></center>
                       </div>
                       <?php
                                 $no = 1;
@@ -121,38 +144,48 @@ if(!isset($_SESSION["admin"])){
                                 if(mysqli_num_rows($res)>0){?>
                       <div class="x_content">
                       <center><div>
-        <h3>Upload File Iuran Pasti Terbaru</h3>
+        <h3>Upload File Tabel Iuran Pasti Terbaru</h3>
             <form method="post" action="iuranpastiProses.php" enctype="multipart/form-data">
                       <input type="file" name="iuranpasti">
-                      <button class="right" value=1 type="submit" name="kirim">Upload</button>
+                      <fieldset style="padding-top: 1em;margin-left: 25%;margin-right: 25%;">
+                                <div class="control-group">
+                                  <div class="controls">
+                                    <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
+                                      <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                      <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                    </div>
+                                  </div>
+                                </div>
+                        </fieldset>
+                        <button class="right" value=1 type="submit" name="kirim">Upload</button>
+
                       </form>
+
+                      
     </div></center>
+
+
                         <p class="text-muted font-13 m-b-30">
-                          Tabel berisi data Iuran Pasti (JiwaSraya)
+                          Tabel berisi data MPIP dari JiwaSraya
                         </p>
                         <table id="dataTables" class="table table-striped table-bordered">
                           <thead>
                             <tr>
                              <th>NPP</th>
+                              <th>Nomor Peserta</th>
                               <th>Nama Lengkap</th>
-                              <th>Unit Kerja</th>
-                              <th>Jabatan</th>
-                              <th>Gaji Pokok</th>
-                              <th>PhDP</th>
-                              <th>Tunjangan Struktural</th>
-                              <th>Tunjangan Fungsional</th>
-                              <th>Tunjangan Operasional</th>
-                              <th>Total Penerimaan</th>
-                              <th>Total Potongan</th>
-                              <th>Penerimaan Bersih</th>
-                              
+                              <th>Akumulasi Iuran</th>
+                              <th>Akumulasi Hasil</th>
+                              <th>Akumulasi Dana</th>
+                              <th>Tanggal Masuk</th>
+                              <th>Tanggal Pensiun</th>
+                              <th>Iuran Bulanan</th>                      
                             </tr>
                           </thead>
 
-
                           <tbody>
                             <?php
-                                
                                 while($row = $res->fetch_assoc()){
                                   $npp=$row['npp'];
                                   $emp=mysqli_fetch_array(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));
@@ -160,17 +193,14 @@ if(!isset($_SESSION["admin"])){
                                   echo '
                                   <tr>
                                     <td>'.$row['npp'].'</td>
+                                    <td>'.$row['nomor_peserta'].'</td>
                                     <td>'.$nama.'</td>
-                                     <td>'.$row['unit_kerja'].'</td>
-                                    <td>'.$row['jabatan'].'</td>
-                                    <td>'.rupiah($row['gaji_pokok']).'</td>
-                                     <td>'.rupiah($row['phdp']).'</td>
-                                    <td>'.rupiah($row['tunjangan_struktural']).'</td>
-                                    <td>'.rupiah($row['tunjangan_fungsional']).'</td>
-                                    <td>'.rupiah($row['tunjangan_operasional']).'</td>
-                                    <td>'.rupiah($row['total_penerimaan']).'</td>
-                                    <td>'.rupiah($row['total_potongan']).'</td>
-                                    <td>'.rupiah($row['penerimaan_bersih']).'</td>
+                                    <td>'.rupiah($row['akumulasi_iuran']).'</td>
+                                    <td>'.rupiah($row['akumulasi_hasil']).'</td>
+                                    <td>'.rupiah($row['akumulasi_dana']).'</td>
+                                    <td>'.$row['tanggal_masuk'].'</td>
+                                    <td>'.$row['tanggal_pensiun'].'</td>
+                                    <td>'.rupiah($row['iuran_bulanan']).'</td>
                                   </tr>
                                   ';
                                   $no++;
@@ -183,11 +213,22 @@ if(!isset($_SESSION["admin"])){
                   </div>
 
             <!-- /page content -->
-    <?php } else { echo "<center>Tabel Iuran Pasti Kosong</center>";?>
+    <?php } else { echo "<center>Tabel MPIP Kosong</center>";?>
     <center><div>
-    <h3>Upload File Iuran Pasti Terbaru</h3>
+    <h3>Upload File MPIP Terbaru</h3>
             <form method="post" action="iuranpastiProses.php" enctype="multipart/form-data">
-                      <input type="file" name="payroll">
+                      <input type="file" name="iuranpasti">
+                              <fieldset style="padding-top: 1em;margin-left: 25%;margin-right: 25%;">
+                                <div class="control-group">
+                                  <div class="controls">
+                                    <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
+                                      <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                      <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </fieldset>
                       <button class="right" value=1 type="submit" name="kirim">Upload</button>
                       </form>
                       <?php } ?>
@@ -230,6 +271,34 @@ if(!isset($_SESSION["admin"])){
         <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
         <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+            <!-- jQuery -->
+        <script src="../vendors/jquery/dist/jquery.min.js"></script>
+         <script src="../build/js/custom.js"></script>
+        <!-- Bootstrap -->
+        <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- FastClick -->
+        <script src="../vendors/fastclick/lib/fastclick.js"></script>
+        <!-- NProgress -->
+        <script src="../vendors/nprogress/nprogress.js"></script>
+        <!-- bootstrap-daterangepicker -->
+        <script src="../vendors/moment/min/moment.min.js"></script>
+        <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <!-- bootstrap-datetimepicker -->    
+        <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+        <!-- Ion.RangeSlider -->
+        <script src="../vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
+        <!-- Bootstrap Colorpicker -->
+        <script src="../vendors/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+        <!-- jquery.inputmask -->
+        <script src="../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+        <!-- jQuery Knob -->
+        <script src="../vendors/jquery-knob/dist/jquery.knob.min.js"></script>
+        <!-- Cropper -->
+        <script src="../vendors/cropper/dist/cropper.min.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="../build/js/custom.min.js"></script>
+
         <!-- Custom Theme Scripts -->
         <script src="../build/js/custom.min.js"></script>
           <script>
@@ -237,6 +306,44 @@ if(!isset($_SESSION["admin"])){
               $('#dataTables').DataTable();
             } );
           </script>
+
+          <script>
+                $('#myDatepicker').datetimepicker();
+                
+                $('#myDatepicker2').datetimepicker({
+                    format: 'DD.MM.YYYY'
+                });
+                
+                $('#myDatepicker3').datetimepicker({
+                    format: 'hh:mm A'
+                });
+                
+                $('#myDatepicker4').datetimepicker({
+                    ignoreReadonly: true,
+                    allowInputToggle: true
+                });
+
+                $('#datetimepicker6').datetimepicker();
+                
+                $('#datetimepicker7').datetimepicker({
+                    useCurrent: false
+                });
+                
+                $("#datetimepicker6").on("dp.change", function(e) {
+                    $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                });
+                
+                $("#datetimepicker7").on("dp.change", function(e) {
+                    $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                });
+
+                $('#single_cal1').daterangepicker({
+                  singleDatePicker: true,
+                  singleClasses: "picker_1"
+                }, function(start, end, label) {
+                  console.log(start.toISOString(), end.toISOString(), label);
+                });
+            </script>
 
       </body>
     </html>
