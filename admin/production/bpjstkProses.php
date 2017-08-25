@@ -16,7 +16,7 @@ move_uploaded_file($_FILES["jht"]["tmp_name"], "exceljht/" . $newfilename);
 	require('php-excel-reader/excel_reader2.php');
 	require('SpreadsheetReader.php');
 $sql="START TRANSACTION;";
-		$sql.="truncate table jht;";
+		$sql.="truncate table bpjstk;";
 	try
 	{
 		
@@ -30,22 +30,34 @@ $sql="START TRANSACTION;";
 			$Spreadsheet -> ChangeSheet($Index);
 
 			foreach ($Spreadsheet as $Key => $Row)
-
 			{
-				$npp=$Row[0];
-				$nokjp=$Row[1];
+
+				// INSERT INTO `bpjstk`(`npp`, `no_ref`, `nama_lengkap`, `jumlah_upah`, `saldo_awalJHT`, `saldo_cabanglain`, `iuran_cabanglain`, `iuran`, `saldo_akhirJHT`, `saldo_awaltahunJP`, `saldo_tahunberjalanJP`, `klaim_JP`, `masa_iur`) VALUES
+
+				
+				$npp=$Row[2];
+				$noref=$Row[5];
+				$jumlah_upah=$Row[8];
+				$saldo_awalJHT=$Row[9];
+				$saldo_cabanglain=$Row[10];
+				$iuran_cabanglain=$Row[11];
+				$iuran=$Row[12];
+				$saldo_akhirJHT=$Row[18];
+				$saldo_awaltahunJP=$Row[19];
+				$saldo_tahunberjalanJP=$Row[20];
+				$klaim_JP=$Row[21];
+
 				$nilai_rupiah=$Row[3];
 				if(strlen($npp)==4){
 					$npp="0".$npp;
 				}
 				
-				if($Key>0){
+				 if($Key>=6&&$Row[2]!=NULL&&$Row[7]==NULL){
 						
-						$sql.="insert into jht values('$npp','$nokjp','$nilai_rupiah');";
+				$sql.="insert into bpjstk values('$npp','$noref','$jumlah_upah','$saldo_awalJHT','$saldo_cabanglain','$iuran_cabanglain','$iuran','$saldo_akhirJHT','$saldo_awaltahunJP','$saldo_tahunberjalanJP','$klaim_JP','$masa_iur');";
 						
 					
-				}
-				// print_r($Row);
+				 }
 				}
 			}
 		
@@ -53,16 +65,16 @@ $sql="START TRANSACTION;";
 	catch (Exception $E)
 	{
 		echo $E -> getMessage();
-		// header('location:jaminan_haritua.php?status=FALSE');
+		header('location:bpjstk.php?status=FALSE');
 	}
 	$updater=$_SESSION['admin'];
 	
- 	$sql.="COMMIT;";
-	mysqli_query($DBcon,"insert into jht_log values('','$updater','',NOW());");
+  	$sql.="COMMIT;";
+	mysqli_query($DBcon,"insert into bpjstk values('','$updater','',NOW());");
  	if ($DBcon->multi_query($sql) === TRUE) {
      $DBcon->close();
 
-     header('location:jaminan_haritua.php?status=TRUE');
+     header('location:bpjstk.php?status=TRUE');
  } else {
      echo "Error: " . $sql . "<br>" . $DBcon->error;
  }

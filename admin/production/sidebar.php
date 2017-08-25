@@ -14,7 +14,7 @@
                       <li><a href="purna_karya.php">Purna Karya</a></li>
                       <li><a href="purna_karya_dini.php">Purna Karya Dini</a></li>
                       <li><a href="purna_karya_kepesertaan.php">Purna Karya Kepesertaan</a></li>
-                      <li><a href="jaminan_haritua.php">Tabel JHT</a></li>
+                      <li><a href="bpjstk.php">Tabel Manfaat BPJSTk</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-users"></i>Data Admin<span class="fa fa-chevron-down"></span></a>
