@@ -208,15 +208,15 @@ if(!isset($_SESSION["admin"])){
                                     <td>'.$row['npp'].'</td>
                                     <td>'.$row['no_ref'].'</td>
                                     <td>'.$nama.'</td>
-                                    <td>'.$row['jumlah_upah'].'</td>
-                                    <td>'.$row['saldo_awalJHT'].'</td>
-                                    <td>'.$row['saldo_cabanglain'].'</td>
-                                    <td>'.$row['iuran_cabanglain'].'</td>
-                                    <td>'.$row['iuran'].'</td>
-                                    <td>'.$row['saldo_akhirJHT'].'</td>
-                                    <td>'.$row['saldo_awaltahunJP'].'</td>
-                                    <td>'.$row['saldo_tahunberjalanJP'].'</td>
-                                    <td>'.$row['klaim_JP'].'</td>
+                                    <td>'.rupiah($row['jumlah_upah']).'</td>
+                                    <td>'.rupiah($row['saldo_awalJHT']).'</td>
+                                    <td>'.rupiah($row['saldo_cabanglain']).'</td>
+                                    <td>'.rupiah($row['iuran_cabanglain']).'</td>
+                                    <td>'.rupiah($row['iuran']).'</td>
+                                    <td>'.rupiah($row['saldo_akhirJHT']).'</td>
+                                    <td>'.rupiah($row['saldo_awaltahunJP']).'</td>
+                                    <td>'.rupiah($row['saldo_tahunberjalanJP']).'</td>
+                                    <td>'.rupiah($row['klaim_JP']).'</td>
                                     <td>'.$row['masa_iur'].'</td>
                                   </tr>
                                   ';

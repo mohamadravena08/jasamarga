@@ -9,7 +9,7 @@ session_start();
 $date = date("d-M-Y His");
 	if(isset($_POST['tanggalefektif'])) $tanggalefektif=$_POST['tanggalefektif'];
   $temp = explode(".", $_FILES["jht"]["name"]);
-	$newfilename = "DataJHT - update  ".$date.' by '.$_SESSION['admin'].'.'. end($temp);
+	$newfilename = "Data BPJS Ketenagakerjaan - update  ".$date.' by '.$_SESSION['admin'].'.'. end($temp);
 move_uploaded_file($_FILES["jht"]["tmp_name"], "exceljht/" . $newfilename);
 	$Filepath="exceljht/".$newfilename;
 	// Excel reader from http://code.google.com/p/php-excel-reader/
