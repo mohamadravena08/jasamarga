@@ -24,5 +24,6 @@
                       <li><a href="tambahadmin.php">Tambah Admin</a></li>
                     </ul>
                   </li>
+                  <li><a href="nilaiberubah.php"><i class="fa fa-bar-chart-o"></i>Nilai Persentase</a></li>
                 </ul>
               </div>
