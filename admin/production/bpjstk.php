@@ -152,7 +152,7 @@ if(!isset($_SESSION["admin"])){
                                 $no = 1;
                                 $res = mysqli_query($DBcon,"select * from bpjstk");
                                 if(mysqli_num_rows($res)>0){?>
-                      <div class="x_content">
+                      
                       <center><div>
         <h3>Upload File Tabel JHT Terbaru</h3>
             <form method="post" action="bpjstkProses.php" enctype="multipart/form-data">
@@ -161,7 +161,7 @@ if(!isset($_SESSION["admin"])){
                                 <div class="control-group">
                                   <div class="controls">
                                     <div class="col-md-11 xdisplay_inputx form-group has-feedback">
-                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status">
                                       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                       <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>
@@ -174,6 +174,7 @@ if(!isset($_SESSION["admin"])){
 
                       
     </div></center>
+                      <div class="x_content">
                         <p class="text-muted font-13 m-b-30">
                           Tabel berisi data JHT dari BPJS Ketenagakerjaan
                         </p>
@@ -226,8 +227,6 @@ if(!isset($_SESSION["admin"])){
                           </tbody>
                         </table>
                       </div>
-                    </div>
-                  </div>
 
             <!-- /page content -->
     <?php } else { echo "<center>Tabel JHT Kosong</center>";?>
@@ -239,7 +238,7 @@ if(!isset($_SESSION["admin"])){
                                 <div class="control-group">
                                   <div class="controls">
                                     <div class="col-md-11 xdisplay_inputx form-group has-feedback">
-                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status">
                                       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                       <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>
@@ -261,42 +260,33 @@ if(!isset($_SESSION["admin"])){
           </div>
         </div>
 
-        <!-- jQuery -->
-        <script src="../vendors/jquery/dist/jquery.min.js"></script>
-        <!-- Bootstrap -->
-        <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- FastClick -->
-        <script src="../vendors/fastclick/lib/fastclick.js"></script>
-        <!-- NProgress -->
-        <script src="../vendors/nprogress/nprogress.js"></script>
-        <!-- iCheck -->
-        <script src="../vendors/iCheck/icheck.min.js"></script>
-        <!-- Datatables -->
-        <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-        <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-        <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-        <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-        <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-        <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-        <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-        <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-        <script src="../vendors/jszip/dist/jszip.min.js"></script>
-        <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-        <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="../vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="../vendors/nprogress/nprogress.js"></script>
+    <!-- iCheck -->
+    <script src="../vendors/iCheck/icheck.min.js"></script>
+    <!-- Datatables -->
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/jszip/dist/jszip.min.js"></script>
+    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-            <!-- jQuery -->
-        <script src="../vendors/jquery/dist/jquery.min.js"></script>
-         <script src="../build/js/custom.js"></script>
-        <!-- Bootstrap -->
-        <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- FastClick -->
-        <script src="../vendors/fastclick/lib/fastclick.js"></script>
-        <!-- NProgress -->
-        <script src="../vendors/nprogress/nprogress.js"></script>
         <!-- bootstrap-daterangepicker -->
         <script src="../vendors/moment/min/moment.min.js"></script>
         <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
@@ -306,16 +296,6 @@ if(!isset($_SESSION["admin"])){
         <script src="../vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
         <!-- Bootstrap Colorpicker -->
         <script src="../vendors/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
-        <!-- jquery.inputmask -->
-        <script src="../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
-        <!-- jQuery Knob -->
-        <script src="../vendors/jquery-knob/dist/jquery.knob.min.js"></script>
-        <!-- Cropper -->
-        <script src="../vendors/cropper/dist/cropper.min.js"></script>
-
-    <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
-
         <!-- Custom Theme Scripts -->
         <script src="../build/js/custom.min.js"></script>
           <script>
@@ -324,43 +304,16 @@ if(!isset($_SESSION["admin"])){
             } );
           </script>
 
+
+
           <script>
-                $('#myDatepicker').datetimepicker();
-                
-                $('#myDatepicker2').datetimepicker({
-                    format: 'DD.MM.YYYY'
-                });
-                
-                $('#myDatepicker3').datetimepicker({
-                    format: 'hh:mm A'
-                });
-                
-                $('#myDatepicker4').datetimepicker({
-                    ignoreReadonly: true,
-                    allowInputToggle: true
-                });
-
-                $('#datetimepicker6').datetimepicker();
-                
-                $('#datetimepicker7').datetimepicker({
-                    useCurrent: false
-                });
-                
-                $("#datetimepicker6").on("dp.change", function(e) {
-                    $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-                });
-                
-                $("#datetimepicker7").on("dp.change", function(e) {
-                    $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-                });
-
                 $('#single_cal1').daterangepicker({
                   singleDatePicker: true,
                   singleClasses: "picker_1"
                 }, function(start, end, label) {
                   console.log(start.toISOString(), end.toISOString(), label);
                 });
-            </script>
+          </script>
 
       </body>
     </html>
