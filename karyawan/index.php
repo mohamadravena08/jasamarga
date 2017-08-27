@@ -17,6 +17,16 @@ date_add($tanggalpensiun_normal1, date_interval_create_from_date_string('56 year
 $tanggalpensiun_normal  = date_format($tanggalpensiun_normal1, 'Y, m, d');
 $tanggalpensiun_normal2 = date_format($tanggalpensiun_normal1, 'd-M-Y');
 
+$persentase=mysqli_fetch_all(mysqli_query($DBcon,"select * from nilai_persentase"),MYSQLI_ASSOC);
+$kenaikanGajipokok=$persentase[0]['angka'];
+$kenaikanPhdp=$persentase[1]['angka'];
+$kenaikanJHT=$persentase[2]['angka'];
+$kenaikanJHT=$kenaikanJHT/100;
+$kenaikan_iuranpasti=$persentase[3]['angka'];
+
+$tabelbpjstk=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from bpjstk where npp='$npp'"));
+$tanggalefektifs=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from bpjstk_log order by timestamp desc"));
+
 // kategori tanggungan
 $kategori = $pegawai['kategori_tanggungan'];
 if ($kategori == "M1")
@@ -66,8 +76,8 @@ if (isset($_GET['status'])) {
     $gaji      = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from payrolls where npp ='$npp'"));
     $gajipokok = $gaji['gaji_pokok'];
     $phdp      = $gaji['phdp'];
-    
-    
+    $kenaikanGajipokok = 0.08;
+    $kenaikanPhdp = 0.05;
     $tahunini = date('Y');
     $bulanini = date('m');
     if ($bulanini > 7)
@@ -79,11 +89,11 @@ if (isset($_GET['status'])) {
     $bedatahunphdp = $haripensiun->diff($thresPHDP)->y;
     $bedatahungaji = $haripensiun->diff($thresGaji)->y;
     for ($i = 0; $i < $bedatahunphdp; $i++) {
-        $phdp = $phdp + 0.05 * $phdp;
+        $phdp = $phdp + $kenaikanPhdp * $phdp;
     }
     
     for ($i = 0; $i < $bedatahungaji; $i++) {
-        $gajipokok = $gajipokok + 0.08 * $gajipokok;
+        $gajipokok = $gajipokok + $kenaikanGajipokok * $gajipokok;
     }
     $penghasilan = $gajipokok + $gaji['tunjangan_struktural'] + $gaji['tunjangan_fungsional'] + $gaji['tunjangan_operasional'];
         $unitkerja  = $gaji['unit_kerja'];
@@ -147,7 +157,7 @@ if (isset($_GET['status'])) {
     else if ($_GET['status'] == 4) {
         $status                 = "Ke Anak Perusahaan (KAP)";
         $manfaat_pasti          = TRUE;
-        $jht                    = TRUE;
+        $jht                 = TRUE;
         $purna_karya            = TRUE;
         $pesangon               = TRUE;
         $penghargaan_masa_kerja = TRUE;
@@ -224,14 +234,41 @@ if (isset($_GET['status'])) {
         $total1+=$manfaatsekaligus1;
         $total2+=$manfaatsekaligus2;}
     }
-    if (isset($jht) && $jht){
-      $tabeljht=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from jht where npp='$npp'"));
-      $nilaijht=$tabeljht['nilai_rupiah'];
+    ?>
+    <center>
+    <?php if (isset($jht) && $jht){
+      
+      $tanggalefektif2= date_create($tanggalefektifs['efektif_sejak']);
+      $tanggalefektif=date_format($tanggalefektif2,"Y-m-d");
+      $saldoterkini=$tabelbpjstk['saldo_akhirJHT'];
+      $iuran=$tabelbpjstk['iuranbulanan'];
+      $tahunefektif=date_format($tanggalefektif2,"Y");
+      $bedatahunjht=$haripensiun->diff($tanggalefektif2)->y;
+      $bedabulanjht=$haripensiun->diff($tanggalefektif2)->m;
+      $akumulasiiuran=$saldoterkini;
+      echo "Bunga JHT = ".$kenaikanJHT."<br>";
+      echo "Beda Tahun : ".$bedatahunjht."<br>";
+      for($i=0;$i<$bedatahunjht;$i++){
+        echo "tahun ke : ".$i."<br>";
+        echo "akumulasiiuranaja = ".rupiah($akumulasiiuran)."<br>";
+        $akumulasiiuran+=$iuran*12;
+        echo "iuran x 12 : ".rupiah($iuran*12)."<br>";
+        $iuran+=$iuran*$kenaikanGajipokok;
+        echo "iuranbaru = ".rupiah($iuran)."<br>";
+        $pengembangan=$akumulasiiuran*$kenaikanJHT;
+        echo "pengembangan = ".rupiah($pengembangan)."<br>";
+        $akumulasiiuran+=$pengembangan;
+      }
+      $akumulasiiuran+=$bedabulanjht*$iuran;
+      echo "Beda Bulan : ".$bedabulanjht."<br>";
+      echo "Tambahan iuran dari beda bulan : ".rupiah($bedabulanjht*$iuran)."<br>";
+      echo "Hasil Akhir : ".rupiah($akumulasiiuran);
+      $nilaijht=$akumulasiiuran;
       $total1+=$nilaijht;
       $total2+=$nilaijht;
-    }
-
-    if (isset($purna_karya) && $purna_karya){
+    }?>
+</center>
+    <?php if (isset($purna_karya) && $purna_karya){
         $baktiup = $masabakti + 1;
         $usiaup = $usia + 1;
         if ($usia < 46){

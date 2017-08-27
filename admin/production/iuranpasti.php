@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-error_reporting(0);
+// error_reporting(0);
 session_start();
 include("../../library/koneksi.php");
 if(!isset($_SESSION["admin"])){
@@ -15,6 +15,8 @@ if(!isset($_SESSION["admin"])){
       $updateBy=mysqli_fetch_array(mysqli_query($DBcon,"select * from iuranpasti_log order by timestamp desc"));
       $updater=$updateBy['updater'];
       $waktu=$updateBy['timestamp'];
+      $efektif=$updateBy['efektif_sejak'];
+      // $efektif=0;
     ?>
 
     <html lang="en">
@@ -127,7 +129,7 @@ if(!isset($_SESSION["admin"])){
                     <div class="x_panel">
                       <div class="x_title">
                       
-                        <h2>Data Tabel Manfaat Iuran Pasti JiwaSraya <small>efektif sejak : <strong><!-- <?php echo $efektif;?> --></strong>terakhir diperbarui pada : <strong><?php echo $waktu;?></strong> oleh : <strong><?php echo $updater;?></strong></small></h2>
+                        <h2>Data Tabel Manfaat Iuran Pasti JiwaSraya <small>efektif sejak : <strong><?php echo $efektif;?></strong> terakhir diperbarui pada : <strong><?php echo $waktu;?></strong> oleh : <strong><?php echo $updater;?></strong></small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                           </li>
@@ -146,12 +148,12 @@ if(!isset($_SESSION["admin"])){
                       <center><div>
         <h3>Upload File Tabel Iuran Pasti Terbaru</h3>
             <form method="post" action="iuranpastiProses.php" enctype="multipart/form-data">
-                      <input type="file" name="iuranpasti">
+                      <input type="file" name="iuranpasti" required>
                       <fieldset style="padding-top: 1em;margin-left: 25%;margin-right: 25%;">
                                 <div class="control-group">
                                   <div class="controls">
                                     <div class="col-md-11 xdisplay_inputx form-group has-feedback">
-                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status" name="tanggalefektif" required>
                                       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                       <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>
@@ -214,14 +216,14 @@ if(!isset($_SESSION["admin"])){
             <!-- /page content -->
     <?php } else { echo "<center>Tabel MPIP Kosong</center>";?>
     <center><div>
-    <h3>Upload File MPIP Terbaru</h3>
+    <h3>Upload File Tabel Iuran Pasti Terbaru</h3>
             <form method="post" action="iuranpastiProses.php" enctype="multipart/form-data">
-                      <input type="file" name="iuranpasti">
+                      <input type="file" name="iuranpasti" required>
                               <fieldset style="padding-top: 1em;margin-left: 25%;margin-right: 25%;">
                                 <div class="control-group">
                                   <div class="controls">
                                     <div class="col-md-11 xdisplay_inputx form-group has-feedback">
-                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" name="tanggalefektif" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status" required>
                                       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                       <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>

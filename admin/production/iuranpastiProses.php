@@ -7,7 +7,11 @@ session_start();
   error_reporting(0);
   include '../../library/koneksi.php';
 $date = date("d-M-Y His");
-	if(isset($_POST['tanggalefektif'])) $tanggalefektif=$_POST['tanggalefektif'];
+	if(isset($_POST['tanggalefektif'])){
+	$efektif = DateTime::createFromFormat('m/d/Y', $_POST['tanggalefektif']);
+	$tanggalefektif=date_format($efektif,"Y-m-d");
+	}
+
   $temp = explode(".", $_FILES["iuranpasti"]["name"]);
 	$newfilename = "Data MPIP JiwaSraya - update  ".$date.' by '.$_SESSION['admin'].'.'. end($temp);
 move_uploaded_file($_FILES["iuranpasti"]["tmp_name"], "exceliuranpasti/" . $newfilename);
@@ -65,9 +69,8 @@ $sql="START TRANSACTION;";
 		header('location:iuranpasti.php?status=FALSE');
 	}
 	$updater=$_SESSION['admin'];
-	
   	$sql.="COMMIT;";
-	mysqli_query($DBcon,"insert into iuranpasti_log values('','$updater','',NOW());");
+	mysqli_query($DBcon,"insert into iuranpasti_log values('','$updater','$tanggalefektif',NOW());");
  	if ($DBcon->multi_query($sql) === TRUE) {
      $DBcon->close();
 

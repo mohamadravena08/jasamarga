@@ -15,6 +15,7 @@ if(!isset($_SESSION["admin"])){
       $updateBy=mysqli_fetch_array(mysqli_query($DBcon,"select * from bpjstk_log order by timestamp desc"));
       $updater=$updateBy['updater'];
       $waktu=$updateBy['timestamp'];
+      $efektif=$updateBy['efektif_sejak'];
     ?>
 
     <html lang="en">
@@ -137,7 +138,7 @@ if(!isset($_SESSION["admin"])){
                     <div class="x_panel">
                       <div class="x_title">
                       
-                        <h2>Data Tabel JHT dari BPJS Ketenagakerjaan <small>efektif sejak : <strong><!-- <?php echo $efektif;?> --></strong>terakhir diperbarui pada : <strong><?php echo $waktu;?></strong> oleh : <strong><?php echo $updater;?></strong></small></h2>
+                        <h2>Data Tabel JHT dari BPJS Ketenagakerjaan <small>efektif sejak : <strong><?php echo $efektif;?></strong> terakhir diperbarui pada : <strong><?php echo $waktu;?></strong> oleh : <strong><?php echo $updater;?></strong></small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                           </li>
@@ -146,7 +147,7 @@ if(!isset($_SESSION["admin"])){
                           </li>
                         </ul>
                         <div class="clearfix"></div>
-                        <center><h5>Contoh file JHT : <a target="blank" href="contohexcel/contoh%20tabel%20jht.xlsx">Download</a></h5></center>
+                        <center><h5>Contoh file BPJS Ketenagakerjaan : <a target="blank" href="contohexcel/contoh%20tabel%20bpjstk.xlsx">Download</a></h5></center>
                       </div>
                       <?php
                                 $no = 1;
@@ -154,14 +155,14 @@ if(!isset($_SESSION["admin"])){
                                 if(mysqli_num_rows($res)>0){?>
                       
                       <center><div>
-        <h3>Upload File Tabel JHT Terbaru</h3>
+        <h3>Upload File Tabel BPJS Ketenagakerjaan Terbaru</h3>
             <form method="post" action="bpjstkProses.php" enctype="multipart/form-data">
-                      <input type="file" name="jht">
+                      <input type="file" name="jht" required>
                       <fieldset style="padding-top: 1em;margin-left: 25%;margin-right: 25%;">
                                 <div class="control-group">
                                   <div class="controls">
                                     <div class="col-md-11 xdisplay_inputx form-group has-feedback">
-                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status" name="tanggalefektif">
                                       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                       <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>
@@ -189,6 +190,7 @@ if(!isset($_SESSION["admin"])){
                               <th>Saldo dari Cabang Lain</th>
                               <th>Iuran dari Cabang Lain</th>
                               <th>Iuran</th>
+                              <th>Iuran Bulanan</th>
                               <th>Saldo Terkini JHT</th>
                               <th>Saldo Awal Tahun JP</th>
                               <th>Saldo Tahun Berjalan JP</th>
@@ -214,6 +216,7 @@ if(!isset($_SESSION["admin"])){
                                     <td>'.rupiah($row['saldo_cabanglain']).'</td>
                                     <td>'.rupiah($row['iuran_cabanglain']).'</td>
                                     <td>'.rupiah($row['iuran']).'</td>
+                                    <td>'.rupiah($row['iuranbulanan']).'</td>
                                     <td>'.rupiah($row['saldo_akhirJHT']).'</td>
                                     <td>'.rupiah($row['saldo_awaltahunJP']).'</td>
                                     <td>'.rupiah($row['saldo_tahunberjalanJP']).'</td>
@@ -231,14 +234,14 @@ if(!isset($_SESSION["admin"])){
             <!-- /page content -->
     <?php } else { echo "<center>Tabel JHT Kosong</center>";?>
     <center><div>
-    <h3>Upload File JHT Terbaru</h3>
+    <h3>Upload File BPJS Ketenagakerjaan Terbaru</h3>
             <form method="post" action="bpjstkProses.php" enctype="multipart/form-data">
-                      <input type="file" name="jht">
+                      <input type="file" name="jht" required>
                               <fieldset style="padding-top: 1em;margin-left: 25%;margin-right: 25%;">
                                 <div class="control-group">
                                   <div class="controls">
                                     <div class="col-md-11 xdisplay_inputx form-group has-feedback">
-                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status">
+                                      <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="Tanggal Valid" aria-describedby="inputSuccess2Status" name="tanggalefektif" required>
                                       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                       <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>

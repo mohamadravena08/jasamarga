@@ -112,6 +112,18 @@ if(!isset($_SESSION["admin"])){
 
             <div class="clearfix"></div>
  <!-- Small modal -->
+                  <?php $query = mysqli_query($DBcon, "select * from nilai_persentase where nama_kenaikan = 'gaji_pokok'");
+                    $angka = mysqli_fetch_array($query);
+                    $kenaikangajipokok=$angka['angka'];
+                    $query2 = mysqli_query($DBcon, "select * from nilai_persentase where nama_kenaikan = 'phdp'");
+                    $angka2 = mysqli_fetch_array($query2);
+                    $kenaikanphdp=$angka2['angka'];
+                    $query3 = mysqli_query($DBcon, "select * from nilai_persentase where nama_kenaikan = 'jht'");
+                    $angka3 = mysqli_fetch_array($query3);
+                    $kenaikanjht=$angka3['angka'];
+                    $query4 = mysqli_query($DBcon, "select * from nilai_persentase where nama_kenaikan = 'iuran_pasti'");
+                    $angka4 = mysqli_fetch_array($query4);
+                    $kenaikan_iuranpasti=$angka4['angka'];?>
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Edit Nilai Persentase Disini</button>
 
                   <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
@@ -128,25 +140,25 @@ if(!isset($_SESSION["admin"])){
               <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gajipokok">Gaji Pokok</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <input name="gajipokok" type="number" min="0" id="gajipokok" required="required" class="form-control col-md-7 col-xs-12">
+                <input name="gajipokok" type="number" min="0" step="0.01" id="gajipokok" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $kenaikangajipokok;?>">
               </div>
               </div>
               <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phdp">PhDP</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <input name="phdp" type="number" min="0" id="phdp" required="required" class="form-control col-md-7 col-xs-12">
+                <input name="phdp" type="number" min="0" step="0.01" id="phdp" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $kenaikanphdp;?>">
               </div>
               </div>
               <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="jht">JHT</label>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="jht">Bunga Pengembangan JHT</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <input name="jht" type="number" min="0" id="jht" required="required" class="form-control col-md-7 col-xs-12">
+                <input name="jht" type="number" min="0" step="0.01" id="jht" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $kenaikanjht;?>">
               </div>
               </div>
               <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="iuranpasti">Iuran Pasti</label>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="iuranpasti">Bunga Pengembangan Iuran Pasti</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <input name="iuranpasti" type="number" min="0" id="iuranpasti" required="required" class="form-control col-md-7 col-xs-12">
+                <input name="iuranpasti" type="number" step="0.01" min="0" id="iuranpasti" value="<?php echo $kenaikan_iuranpasti;?>" required="required" class="form-control col-md-7 col-xs-12">
               </div>
               </div>
             </div>
@@ -187,8 +199,7 @@ if(!isset($_SESSION["admin"])){
                   <div class="x_content">
                     <h1>
                       <?php 
-                        $query = mysqli_query($DBcon, "select * from nilai_persentase where nama_kenaikan = 'gaji_pokok'");
-                        $angka = mysqli_fetch_array($query);
+                       
 
                         echo $angka['angka'];
                       ?>%
