@@ -53,75 +53,24 @@
 
             <br />
 
-            <!-- sidebar menu -->
+           <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              
-<div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a href="home.php"><i class="fa fa-home"></i>Home</a></li>
-                  <li><a><i class="fa fa-table"></i>Master Tabel<span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="pegawai.php">Pegawai</a></li>
-                      <li><a href="payroll.php">Payroll</a></li>
-                      <li><a href="nilai_sekaligus.php">Nilai Sekaligus</a></li>
-                      <li><a href="nilai_sekarang.php">Nilai Sekarang</a></li>
-                      <li><a href="penghargaan_masa_kerja.php">Penghargaan Masa Kerja</a></li>
-                      <li><a href="pesangon.php">Pesangon</a></li>
-                      <li><a href="purna_karya.php">Purna Karya</a></li>
-                      <li><a href="purna_karya_dini.php">Purna Karya Dini</a></li>
-                      <li><a href="purna_karya_kepesertaan.php">Purna Karya Kepesertaan</a></li>
-                      <li><a href="iuranpasti.php">Tabel Manfaat Pasti Iuran Pasti</a></li>
-                      <li><a href="bpjstk.php">Tabel Manfaat BPJSTk</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-users"></i>Data Admin<span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="administrator.php">Administrator</a></li>
-                      <li><a href="tambahadmin.php">Tambah Admin</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="nilaiberubah.php"><i class="fa fa-bar-chart-o"></i>Nilai Persentase</a></li>
-                  <li><a href="rekappensiun.php"><i class="fa fa-folder"></i>Rekap Pensiun</a></li>
-                </ul>
-              </div>            </div>
+              <?php include_once("sidebar.php"); ?>
+            </div>
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="logout.php">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>            </div>
+              <?php include_once("footer.php");?>
+            </div>
             <!-- /menu footer buttons -->
           </div>
         </div>
 
         <!-- top navigation -->
         <div class="top_nav">
-          <div class="nav_menu">
-            <nav>
-              <ul class="nav navbar-nav navbar-right">
-                <li class="">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/user.jpg" alt="">Admin
-                    <span class=" fa fa-angle-down"></span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </nav>
-          </div>        </div>
+          <?php include_once("header.php"); ?>
+        </div>
         <!-- /top navigation -->
 
         <!-- page content -->
