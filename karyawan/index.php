@@ -23,9 +23,10 @@ $kenaikanPhdp=$persentase[1]['angka'];
 $kenaikanJHT=$persentase[2]['angka'];
 $kenaikanJHT=$kenaikanJHT/100;
 $kenaikan_iuranpasti=$persentase[3]['angka'];
-
+$kenaikan_iuranpasti=$kenaikan_iuranpasti/100;
 $tabelbpjstk=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from bpjstk where npp='$npp'"));
 $tanggalefektifs=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from bpjstk_log order by timestamp desc"));
+$tanggalefektifdanas=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from iuranpasti_log order by timestamp desc"));
 
 // kategori tanggungan
 $kategori = $pegawai['kategori_tanggungan'];
@@ -215,6 +216,24 @@ if (isset($_GET['status'])) {
     $total1=0;
     $total2=0;
     if (isset($manfaat_pasti) && $manfaat_pasti){
+
+        if((int)$npp>=10397){
+            $tabeliuranpasti=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from iuranpasti"));
+            $danaterkini=$tabeliuranpasti['akumulasidana'];
+            $iuranbulananpasti=$tabeliuranpasti['iuranbulanan'];
+            $tanggalefektifdana2= date_create($tanggalefektifdanas['efektif_sejak']);
+      $tanggalefektifdana=date_format($tanggalefektifdana2,"Y-m-d");
+      $bedatahundana=$haripensiun->diff($tanggalefektifdana2)->y;
+      $bedabulandana=$haripensiun->diff($tanggalefektifdana2)->m;
+      $akumulasidanabaru=$danaterkini;
+      for($i=0;$i<$bedatahundana;$i++){
+        $akumulasidanabaru+=$iuran*12;
+        $iuranbulananpasti+=$kenaikanGajipokok*$iuranbulananpasti;
+        $akumulasidanabaru+=$kenaikan_iuranpasti*$akumulasidanabaru;
+      }
+      $akumulasidanabaru+=$bedabulandana*$iuranbulananpasti;
+    
+    }
         $total = 0;
         $const = 0.025;
         $manfaatbulantemp = $nilai_sekarang * $const * $phdp * $masabakti;
@@ -442,15 +461,18 @@ echo $tanggalpensiun_normal;
             <li><?php echo "<b>Nomor Pokok Pegawai </b></br>".$_SESSION['npp'];?></li>
             <li><?php echo "<b>Unit Kerja </b></br>".$unitkerja;?></li>
             <li><?php echo "<b>Usia Mulai Bekerja  </b><br/>".$usiamasuk." tahun ".$bulanmasuk." bulan ".$harimasuk." hari";?></li>
+            <li><?php echo "<b>Saldo JHT per ".date_format($tanggalefektif2,"d-M-Y")." : </b><br>".rupiah($saldoterkini);?> </li>
+            <li><?php echo "<b>Bunga Pengembangan JHT  </b></br>".$kenaikanJHT."% per tahun";?></li>
           </ul>
         </div>
                  
         <div class ="skill1">
           <ul>
-              <li><?php echo "<b>Gaji Pokok Saat Pensiun (asumsi kenaikan 8% per 1 Januari tiap tahun) </b><br/>".rupiah($gajipokok);?></li>
+              <li><?php echo "<b>Gaji Pokok Saat Pensiun (asumsi kenaikan ".$persentase[0]['angka']."% per 1 Januari tiap tahun) </b><br/>".rupiah($gajipokok);?></li>
               <li><?php echo "<b>Penghasilan (Gaji Pokok + Tunjangan Jabatan) </b></br>".rupiah($penghasilan);?></li>
-              <li><?php echo "<b>PhDP Saat Pensiun (asumsi kenaikan 5% per 1 Juli tiap tahun)  </b><br/>".rupiah($phdp);?></li>
+              <li><?php echo "<b>PhDP Saat Pensiun (asumsi kenaikan ".$persentase[1]['angka']."% per 1 Juli tiap tahun)  </b><br/>".rupiah($phdp);?></li>
               <li><?php echo "<b>Faktor Manfaat Pasti (Nilai Sekarang)  </b></br>" . $nilai_sekarang;?></li>
+              
           </ul>
         </div>
         
@@ -472,6 +494,7 @@ echo $tanggalpensiun_normal;
               echo "<li><b>Usia Saat Pensiun</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
               echo "<li><b>Masa Bakti Saat Pensiun</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari</li>";
         }
+
         ?>                        
           </ul>
         </div>
