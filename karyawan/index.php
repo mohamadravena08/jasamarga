@@ -265,23 +265,19 @@ if (isset($_GET['status'])) {
       $bedatahunjht=$haripensiun->diff($tanggalefektif2)->y;
       $bedabulanjht=$haripensiun->diff($tanggalefektif2)->m;
       $akumulasiiuran=$saldoterkini;
-      echo "Bunga JHT = ".$kenaikanJHT."<br>";
-      echo "Beda Tahun : ".$bedatahunjht."<br>";
+   
       for($i=0;$i<$bedatahunjht;$i++){
-        echo "tahun ke : ".$i."<br>";
-        echo "akumulasiiuranaja = ".rupiah($akumulasiiuran)."<br>";
+      
         $akumulasiiuran+=$iuran*12;
-        echo "iuran x 12 : ".rupiah($iuran*12)."<br>";
+     
         $iuran+=$iuran*$kenaikanGajipokok;
-        echo "iuranbaru = ".rupiah($iuran)."<br>";
+     
         $pengembangan=$akumulasiiuran*$kenaikanJHT;
-        echo "pengembangan = ".rupiah($pengembangan)."<br>";
+     
         $akumulasiiuran+=$pengembangan;
       }
       $akumulasiiuran+=$bedabulanjht*$iuran;
-      echo "Beda Bulan : ".$bedabulanjht."<br>";
-      echo "Tambahan iuran dari beda bulan : ".rupiah($bedabulanjht*$iuran)."<br>";
-      echo "Hasil Akhir : ".rupiah($akumulasiiuran);
+   
       $nilaijht=$akumulasiiuran;
       $total1+=$nilaijht;
       $total2+=$nilaijht;
@@ -505,12 +501,7 @@ echo $tanggalpensiun_normal;
   <div class="company">
   <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
   </div>
-<div class="nav nav-pills" style="padding-bottom: 1em; padding-left: 1em">
-  <button class="btn btn-default" onclick="openCity('Alternatif 1')">Alternatif 1</button>
-  <button class="btn btn-default" onclick="openCity('Alternatif 2')">Alternatif 2</button>
-</div>
 
-<div id="Alternatif 1" class="w3-container city">
     <div class="company">
  <h3 class="clr1">Alternatif 1 <?php if(isset($manfaatbulantemp)) echo "(100% Manfaat Pasti Bulanan)";?></h3>
 <?php if(isset($manfaat_pasti)){?>
@@ -585,10 +576,8 @@ echo $tanggalpensiun_normal;
         <?php if(isset($manfaatbulantemp)) echo " plus   " . rupiah($manfaatbulan1); else echo "Rp 0"?> tiap bulan </h4></p>
     </div>
     </div>
-</div>
 
 
-<div id="Alternatif 2" class="w3-container city" style="display:none">
     <div class="company">
 <h3 class="clr1">Alternatif 2 <?php if(isset($manfaatbulantemp)) if($manfaatbulantemp>1500000) echo "(80% Manfaat Bulan, 20% Manfaat Sekaligus)"; else echo "(100% Manfaat Sekaligus)";?></h3>
 <?php if(isset($manfaat_pasti)){?>
@@ -661,8 +650,15 @@ echo $tanggalpensiun_normal;
          <h4 style="text-align: right;font-size: 15px;padding-right: 2.7em;">
         <?php if(isset($manfaatbulantemp)) echo " plus   " . rupiah($manfaatbulan2); else echo "Rp 0"?> tiap bulan </h4></p>
     </div>
+
+    <button class="btn btn-primary btn-lg" onclick="myFunction()" style="
+    float: right;
+    margin-right: 2em;
+    margin-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+">Cetak Hasil Simulasi</button>
     </div>
-</div>
 
 <script>
 function openCity(cityName) {
@@ -672,6 +668,12 @@ function openCity(cityName) {
        x[i].style.display = "none";  
     }
     document.getElementById(cityName).style.display = "block";  
+}
+</script>
+
+<script>
+function myFunction() {
+    window.print();
 }
 </script>
 
