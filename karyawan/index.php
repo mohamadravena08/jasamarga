@@ -219,15 +219,15 @@ if (isset($_GET['status'])) {
 
         if((int)$npp>=10397){
             $tabeliuranpasti=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from iuranpasti"));
-            $danaterkini=$tabeliuranpasti['akumulasidana'];
-            $iuranbulananpasti=$tabeliuranpasti['iuranbulanan'];
+            $danaterkini=$tabeliuranpasti['akumulasi_dana'];
+            $iuranbulananpasti=$tabeliuranpasti['iuran_bulanan'];
             $tanggalefektifdana2= date_create($tanggalefektifdanas['efektif_sejak']);
       $tanggalefektifdana=date_format($tanggalefektifdana2,"Y-m-d");
       $bedatahundana=$haripensiun->diff($tanggalefektifdana2)->y;
       $bedabulandana=$haripensiun->diff($tanggalefektifdana2)->m;
       $akumulasidanabaru=$danaterkini;
       for($i=0;$i<$bedatahundana;$i++){
-        $akumulasidanabaru+=$iuran*12;
+        $akumulasidanabaru+=$iuranbulananpasti*12;
         $iuranbulananpasti+=$kenaikanGajipokok*$iuranbulananpasti;
         $akumulasidanabaru+=$kenaikan_iuranpasti*$akumulasidanabaru;
       }

@@ -85,7 +85,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Data Rekap Pensiun Bulan ini<small> <strong>Agustus 2017</strong></small></h2>
+                    <h2>Data Rekap Pensiun Bulan ini<small> <strong><?php echo date('M')." ".date('Y');?></strong></small></h2>
 
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -103,7 +103,7 @@
                   $pegawaipensiun=mysqli_query($DBcon,"select * from pegawai where month(tanggal_lahir)='$bulanini' and year(tanggal_lahir)='$tahunlahir'");?>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                      Tabel ini berisi data pegawai Jasa Marga.
+                      Tabel ini berisi data pegawai Jasa Marga yang pensiun bulan ini .
                     </p>
                     <table id="dataTables" class="table table-striped table-bordered">
                       <thead>
@@ -233,7 +233,7 @@
             <td>'.$datapensiun['npp'].'</td>
             <td>'.$datapensiun['nama'].'</td>
             <td>'.$datapensiun['jenis_kelamin'].'</td>
-            <td>'.$datapensiun['tanggal_lahir'].'</td>
+            <td>'.date_format(date_create($datapensiun['tanggal_lahir']),"d-M-Y").'</td>
             <td>'.$tanggalpensiunnormal.'</td>
             <td>'.rupiah($gajipokok).'</td>
             <td>'.rupiah($manfaatbulan1).'</td>
