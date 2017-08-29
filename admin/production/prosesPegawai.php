@@ -43,11 +43,18 @@ $sql="START TRANSACTION;";
 				$lahirs=date_create($Row[5]);
 				$baktis=date_create($Row[6]);
 				$lahir=date_format($lahirs,"Y-m-d");
+				$tahunlahir=date_format($lahirs,"Y");
+				$bulanlahir=date_format($lahirs,"m");
+				$harilahir=date_format($lahirs,"d");
+				$tahunpensiun=$tahunlahir+56;
+				$pensiun_normal=new DateTime();
+				$pensiun_normal->setDate($tahunpensiun, $bulanlahir, $harilahir);
+				$pensiun_normal1=date_format($pensiun_normal,"Y-m-d");
 				$bakti=date_format($baktis,"Y-m-d");
 				$tanggungan=$Row[7];
 				$password=$Row[8];
 				if($Key>0){
-					$sql.="insert into pegawai values('$npp', '$nama', '$status', '$jumlah_anak', '$lahir', '$bakti', '$tanggungan', '$jk', '$password');";
+					$sql.="insert into pegawai values('$npp', '$nama', '$status', '$jumlah_anak', '$lahir','$pensiun_normal1','$bakti', '$tanggungan', '$jk', '$password');";
 				}
 				}
 			}
@@ -56,11 +63,11 @@ $sql="START TRANSACTION;";
 	catch (Exception $E)
 	{
 		echo $E -> getMessage();
-		header('location:pegawai.php?status=FALSE');
+		// header('location:pegawai.php?status=FALSE');
 	}
 	$updater=$_SESSION['admin'];
  	$sql.="COMMIT;";
- 	// echo $sql."<br><br><br><br>";
+ 	  // echo $sql."<br><br><br><br>";
  	// echo $Filepath;
 
 	mysqli_query($DBcon,"insert into pegawai_log values('','$updater',NOW());");

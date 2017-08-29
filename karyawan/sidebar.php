@@ -1,4 +1,8 @@
-<?php $npp=$_GET['npp'];
+<?php
+include("../library/koneksi.php");
+include("../library/fungsi_kalender.php");
+include("../library/fungsi_rupiah.php");
+ $npp=$_GET['npp'];
 $pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp='$npp'"));?>
 <div class="col-sm-3 col-md-2 sidebar" style="
     height: 1000px;
@@ -24,6 +28,7 @@ $pegawai=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from pegawai where npp
 					$umur = $today->diff($lahir)->y;
 					$ns=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from nilai_sekarang where usia_bayar=$umur"));
 					$nilaisekarangside=$ns['nilai_sekarang']; 
+					print_r($);
 					$gaji=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from payrolls where npp ='$npp'"));
 					$nsekaligus=mysqli_fetch_assoc(mysqli_query($DBcon,"select $kategori from nilai_sekaligus where usia=$umur"));
 					$nilai_sekaligus=$nsekaligus[$kategori];

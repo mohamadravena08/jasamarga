@@ -141,6 +141,7 @@ if(!isset($_SESSION["admin"])){
                           <th>Status Nikah</th>
                           <th>Jumlah Anak</th>
                           <th>Tanggal Lahir</th>
+                          <th>Tanggal Pensiun Normal</th>
                           <th>Mulai Bakti</th>
                           <th>Kategori Tanggungan</th>
                           <th>Password Akun SIMPENSIUN</th>
@@ -159,6 +160,8 @@ if(!isset($_SESSION["admin"])){
                               $tanggal_bakti=date_format($bakti, "d-M-Y");
                               $lahir=date_create($row['tanggal_lahir']);
                               $tanggal_lahir=date_format($lahir, "d-M-Y");
+                              $pensiun=date_create($row['pensiun_normal']);
+                              $tanggalpensiun=date_format($pensiun,"d-M-Y");
                               if($row['status_nikah']=="M") $status_nikah="Menikah"; else $status_nikah="Lajang";
                               ?>
                               <tr>
@@ -169,6 +172,7 @@ if(!isset($_SESSION["admin"])){
                                 <td><?php echo $status_nikah;?></td>
                                 <td><?php echo $row['jumlah_anak'];?></td>
                                 <td><?php echo $tanggal_lahir;?></td>
+                                <td><?php echo $tanggalpensiun;?></td>
                                 <td><?php echo $tanggal_bakti;?></td>
                                 <td><?php echo $row['kategori_tanggungan'];?></td>
                                 <td><?php echo $row['password'];?></td>

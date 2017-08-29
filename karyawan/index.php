@@ -12,8 +12,7 @@ if (!isset($_SESSION["npp"])) {
 }
 $npp                    = $_SESSION['npp'];
 $pegawai                = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from pegawai where npp='$npp'"));
-$tanggalpensiun_normal1 = date_create($pegawai['tanggal_lahir']);
-date_add($tanggalpensiun_normal1, date_interval_create_from_date_string('56 years'));
+$tanggalpensiun_normal1 = date_create($pegawai['pensiun_normal']);
 $tanggalpensiun_normal  = date_format($tanggalpensiun_normal1, 'Y, m, d');
 $tanggalpensiun_normal2 = date_format($tanggalpensiun_normal1, 'd-M-Y');
 
@@ -99,7 +98,7 @@ if (isset($_GET['status'])) {
     $penghasilan = $gajipokok + $gaji['tunjangan_struktural'] + $gaji['tunjangan_fungsional'] + $gaji['tunjangan_operasional'];
         $unitkerja  = $gaji['unit_kerja'];
 
-    
+   
     if ($_GET['status'] == 1) {
         if ($usia == 56) {
             $status               = "Pensiun Normal";
@@ -218,7 +217,7 @@ if (isset($_GET['status'])) {
     if (isset($manfaat_pasti) && $manfaat_pasti){
 
         if((int)$npp>=10397){
-            $tabeliuranpasti=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from iuranpasti"));
+    $tabeliuranpasti=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from iuranpasti"));
       $danaterkini=$tabeliuranpasti['akumulasi_dana'];
       $iuranbulananpasti=$tabeliuranpasti['iuran_bulanan'];
       $tanggalefektifdana2= date_create($tanggalefektifdanas['efektif_sejak']);
@@ -235,6 +234,7 @@ if (isset($_GET['status'])) {
     $total1+=$akumulasidanabaru;
     }
       else {
+
         $const = 0.025;
         $manfaatbulantemp = $nilai_sekarang * $const * $phdp * $masabakti;
         if($manfaatbulantemp>1500000){
@@ -252,7 +252,8 @@ if (isset($_GET['status'])) {
         if($usia>46){
         $total1+=$manfaatsekaligus1;
         $total2+=$manfaatsekaligus2;}
-    }}
+    }
+}
     ?>
     <center>
     <?php if (isset($jht) && $jht){
@@ -442,6 +443,7 @@ echo $tanggalpensiun_normal;
       </div>
 
 <?php
+ 
     if(isset($_GET['status'])){?>
     
     <div class="company">
@@ -492,7 +494,7 @@ echo $tanggalpensiun_normal;
         }
         if((int)$npp>=10397){
             $kenaikan_iuranpasti*=100;
-             echo "<li><b>Saldo JHT per ".date_format($tanggalefektifdana2,"d-M-Y")." : </b><br>".rupiah($saldoterkini)."</li>";
+             echo "<li><b>Saldo Iuran Pasti per ".date_format($tanggalefektifdana2,"d-M-Y")." : </b><br>".rupiah($danaterkini)."</li>";
              echo "<li><b>Bunga Pengembangan Iuran Pasti (JiwaSraya)</b><br /> ".$kenaikan_iuranpasti."% per tahun";}
         ?>                        
           </ul>
