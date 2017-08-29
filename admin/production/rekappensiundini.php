@@ -1,17 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+<?php
+error_reporting(0);
+session_start();
+include("../../library/koneksi.php");
+if(!isset($_SESSION["admin"])){
+  echo "<script language='javascript'>alert('Maaf Anda Belum Login!')</script>";
+  header("Location:../index.php");
+}
+      if(isset($_GET['status'])){
+        $stat=$_GET['status'];
+      }
+      include_once("../../library/koneksi.php");
+      include_once("../../library/fungsi_rupiah.php");
+    ?>
 
-     <?php include_once("../../library/koneksi.php");
-      include_once("../../library/fungsi_rupiah.php");?>
-    <title>Rekap Pensiun Normal</title>
+    <html lang="en">
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Meta, title, CSS, favicons, etc. -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href="https://code.jquery.com/ui/jquery-ui-git.css" rel='stylesheet' type='text/css' />
+        <title>Rekap Pensiun Dini</title>
+
+         <link href="https://code.jquery.com/ui/jquery-ui-git.css" rel='stylesheet' type='text/css' />
         <!-- Bootstrap -->
         <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Font Awesome -->
@@ -45,36 +58,44 @@
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
-  </head>
 
-    <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-users"></i> <span>SIMPENSIUN</span></a>
-            </div>
 
-            <div class="clearfix"></div>
 
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="images/user.jpg" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>Admin Jasa Marga</h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
+      </head>
 
-            <br />
 
-           <!-- sidebar menu -->
+
+
+
+        <body class="nav-md">
+        <div class="container body">
+          <div class="main_container">
+            <div class="col-md-3 left_col">
+              <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                  <a href="index.html" class="site_title"><i class="fa fa-users"></i> <span>SIMPENSIUN</span></a>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <!-- menu profile quick info -->
+                <div class="profile clearfix">
+                  <div class="profile_pic">
+                    <img src="images/user.jpg" alt="..." class="img-circle profile_img">
+                  </div>
+                  <div class="profile_info">
+                    <span>Welcome,</span>
+                    <h2>Admin Jasa Marga</h2>
+                  </div>
+                </div>
+                <!-- /menu profile quick info -->
+
+                <br />
+
+                 <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <?php include_once("sidebar.php"); ?>
+
             </div>
             <!-- /sidebar menu -->
 
@@ -92,7 +113,7 @@
         </div>
         <!-- /top navigation -->
 
-        <!-- page content -->
+            <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
 
@@ -102,7 +123,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Data Rekap Pensiun Bulanan<small><strong>SIMPENSIUN</strong></small></h2>
+                    <h2>Data Rekap Pensiun Dini<small> <strong>SIMPENSIUN</strong></small></h2>
 
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -113,14 +134,18 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                 
-                  <center><div>
-        <h3>Pilih Bulan dan Tahun Pensiun Normal</h3>
+                  <?php 
+                  $bulanini=date('m');
+                  $tahunini=date('Y');
+                  $tahunlahir=$tahunini-56;
+                  $pegawaipensiun=mysqli_query($DBcon,"select * from pegawai where month(tanggal_lahir)='$bulanini' and year(tanggal_lahir)='$tahunlahir'");?>
+                    <center><div>
+        <h3>Pilih Tanggal Pensiun Dini</h3>
             <form id="eventForm" method="get" action="" style="text-align: center"> 
             <div class="form-group" >
               <label for="sel1" >pilih disini</label>
               <div class="input-group input-append date" id="txtdate" style="width: 50%; margin:auto">
-                 <input type="text" id="monthPicker" class="form-control" name="tanggalpensiun" value=<?php $pensiun = date_create($_GET['tanggalpensiun']); $rencana = date_format($pensiun, "M-Y"); echo $rencana?>>
+                 <input type="text" id="single_cal1" class="form-control" name="tanggalpensiun" value=<?php $pensiun = date_create($_GET['tanggalpensiun']); $rencana = date_format($pensiun, "d-M-Y");?>>
                   
                   <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
               </div>
@@ -138,9 +163,9 @@
     </div></center>
                   <div class="x_content">
                     <center><p class="text-muted font-13 m-b-30">
-                      Tabel ini berisi data pegawai Jasa Marga yang pensiun bulan <strong><?php echo date_format($pensiun, "M-Y"); ?></strong>.
+                      Tabel ini berisi data pegawai Jasa Marga yang pensiun bulan ini <strong><?php echo $rencana; ?></strong> .
                     </p></center>
-                     <table id="datatable-buttons" class="table table-striped table-bordered">
+                    <table id="datatable-buttons" class="table table-striped table-bordered">
                       <thead>
                         <tr>
                           <th>No</th>
@@ -283,17 +308,16 @@
             ;}?>
 
         <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            Sistem Simulasi Pensiun Jasa Marga</a>
+            <!-- footer content -->
+            <footer>
+              <div class="pull-right">
+                Sistem Simulasi Pensiun Jasa Marga</a>
+              </div>
+              <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
           </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
-      </div>
-    </div>
+        </div>
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -337,8 +361,12 @@
           <script>
             $(document).ready(function() {
               $('#dataTables').DataTable();
+                buttons: [
+            'print'
+        ]
 
             } );
+
           </script>
 
 
@@ -350,37 +378,19 @@
                 }, function(start, end, label) {
                   console.log(start.toISOString(), end.toISOString(), label);
                 });
+
+
           </script>
 
 
           <script type="text/javascript">
-            $(document).ready(function()
-            {   
-                $("#monthPicker").datepicker({
-                    dateFormat: 'MM yy',
+            $(function() {               
+                $("#datepicker" ).datepicker({
                     changeMonth: true,
                     changeYear: true,
-                    showButtonPanel: true,
-
-                    onClose: function(dateText, inst) {
-                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                        $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
-                    }
-                });
-
-                $("#monthPicker").focus(function () {
-                    $(".ui-datepicker-calendar").hide();
-                    $("#ui-datepicker-div").position({
-                        my: "center top",
-                        at: "center bottom",
-                        of: $(this)
-                    });
-                });
-            });
-          </script>
+                  });});
+            </script>
 
 
-
-  </body>
-</html>
+      </body>
+    </html>
