@@ -24,7 +24,12 @@
                       <li><a href="tambahadmin.php">Tambah Admin</a></li>
                     </ul>
                   </li>
+                  <li><a><i class="fa fa-folder"></i>Rekap Pensiun<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="rekappensiun.php">Pensiun Normal</a></li>
+                      <li><a href="rekappensiundini.php">Pensiun Dini</a></li>
+                    </ul>
+                  </li>
                   <li><a href="nilaiberubah.php"><i class="fa fa-bar-chart-o"></i>Nilai Persentase</a></li>
-                  <li><a href="rekappensiun.php"><i class="fa fa-folder"></i>Rekap Pensiun</a></li>
                 </ul>
               </div>
