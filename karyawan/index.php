@@ -219,9 +219,9 @@ if (isset($_GET['status'])) {
 
         if((int)$npp>=10397){
             $tabeliuranpasti=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from iuranpasti"));
-            $danaterkini=$tabeliuranpasti['akumulasi_dana'];
-            $iuranbulananpasti=$tabeliuranpasti['iuran_bulanan'];
-            $tanggalefektifdana2= date_create($tanggalefektifdanas['efektif_sejak']);
+      $danaterkini=$tabeliuranpasti['akumulasi_dana'];
+      $iuranbulananpasti=$tabeliuranpasti['iuran_bulanan'];
+      $tanggalefektifdana2= date_create($tanggalefektifdanas['efektif_sejak']);
       $tanggalefektifdana=date_format($tanggalefektifdana2,"Y-m-d");
       $bedatahundana=$haripensiun->diff($tanggalefektifdana2)->y;
       $bedabulandana=$haripensiun->diff($tanggalefektifdana2)->m;
@@ -232,9 +232,9 @@ if (isset($_GET['status'])) {
         $akumulasidanabaru+=$kenaikan_iuranpasti*$akumulasidanabaru;
       }
       $akumulasidanabaru+=$bedabulandana*$iuranbulananpasti;
-    
+    $total1+=$akumulasidanabaru;
     }
-        $total = 0;
+      else {
         $const = 0.025;
         $manfaatbulantemp = $nilai_sekarang * $const * $phdp * $masabakti;
         if($manfaatbulantemp>1500000){
@@ -252,7 +252,7 @@ if (isset($_GET['status'])) {
         if($usia>46){
         $total1+=$manfaatsekaligus1;
         $total2+=$manfaatsekaligus2;}
-    }
+    }}
     ?>
     <center>
     <?php if (isset($jht) && $jht){
@@ -458,7 +458,7 @@ echo $tanggalpensiun_normal;
             <li><?php echo "<b>Unit Kerja </b></br>".$unitkerja;?></li>
             <li><?php echo "<b>Usia Mulai Bekerja  </b><br/>".$usiamasuk." tahun ".$bulanmasuk." bulan ".$harimasuk." hari";?></li>
             <li><?php echo "<b>Saldo JHT per ".date_format($tanggalefektif2,"d-M-Y")." : </b><br>".rupiah($saldoterkini);?> </li>
-            <li><?php echo "<b>Bunga Pengembangan JHT  </b></br>".$kenaikanJHT."% per tahun";?></li>
+            <li><?php $kenaikanJHT*=100; echo "<b>Bunga Pengembangan JHT  </b></br>".$kenaikanJHT."% per tahun";?></li>
           </ul>
         </div>
                  
@@ -467,7 +467,7 @@ echo $tanggalpensiun_normal;
               <li><?php echo "<b>Gaji Pokok Saat Pensiun (asumsi kenaikan ".$persentase[0]['angka']."% per 1 Januari tiap tahun) </b><br/>".rupiah($gajipokok);?></li>
               <li><?php echo "<b>Penghasilan (Gaji Pokok + Tunjangan Jabatan) </b></br>".rupiah($penghasilan);?></li>
               <li><?php echo "<b>PhDP Saat Pensiun (asumsi kenaikan ".$persentase[1]['angka']."% per 1 Juli tiap tahun)  </b><br/>".rupiah($phdp);?></li>
-              <li><?php echo "<b>Faktor Manfaat Pasti (Nilai Sekarang)  </b></br>" . $nilai_sekarang;?></li>
+              <li><?php echo "<b>Faktor Manfaat Pasti  </b></br>" . $nilai_sekarang;?></li>
               
           </ul>
         </div>
@@ -490,7 +490,10 @@ echo $tanggalpensiun_normal;
               echo "<li><b>Usia Saat Pensiun</b><br /> " . $usia . " tahun " . $bulanusia . " bulan " . $hariusia. " hari</li>";
               echo "<li><b>Masa Bakti Saat Pensiun</b><br /> " . $masabakti . " tahun " . $bulanbakti . " bulan " . $haribakti. " hari</li>";
         }
-
+        if((int)$npp>=10397){
+            $kenaikan_iuranpasti*=100;
+             echo "<li><b>Saldo JHT per ".date_format($tanggalefektifdana2,"d-M-Y")." : </b><br>".rupiah($saldoterkini)."</li>";
+             echo "<li><b>Bunga Pengembangan Iuran Pasti (JiwaSraya)</b><br /> ".$kenaikan_iuranpasti."% per tahun";}
         ?>                        
           </ul>
         </div>
@@ -504,8 +507,10 @@ echo $tanggalpensiun_normal;
 
     <div class="company">
  <h3 class="clr1">Alternatif 1 <?php if(isset($manfaatbulantemp)) echo "(100% Manfaat Pasti Bulanan)";?></h3>
-<?php if(isset($manfaat_pasti)){?>
-     <div class="company_details">
+ <div class="company_details">
+<?php if(isset($manfaat_pasti)){
+    if((int)$npp<10397){?>
+     
         <h4>Manfaat Pasti (Bulanan) <span>Nilai Sekarang x 2.5% x PHDP x Masa Kerja | <?php
         echo $nilai_sekarang . " x 2.5% x " . rupiah($phdp) . " x " . $masabakti;?></span></h4>
         <p class="cmpny1"><?php echo rupiah($manfaatbulan1); if($usia<=46) echo " (dibayarkan mulai usia 46 tahun)";?></p>
@@ -517,6 +522,11 @@ echo $tanggalpensiun_normal;
         <p class="cmpny1"><?php echo rupiah($manfaatsekaligus1); if($usia<=46) echo " (dibayarkan pada usia 46 tahun)";?></p>
      </div>
  <?php }
+ else {?>
+        <h4>Manfaat Program Iuran Pasti <span>JiwaSraya</span></h4>
+        <p class="cmpny1"><?php echo rupiah($akumulasidanabaru); if($usia<=46) echo " (dibayarkan pada usia 46 tahun)";?></p>
+     </div>
+ <?php }}
 
     if(isset($jht)){?>
      <div class="company_details">
@@ -579,6 +589,7 @@ echo $tanggalpensiun_normal;
 
 
     <div class="company">
+    <?php if((int)$npp<10397){?>
 <h3 class="clr1">Alternatif 2 <?php if(isset($manfaatbulantemp)) if($manfaatbulantemp>1500000) echo "(80% Manfaat Bulan, 20% Manfaat Sekaligus)"; else echo "(100% Manfaat Sekaligus)";?></h3>
 <?php if(isset($manfaat_pasti)){?>
      <div class="company_details">
@@ -650,7 +661,7 @@ echo $tanggalpensiun_normal;
          <h4 style="text-align: right;font-size: 15px;padding-right: 2.7em;">
         <?php if(isset($manfaatbulantemp)) echo " plus   " . rupiah($manfaatbulan2); else echo "Rp 0"?> tiap bulan </h4></p>
     </div>
-
+<?php } ?>
     <button class="btn btn-primary btn-lg" onclick="myFunction()" style="
     float: right;
     margin-right: 2em;

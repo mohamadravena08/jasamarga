@@ -72,6 +72,7 @@ $sql="START TRANSACTION;";
 		echo $E -> getMessage();
 		header('location:bpjstk.php?status=FALSE');
 	}
+	echo $sql;
 	$updater=$_SESSION['admin'];
 	
   	$sql.="COMMIT;";
