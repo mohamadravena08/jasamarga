@@ -98,16 +98,6 @@ if(!isset($_SESSION["admin"])){
               </div>
 
 
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div class="clearfix"></div>
@@ -123,7 +113,12 @@ if(!isset($_SESSION["admin"])){
                     $kenaikanjht=$angka3['angka'];
                     $query4 = mysqli_query($DBcon, "select * from nilai_persentase where nama_kenaikan = 'iuran_pasti'");
                     $angka4 = mysqli_fetch_array($query4);
-                    $kenaikan_iuranpasti=$angka4['angka'];?>
+                    $kenaikan_iuranpasti=$angka4['angka'];
+                    $query5 = mysqli_query($DBcon, "select * from nilai_persentase where nama_kenaikan = 'bunga_jp'");
+                    $angka5 = mysqli_fetch_array($query5);
+                    $kenaikan_JP=$angka5['angka'];
+
+                    ?>
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Edit Nilai Persentase Disini</button>
 
                   <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
@@ -150,15 +145,22 @@ if(!isset($_SESSION["admin"])){
               </div>
               </div>
               <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="jht">Bunga Pengembangan JHT</label>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="jht">Bunga JHT</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <input name="jht" type="number" min="0" step="0.01" id="jht" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $kenaikanjht;?>">
               </div>
               </div>
               <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="iuranpasti">Bunga Pengembangan Iuran Pasti</label>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="iuranpasti">Bunga Iuran Pasti</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <input name="iuranpasti" type="number" step="0.01" min="0" id="iuranpasti" value="<?php echo $kenaikan_iuranpasti;?>" required="required" class="form-control col-md-7 col-xs-12">
+              </div>
+              </div>
+
+              <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="iuranpasti">Bunga Jaminan Pensiun</label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input name="jpensiun" type="number" step="0.01" min="0" id="iuranpasti" value="<?php echo $kenaikan_JP;?>" required="required" class="form-control col-md-7 col-xs-12">
               </div>
               </div>
             </div>
@@ -247,7 +249,7 @@ if(!isset($_SESSION["admin"])){
                <div class="col-md-6 col-sm-8 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Persentase Kenaikan Bunga JHT <small>(dalam persen)</small></h2>
+                    <h2>Persentase Bunga Pengembangan JHT <small>(dalam persen)</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -282,7 +284,7 @@ if(!isset($_SESSION["admin"])){
               <div class="col-md-6 col-sm-8 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Persentase Kenaikan Bunga Iuran Pasti <small>(dalam persen)</small></h2>
+                    <h2>Persentase Bunga Pengembangan Manfaat Iuran Pasti <small>(dalam persen)</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -313,6 +315,43 @@ if(!isset($_SESSION["admin"])){
                   </div>
                 </div>
               </div>
+
+              <div class="col-md-6 col-sm-8 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Persentase Bunga Pengembangan Jaminan Pensiun  <small>(dalam persen)</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <h1>
+                      <?php 
+                        $query = mysqli_query($DBcon, "select * from nilai_persentase where nama_kenaikan = 'bunga_jp'");
+                        $angka = mysqli_fetch_array($query);
+
+                        echo $angka['angka'];
+
+                      ?>%
+                    </h1>
+                  </div>
+                </div>
+              </div>
+
+
             </div>
           </div>
          </div> 

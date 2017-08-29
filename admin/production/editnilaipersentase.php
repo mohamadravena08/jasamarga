@@ -6,6 +6,7 @@ include("../../library/koneksi.php");
                         $phdp           = $_POST['phdp'];
                         $jht            = $_POST['jht'];
                         $iuranpasti     = $_POST['iuranpasti'];
+                        $jpensiun       = $_POST['jpensiun'];
                         
                         
                         // query SQL untuk insert data
@@ -17,6 +18,8 @@ include("../../library/koneksi.php");
                         mysqli_query($DBcon, $query3);
                         $query4="UPDATE nilai_persentase SET angka ='$iuranpasti' WHERE id_nilai_kenaikan='4'";
                         mysqli_query($DBcon, $query4);
+                        $query5="UPDATE nilai_persentase SET angka ='$jpensiun' WHERE id_nilai_kenaikan='5'";
+                        mysqli_query($DBcon, $query5);
                         // mengalihkan ke halaman index.php
                         
                           echo "<center><div class='alert alert-success alert-dismissable'>

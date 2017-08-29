@@ -23,6 +23,8 @@ $kenaikanJHT=$persentase[2]['angka'];
 $kenaikanJHT=$kenaikanJHT/100;
 $kenaikan_iuranpasti=$persentase[3]['angka'];
 $kenaikan_iuranpasti=$kenaikan_iuranpasti/100;
+$kenaikanJP=$persentase[4]['angka'];
+$kenaikanJP=$kenaikanJP/100;
 $tabelbpjstk=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from bpjstk where npp='$npp'"));
 $tanggalefektifs=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from bpjstk_log order by timestamp desc"));
 $tanggalefektifdanas=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from iuranpasti_log order by timestamp desc"));
@@ -106,6 +108,7 @@ if (isset($_GET['status'])) {
             $purna_karya          = TRUE;
             $uang_penggantian_hak = TRUE;
             $jht                  = TRUE;
+            $jpensiun             = TRUE;
         } else if (($usia < 46 || ($usia == 46 && $bulanusia == 0 && $hariusia == 0)) && $usia < 56) {
             $status                 = "Pensiun Dini sebelum 46 tahun";
             $manfaat_pasti          = TRUE;
@@ -114,6 +117,7 @@ if (isset($_GET['status'])) {
             $penghargaan_masa_kerja = TRUE;
             $uang_penggantian_hak   = TRUE;
             $jht                    = TRUE;
+            $jpensiun             = TRUE;
         } else {
             $status                 = "Pensiun Dini setelah 46 tahun";
             $purna_karya            = TRUE;
@@ -121,6 +125,7 @@ if (isset($_GET['status'])) {
             $pesangon               = TRUE;
             $penghargaan_masa_kerja = TRUE;
             $jht                    = TRUE;
+            $jpensiun             = TRUE;
         }
     }
     
@@ -132,6 +137,7 @@ if (isset($_GET['status'])) {
         $pesangon               = TRUE;
         $penghargaan_masa_kerja = TRUE;
         $uang_penggantian_hak   = TRUE;
+        $jpensiun             = TRUE;
         if ($usia < 46) {
             $status     = "Meninggal Dunia / Gugur Dalam Tugas sebelum 46 tahun";
             $masabakti  = $bakti->diff($tanggalpensiun_normal1)->y;
@@ -152,6 +158,7 @@ if (isset($_GET['status'])) {
         $pesangon               = TRUE;
         $penghargaan_masa_kerja = TRUE;
         $uang_penggantian_hak   = TRUE;
+        $jpensiun             = TRUE;
     }
     
     else if ($_GET['status'] == 4) {
@@ -162,6 +169,7 @@ if (isset($_GET['status'])) {
         $pesangon               = TRUE;
         $penghargaan_masa_kerja = TRUE;
         $uang_penggantian_hak   = TRUE;
+        $jpensiun             = TRUE;
     } else if ($_GET['status'] == 5) {
         if (($usia < 46 || ($usia == 46 && $bulanusia == 0 && $hariusia == 0)) && $usia < 56) {
             $status               = "Mengundurkan diri sebelum 46 tahun";
@@ -170,6 +178,7 @@ if (isset($_GET['status'])) {
             $purna_karya          = TRUE;
             $uang_penggantian_hak = TRUE;
             $jht                  = TRUE;
+            $jpensiun             = TRUE;
         } else {
             $status               = "Mengundurkan diri setelah 46 tahun";
             $purna_karya          = TRUE;
@@ -177,6 +186,7 @@ if (isset($_GET['status'])) {
             $uang_pisah           = TRUE;
             $uang_penggantian_hak = TRUE;
             $jht                  = TRUE;
+            $jpensiun             = TRUE;
         }
     } else if ($_GET['status'] == 6) {
         if (($usia < 46 || ($usia == 46 && $bulanusia == 0 && $hariusia == 0)) && $usia < 56) {
@@ -186,6 +196,7 @@ if (isset($_GET['status'])) {
             $purna_karya          = TRUE;
             $uang_penggantian_hak = TRUE;
             $jht                  = TRUE;
+            $jpensiun             = TRUE;
         } else {
             $status               = "Hukuman Disiplin Ringan setelah 46 tahun";
             $purna_karya          = TRUE;
@@ -193,6 +204,7 @@ if (isset($_GET['status'])) {
             $uang_pisah           = TRUE;
             $uang_penggantian_hak = TRUE;
             $jht                  = TRUE;
+            $jpensiun             = TRUE;
         }
     } else if ($_GET['status'] == 7) {
         $status               = "Hukuman Disiplin Berat";
@@ -200,13 +212,19 @@ if (isset($_GET['status'])) {
         $manfaat_pasti        = TRUE;
         $uang_penggantian_hak = TRUE;
         $uang_pisah           = TRUE;
+        $jpensiun             = TRUE;
+        $jht                  = TRUE;
     } else if ($_GET['status'] == 8) {
         $status      = "Rasionalisasi";
         $purna_karya = TRUE;
+        $jpensiun             = TRUE;
+         $jht                  = TRUE;
     } else if ($_GET['status'] == 9) {
         $status        = "Diangkat menjadi Dirut BUMN";
         $purna_karya   = TRUE;
         $manfaat_pasti = TRUE;
+        $jpensiun      = TRUE;
+         $jht                  = TRUE;
     }
     
 
@@ -227,7 +245,7 @@ if (isset($_GET['status'])) {
       $akumulasidanabaru=$danaterkini;
       for($i=0;$i<$bedatahundana;$i++){
         $akumulasidanabaru+=$iuranbulananpasti*12;
-        $iuranbulananpasti+=$kenaikanGajipokok*$iuranbulananpasti;
+        $iuranbulananpasti+=$kenaikanPhdp*$iuranbulananpasti;
         $akumulasidanabaru+=$kenaikan_iuranpasti*$akumulasidanabaru;
       }
       $akumulasidanabaru+=$bedabulandana*$iuranbulananpasti;
@@ -255,7 +273,7 @@ if (isset($_GET['status'])) {
     }
 }
     ?>
-    <center>
+
     <?php if (isset($jht) && $jht){
       
       $tanggalefektif2= date_create($tanggalefektifs['efektif_sejak']);
@@ -283,8 +301,33 @@ if (isset($_GET['status'])) {
       $total1+=$nilaijht;
       $total2+=$nilaijht;
     }?>
-</center>
-    <?php if (isset($purna_karya) && $purna_karya){
+
+<?php if(isset($jpensiun)){
+      $tanggalefektif2= date_create($tanggalefektifs['efektif_sejak']);
+      $tanggalefektif=date_format($tanggalefektif2,"Y-m-d");
+      $saldoterkiniJP=$tabelbpjstk['saldo_tahunberjalanJP'];
+      $iuranJP=0.03*$penghasilan;
+      $tahunefektif=date_format($tanggalefektif2,"Y");
+      $bedatahunJP=$haripensiun->diff($tanggalefektif2)->y;
+      $bedabulanJP=$haripensiun->diff($tanggalefektif2)->m;
+      $akumulasiiuranJP=$saldoterkiniJP;
+   
+      for($i=0;$i<$bedatahunJP;$i++){
+        $akumulasiiuranJP+=$iuranJP*12;
+        $iuranJP+=$iuranJP*$kenaikanGajipokok;
+        $pengembangan=$akumulasiiuran*$kenaikanJP;
+        $akumulasiiuran+=$pengembangan;
+      }
+      $akumulasiiuranJP+=$bedabulanJP*$iuranJP;
+   
+      $nilaiJP=$akumulasiiuranJP;
+      $total1+=$nilaiJP;
+      $total2+=$nilaiJP;
+
+
+}
+
+     if (isset($purna_karya) && $purna_karya){
         $baktiup = $masabakti + 1;
         $usiaup = $usia + 1;
         if ($usia < 46){
@@ -470,6 +513,8 @@ echo $tanggalpensiun_normal;
               <li><?php echo "<b>Penghasilan (Gaji Pokok + Tunjangan Jabatan) </b></br>".rupiah($penghasilan);?></li>
               <li><?php echo "<b>PhDP Saat Pensiun (asumsi kenaikan ".$persentase[1]['angka']."% per 1 Juli tiap tahun)  </b><br/>".rupiah($phdp);?></li>
               <li><?php echo "<b>Faktor Manfaat Pasti  </b></br>" . $nilai_sekarang;?></li>
+              <li><?php echo "<b>Saldo JP per ".date_format($tanggalefektif2,"d-M-Y")." : </b><br>".rupiah($saldoterkiniJP);?> </li>
+            <li><?php $kenaikanJP*=100; echo "<b>Bunga Pengembangan JP  </b></br>".$kenaikanJP."% per tahun";?></li>
               
           </ul>
         </div>
@@ -537,6 +582,15 @@ echo $tanggalpensiun_normal;
   </div>
 
 <?php }
+
+     if(isset($jpensiun)){?>
+     <div class="company_details">
+        <h4>Jaminan Pensiun <span>(Manfaat JP dari BPJS Ketenagakerjaan)</span></h4>
+        <p class="cmpny1"><?php echo rupiah($nilaiJP);?></p>
+  </div>
+
+<?php }
+
     if(isset($purnakarya)){?>
 
     <div class="company_details">
@@ -611,6 +665,14 @@ echo $tanggalpensiun_normal;
      <div class="company_details">
         <h4>Jaminan Hari Tua <span>(Manfaat JHT dari BPJS Ketenagakerjaan)</span></h4>
         <p class="cmpny1"><?php echo rupiah($nilaijht);?></p>
+  </div>
+
+<?php }
+
+if(isset($jpensiun)){?>
+     <div class="company_details">
+        <h4>Jaminan Pensiun <span>(Manfaat JP dari BPJS Ketenagakerjaan)</span></h4>
+        <p class="cmpny1"><?php echo rupiah($nilaiJP);?></p>
   </div>
 
 <?php }
