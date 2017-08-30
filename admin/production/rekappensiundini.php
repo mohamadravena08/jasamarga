@@ -174,6 +174,7 @@ a
                           <th>Jenis Kelamin</th>
                           <th>Tanggal Lahir</th>
                           <th>Tanggal Pensiun Normal</th>
+                          <th>Rencana Pensiun Dini</th>
                           <th>Gaji Pokok</th>
                           <th>Manfaat Program Iuran Pasti</th>
                           <th>Manfaat Bulanan Alt 1</th>
@@ -198,7 +199,7 @@ a
     $tanggalpensiunnormal1=date_create($datapensiun['tanggal_lahir']);
     date_add($tanggalpensiunnormal1, date_interval_create_from_date_string('56 years'));
     $tanggalpensiunnormal=date_format($tanggalpensiunnormal1,"d-M-Y");
-    $haripensiun=$tanggalpensiunnormal1;
+    $haripensiun=$pensiun;
     $gaji      = mysqli_fetch_assoc(mysqli_query($DBcon, "select * from payrolls where npp ='$npp'"));
     $gajipokok = $gaji['gaji_pokok'];
     $phdp      = $gaji['phdp'];
@@ -317,6 +318,7 @@ else {
             <td>'.$datapensiun['jenis_kelamin'].'</td>
             <td>'.date_format(date_create($datapensiun['tanggal_lahir']),"d-M-Y").'</td>
             <td>'.$tanggalpensiunnormal.'</td>
+            <td>'.$rencana.'</td>
             <td>'.rupiah($gajipokok).'</td>
             <td>'.rupiah($akumulasidanabaru).'</td>
             <td>'.rupiah($manfaatbulan1).$flag.'</td>
