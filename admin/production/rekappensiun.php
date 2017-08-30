@@ -116,11 +116,19 @@
                  
                   <center><div>
         <h3>Pilih Bulan dan Tahun Pensiun Normal</h3>
+        <?php if(isset($_GET['tanggalpensiun'])){
+          $pensiun=date_create($_GET['tanggalpensiun']);
+        }
+        else {
+            $pensiun= new DateTime('today');
+        }
+        $rencana = date_format($pensiun, "M-Y"); 
+        ?>
             <form id="eventForm" method="get" action="" style="text-align: center"> 
             <div class="form-group" >
               <label for="sel1" >pilih disini</label>
               <div class="input-group input-append date" id="txtdate" style="width: 50%; margin:auto">
-                 <input type="text" id="monthPicker" class="form-control" name="tanggalpensiun" value=<?php $pensiun = date_create($_GET['tanggalpensiun']); $rencana = date_format($pensiun, "M-Y"); echo $rencana?>>
+                 <input type="text" id="monthPicker" class="form-control" name="tanggalpensiun" value=<?php echo $rencana?>>
                   
                   <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
               </div>
@@ -129,6 +137,17 @@
              <button type="submit" class="btn btn-primary">Lihat Rekap</button>
             </form>
  <?php 
+
+$persentase=mysqli_fetch_all(mysqli_query($DBcon,"select * from nilai_persentase"),MYSQLI_ASSOC);
+$kenaikanGajipokok=$persentase[0]['angka'];
+$kenaikanPhdp=$persentase[1]['angka'];
+$kenaikanJHT=$persentase[2]['angka'];
+$kenaikanJHT=$kenaikanJHT/100;
+$kenaikan_iuranpasti=$persentase[3]['angka'];
+$kenaikan_iuranpasti=$kenaikan_iuranpasti/100;
+$kenaikanJP=$persentase[4]['angka'];
+$kenaikanJP=$kenaikanJP/100;
+
                   $bulanini=date_format($pensiun, "m");
                   $tahunini=date_format($pensiun, "Y");
                   $tahunlahir=$tahunini-56;

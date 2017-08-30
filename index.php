@@ -22,10 +22,13 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 error_reporting(0);
 session_start();
 include_once("library/koneksi.php");
+include_once("library/anti-inject.php");
+
+
 
 if(@$_POST["login"]){ //jika tombol Login diklik
-  $npp=$_POST["npp"];
-  $password=$_POST["password"];
+  $npp=anti_injection($_POST["npp"]);
+  $password=anti_injection($_POST["password"]);
 
   if($npp!="" && $password!=""){
     include_once("library/koneksi.php");
