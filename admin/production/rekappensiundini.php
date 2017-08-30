@@ -55,7 +55,7 @@ if(!isset($_SESSION["admin"])){
         <link href="../vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
 
         <link href="../vendors/cropper/dist/cropper.min.css" rel="stylesheet">
-
+a
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
 
@@ -154,16 +154,16 @@ if(!isset($_SESSION["admin"])){
              <button type="submit" class="btn btn-primary">Lihat Rekap</button>
             </form>
  <?php 
-                  $bulanini=date_format($pensiun, "m");
-                  $tahunini=date_format($pensiun, "Y");
-                  $tahunlahir=$tahunini-56;
-                  $pegawaipensiun=mysqli_query($DBcon,"select * from pegawai where month(tanggal_lahir)='$bulanini' and year(tanggal_lahir)='$tahunlahir'");?>
+          $bulanini=date_format($pensiun, "m");
+          $tahunini=date_format($pensiun, "Y");
+          $tahunlahir=$tahunini-56;
+          $pegawaipensiun=mysqli_query($DBcon,"select * from pegawai");?>
 
                       
     </div></center>
                   <div class="x_content">
                     <center><p class="text-muted font-13 m-b-30">
-                      Tabel ini berisi data pegawai Jasa Marga yang pensiun bulan ini <strong><?php echo $rencana; ?></strong> .
+                      Berikut Simulasi Pensiun Dini Karyawan pada <strong><?php echo $rencana; ?></strong> .
                     </p></center>
                     <table id="datatable-buttons" class="table table-striped table-bordered">
                       <thead>
@@ -175,6 +175,7 @@ if(!isset($_SESSION["admin"])){
                           <th>Tanggal Lahir</th>
                           <th>Tanggal Pensiun Normal</th>
                           <th>Gaji Pokok</th>
+                          <th>Manfaat Program Iuran Pasti</th>
                           <th>Manfaat Bulanan Alt 1</th>
                           <th>Manfaat Sekaligus Alt 1</th>
                           <th>Manfaat Bulanan Alt 2</th>
@@ -213,6 +214,25 @@ if(!isset($_SESSION["admin"])){
     $total = 0;
     $const = 0.025;
 
+ if((int)$npp>=10397){
+      $tabeliuranpasti=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from iuranpasti"));
+      $danaterkini=$tabeliuranpasti['akumulasi_dana'];
+      $iuranbulananpasti=$tabeliuranpasti['iuran_bulanan'];
+      $tanggalefektifdana2= date_create($tanggalefektifdanas['efektif_sejak']);
+      $tanggalefektifdana=date_format($tanggalefektifdana2,"Y-m-d");
+      $bedatahundana=$haripensiun->diff($tanggalefektifdana2)->y;
+      $bedabulandana=$haripensiun->diff($tanggalefektifdana2)->m;
+      $akumulasidanabaru=$danaterkini;
+      for($i=0;$i<$bedatahundana;$i++){
+        $akumulasidanabaru+=$iuranbulananpasti*12;
+        $iuranbulananpasti+=$kenaikanPhdp*$iuranbulananpasti;
+        $akumulasidanabaru+=$kenaikan_iuranpasti*$akumulasidanabaru;
+      }
+      $akumulasidanabaru+=$bedabulandana*$iuranbulananpasti;
+    $total1+=$akumulasidanabaru;
+    $total2+=$akumulasidanabaru;
+            }
+else {
     $manfaatbulantemp = $nilai_sekarang * $const * $phdp * $masabakti;
     if($manfaatbulantemp>1500000){
         $manfaatbulan1=$manfaatbulantemp;
@@ -228,6 +248,7 @@ if(!isset($_SESSION["admin"])){
     }
     $total1+=$manfaatsekaligus1+$manfaatbulan1;
     $total2+=$manfaatsekaligus2+$manfaatbulan2;
+  }
     $tanggalefektifs=mysqli_fetch_assoc(mysqli_query($DBcon,"select * from bpjstk_log order by timestamp desc"));
       $tanggalefektif2= date_create($tanggalefektifs['efektif_sejak']);
       $tanggalefektif=date_format($tanggalefektif2,"Y-m-d");
@@ -285,8 +306,9 @@ if(!isset($_SESSION["admin"])){
             $total1+=$purnakarya;
             $total2+=$purnakarya;
 
-
-
+          if($usia<46){
+            $flag=" (ditunda)";
+          } else $flag = "";
           echo '
           <tr>
             <td>'.$no.'</td>
@@ -296,10 +318,11 @@ if(!isset($_SESSION["admin"])){
             <td>'.date_format(date_create($datapensiun['tanggal_lahir']),"d-M-Y").'</td>
             <td>'.$tanggalpensiunnormal.'</td>
             <td>'.rupiah($gajipokok).'</td>
-            <td>'.rupiah($manfaatbulan1).'</td>
-            <td>'.rupiah($manfaatsekaligus1).'</td>
-            <td>'.rupiah($manfaatbulan2).'</td>
-            <td>'.rupiah($manfaatsekaligus2).'</td>
+            <td>'.rupiah($akumulasidanabaru).'</td>
+            <td>'.rupiah($manfaatbulan1).$flag.'</td>
+            <td>'.rupiah($manfaatsekaligus1).$flag.'</td>
+            <td>'.rupiah($manfaatbulan2).$flag.'</td>
+            <td>'.rupiah($manfaatsekaligus2).$flag.'</td>
             <td>'.rupiah($nilaijht).'</td>
             <td>'.rupiah($purnakarya).'</td>
             <td>UNKNOWN</td>
