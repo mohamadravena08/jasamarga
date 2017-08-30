@@ -1,8 +1,8 @@
 <?php
 
   $DBhost = "localhost";
-  $DBuser = "root";
-  $DBpass = "student";
+  $DBuser = "jasamargaipb";
+  $DBpass = "IqB@L1234Raven@";
   $DBname = "simpensiun";
   
   $DBcon = new mysqli($DBhost,$DBuser,$DBpass,$DBname);

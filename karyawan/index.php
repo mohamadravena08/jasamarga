@@ -639,7 +639,7 @@ echo $tanggalpensiun_normal;
          <p class="cmpny1" style="border-bottom: 0px dashed #999;">
          <h2 style="text-align: right;padding-right: 1.3em;"><?php echo rupiah($total1);?></h2>
          <h4 style="text-align: right;font-size: 15px;padding-right: 2.7em;">
-        <?php if(isset($manfaatbulantemp)) echo " plus   " . rupiah($manfaatbulan1); else echo "Rp 0"?> tiap bulan </h4></p>
+        <?php if(isset($manfaatbulantemp)) echo " plus   " . rupiah($manfaatbulan1); else echo "plus Rp 0"?> tiap bulan </h4></p>
     </div>
     </div>
 
