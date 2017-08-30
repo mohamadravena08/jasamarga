@@ -177,9 +177,97 @@ if(!isset($_SESSION["admin"])){
                   </div>
                 </div>
               </div>
+                <div style="padding-bottom: 1em">
+                <center><h3>Developer Team</h3>
+                <div>
+                <h5>silahkan hubungi kami jika terdapat masalah pada sistem</h5></center>
+                </div>
+                </div>
+                      <div class="col-md-6 col-sm-4 col-xs-12 profile_details">
+                        <div class="well profile_view">
+                          <div class="col-sm-12">
+                            <h4 class="brief"><i>Back-End Programmer Simpensiun Jasa Marga</i></h4>
+                            <div class="left col-xs-7">
+                              <h2>Iqbal Abiyoga</h2>
+                              <p><strong>About: </strong> Web Programmer / Bussinesman. </p>
+                              <ul class="list-unstyled">
+                                <li><i class="fa fa-building"></i> Address: Bogor, ID </li>
+                                <li><i class="fa fa-phone"></i> Phone : +62 899-6451-049  </li>
+                                <li><i class="fa fa-envelope-o"></i> Email : abiyoga.iqbal@gmail.com </li>
+                              </ul>
+                            </div>
+                            <div class="right col-xs-5 text-center">
+                              <img src="images/iqbal.jpg" alt="" class="img-circle img-responsive" style="max-width: 60%;
+    display:-webkit-inline-box;">
+                            </div>
+                          </div>
+                          <div class="col-xs-12 bottom text-center">
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                              <p class="ratings">
+                                <!-- <a>4.0</a>
+                                <a href="#"><span class="fa fa-star"></span></a>
+                                <a href="#"><span class="fa fa-star"></span></a>
+                                <a href="#"><span class="fa fa-star"></span></a>
+                                <a href="#"><span class="fa fa-star"></span></a>
+                                <a href="#"><span class="fa fa-star-o"></span></a> -->
+                              </p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                              <!-- <button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">
+                                </i> <i class="fa fa-comments-o"></i> </button>
+                              <button type="button" class="btn btn-primary btn-xs">
+                                <i class="fa fa-user"> </i> View Profile
+                              </button> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6 col-sm-4 col-xs-12 profile_details">
+                        <div class="well profile_view">
+                          <div class="col-sm-12">
+                            <h4 class="brief"><i>Front-End Programmer Simpensiun Jasa Marga</i></h4>
+                            <div class="left col-xs-7">
+                              <h2>Mohamad Ravena Utama</h2>
+                              <p><strong>About: </strong> Web Designer / User Experience / UI. </p>
+                              <ul class="list-unstyled">
+                                <li><i class="fa fa-building"></i> Address : Bogor, ID </li>
+                                <li><i class="fa fa-phone"></i> Phone : +6283 - 824432119 (WA ONLY) </li>
+                                <li><i class="fa fa-envelope-o"></i> Email : mohamad.ravena08@gmail.com </li>
+                              </ul>
+                            </div>
+                            <div class="right col-xs-5 text-center">
+                              <img src="images/ravena.jpg" alt="" class="img-circle img-responsive" style="max-width: 60%;
+    display: -webkit-inline-box;">
+                            </div>
+                          </div>
+                          <div class="col-xs-12 bottom text-center">
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                              <p class="ratings">
+                               <!--  <a>4.0</a>
+                                <a href="#"><span class="fa fa-star"></span></a>
+                                <a href="#"><span class="fa fa-star"></span></a>
+                                <a href="#"><span class="fa fa-star"></span></a>
+                                <a href="#"><span class="fa fa-star"></span></a>
+                                <a href="#"><span class="fa fa-star-o"></span></a> -->
+                              </p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                             <!--  <button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">
+                                </i> <i class="fa fa-comments-o"></i> </button>
+                              <button type="button" class="btn btn-primary btn-xs">
+                                <i class="fa fa-user"> </i> View Profile
+                              </button> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
             </div>
           </div>
-         </div> 
+         </div>
+
+
         <!-- /page content -->
 
         <!-- /page content -->
