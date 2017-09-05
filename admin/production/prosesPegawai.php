@@ -2,6 +2,15 @@
 /**
  * XLS parsing uses php-excel-reader from http://code.google.com/p/php-excel-reader/
  */
+function lastWord($sentence) {
+// Break the sentence into its component words:
+$words = explode(' ', $sentence);
+// Get the last word and trim any punctuation:
+$result = trim($words[count($words) - 1], '.?![](){}*');
+// Return a result:
+return $result;
+}
+
 date_default_timezone_set("Asia/Jakarta");
 session_start();
   error_reporting(0);
@@ -37,6 +46,7 @@ $sql="START TRANSACTION;";
 					$npp="0".$npp;
 				}
 				$nama=mysqli_escape_string($DBcon,$Row[1]);
+				$namabelakang=strtolower(lastWord($nama));
 				$jk=$Row[2];
 				$status=$Row[3];
 				$jumlah_anak=$Row[4];
@@ -52,7 +62,9 @@ $sql="START TRANSACTION;";
 				$pensiun_normal1=date_format($pensiun_normal,"Y-m-d");
 				$bakti=date_format($baktis,"Y-m-d");
 				$tanggungan=$Row[7];
-				$password=$Row[8];
+				$tahun=date_format($lahirs,"y");
+				$password=$namabelakang.$harilahir.$bulanlahir.$tahun;
+				 $password=sha1(base64_encode($password));
 				if($Key>0){
 					$sql.="insert into pegawai values('$npp', '$nama', '$status', '$jumlah_anak', '$lahir','$pensiun_normal1','$bakti', '$tanggungan', '$jk', '$password');";
 				}
@@ -65,6 +77,7 @@ $sql="START TRANSACTION;";
 		echo $E -> getMessage();
 		// header('location:pegawai.php?status=FALSE');
 	}
+
 	$updater=$_SESSION['admin'];
  	$sql.="COMMIT;";
  	  // echo $sql."<br><br><br><br>";

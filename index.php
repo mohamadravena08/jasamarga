@@ -29,6 +29,7 @@ include_once("library/anti-inject.php");
 if(@$_POST["login"]){ //jika tombol Login diklik
   $npp=anti_injection($_POST["npp"]);
   $password=anti_injection($_POST["password"]);
+  $password=sha1(base64_encode($password));
 
   if($npp!="" && $password!=""){
     include_once("library/koneksi.php");
@@ -41,7 +42,6 @@ if(@$_POST["login"]){ //jika tombol Login diklik
           Selamat anda telah masuk!
                   </div>";
       $_SESSION["npp"]=$data["npp"];
-      $_SESSION["password"]=$data["password"];
       $_SESSION["nama"]=$data["nama"];
       header("Location:karyawan/index.php");
     }else{

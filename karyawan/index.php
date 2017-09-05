@@ -397,7 +397,7 @@ if (isset($_GET['status'])) {
     if (isset($uang_penggantian_hak) && $uang_penggantian_hak){
         if(isset($nilaipesangon)&&isset($nilaiupmk))
           $uanghak = 0.15 * ($nilaipesangon + $nilaiupmk);
-        else {$nilaipesangon=0; $nilaiupmk=0; $uanghak=0; $flag="Konsultasikan Penghitungan bersama divisi HCS";}
+        else {$nilaipesangon=0; $nilaiupmk=0; $uanghak=0; $flag="Konsultasikan Penghitungan ke divisi HCS";}
     $total1+=$uanghak;
     $total2+=$uanghak;
     }
@@ -549,7 +549,7 @@ echo $tanggalpensiun_normal;
   </div>
 
   <div class="company">
-  <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Perhitungan</h3>
+  <h3 class="clr2" style="text-align: center;margin-bottom: 0.5em;">Hasil Simulasi Perhitungan</h3>
   </div>
 
     <div class="company">
@@ -752,6 +752,7 @@ function myFunction() {
 }
 </script>
 
+<center><h4>Keterangan : Hasil Simulasi Perhitungan Belum Termasuk Pajak</h4></center>
 <footer style="text-align:center; padding-top: 2em">
          <div class="copywrite">
              <p>© 2017 Tim Internship Jasa Marga IPB | Kantor Pusat PT Jasa Marga (PERSERO) Tbk.</a> </p>

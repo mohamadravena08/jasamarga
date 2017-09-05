@@ -110,7 +110,7 @@ if(!isset($_SESSION["admin"])){
                       </li>
                     </ul>
                     <div class="clearfix"></div>
-                    <center><h5>Contoh file Pegawai : <a target="_blank" href="contohexcel/contoh%20data%20pegawai.xlsx">Download</a></h5></center>
+                    <center><h5>Contoh file Pegawai : <a target="_blank" href="contohexcel/contohpegawai.xlsx">Download</a></h5></center>
                   </div>
 
 <?php
@@ -144,7 +144,6 @@ if(!isset($_SESSION["admin"])){
                           <th>Tanggal Pensiun Normal</th>
                           <th>Mulai Bakti</th>
                           <th>Kategori Tanggungan</th>
-                          <th>Password Akun SIMPENSIUN</th>
                           <th>Simulasi</th>
                         </tr>
                       </thead>
@@ -175,7 +174,6 @@ if(!isset($_SESSION["admin"])){
                                 <td><?php echo $tanggalpensiun;?></td>
                                 <td><?php echo $tanggal_bakti;?></td>
                                 <td><?php echo $row['kategori_tanggungan'];?></td>
-                                <td><?php echo $row['password'];?></td>
                                 <td><a href="../../karyawan/simulasi.php?npp=<?php echo $row['npp'];?>">Lihat Simulasi</a></td>
                               </tr>
                               <?php 
